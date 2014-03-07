@@ -1,0 +1,28 @@
+/*
+looking for these? :)
+
+border-radius: 9px;
+
+<?php include("inc/head.html"); ?>
+*/
+
+//IMPORTS
+
+@import "sass/_lib/typography";
+@import "sass/_lib/config";
+@import "sass/_lib/base";
+
+
+@import "sass/mobile/master";
+
+@media screen and (min-width: 767px) {
+	@import "sass/desktop/tablet";
+}
+
+@media screen and (min-width: 1024px) {
+	@import "sass/desktop/desktop";
+}
+
+
+@import "sass/_lib/hacks";
+
