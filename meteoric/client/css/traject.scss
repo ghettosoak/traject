@@ -1,0 +1,147 @@
+@import 'lib/jquery.gridster.css';
+@import 'lib/medium.css';
+
+@font-face {
+    font-family: 'u47';
+    src: url('../type/u47/2760F4_0_0.eot');
+    src: url('../type/u47/2760F4_0_0.eot?#iefix') format('embedded-opentype'),
+         url('../type/u47/2760F4_0_0.woff') format('woff'),
+         url('../type/u47/2760F4_0_0.ttf') format('truetype'),
+         url('../type/u47/2760F4_0_0.svg#wf') format('svg');
+}
+
+
+@font-face {
+    font-family: 'u39';
+    src: url('/type/u39/276103_0_0.eot');
+    src: url('/type/u39/276103_0_0.eot?#iefix') format('embedded-opentype'),
+         url('/type/u39/276103_0_0.woff') format('woff'),
+         url('/type/u39/276103_0_0.ttf') format('truetype'),
+         url('/type/u39/276103_0_0.svg#wf') format('svg');
+}
+ 
+  
+@font-face {
+    font-family: 'u67';
+    src: url('/type/u67/276103_1_0.eot');
+    src: url('/type/u67/276103_1_0.eot?#iefix') format('embedded-opentype'),
+         url('/type/u67/276103_1_0.woff') format('woff'),
+         url('/type/u67/276103_1_0.ttf') format('truetype'),
+         url('/type/u67/276103_1_0.svg#wf') format('svg');
+}
+
+$dark: #444;
+$light: #fff;
+
+
+::selection {
+	/*background: #;*/
+}
+
+::-moz-selection {
+	/*background: #;*/
+}
+
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+a img {
+	border: none;
+}
+
+html {
+	height: 100%;
+	font-family: u47;
+	font-size:16px;
+}
+
+body {
+	position: relative;
+	height:100%;
+	margin: 0px;
+	// border:10px $light solid;
+
+	background-color:$dark;
+}
+
+#master{
+	position: absolute;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;
+
+	// padding:5px;
+}
+
+.grid{
+	margin:auto;
+	.cell{
+ 		background-color:$light;
+ 		list-style: none;
+ 		margin:0px;
+ 		padding:10px;
+ 		.cellHead{		
+ 			position: absolute;
+ 			height:45px;
+ 			width:100%;
+ 			top:0px;
+ 			left:0px;
+ 			z-index:10;
+ 			border-bottom:1px $dark solid;
+ 			.title{
+ 				border:0px;
+ 				height:100%;
+ 				width:100%;
+ 				position: absolute;
+ 				top:0px;
+ 				left:0px;
+	 			padding:10px 50px 10px 10px;
+	 			font-family: u67;
+	 			font-size:16px;
+	 			&:focus{
+	 				outline:none;
+	 			}
+ 			}
+ 			.grab{
+ 				position: absolute;
+ 				height:40px;
+ 				width:40px;
+ 				right:0px;
+ 				top:0px;
+ 				background-color:$dark;
+
+ 			}
+		}
+ 		.cellEdit{
+ 			position: absolute;
+ 			height:100%;
+ 			width:100%;
+ 			top:0px;
+ 			left:0px;
+ 			padding:60px 10px 10px;
+
+ 		}
+ 	} 	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

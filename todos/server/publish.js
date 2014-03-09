@@ -1,10 +1,10 @@
 // Lists -- {name: String}
-// Lists = new Meteor.Collection("lists");
+Lists = new Meteor.Collection("lists");
 
-// // Publish complete set of lists to all clients.
-// Meteor.publish('lists', function () {
-//   return Lists.find();
-// });
+// Publish complete set of lists to all clients.
+Meteor.publish('lists', function () {
+  return Lists.find();
+});
 
 
 // Todos -- {text: String,

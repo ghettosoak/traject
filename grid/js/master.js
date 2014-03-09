@@ -34,7 +34,14 @@ $(function(){ //DOM Ready
 			    tags:{
 			    	paragraph: 'p'
 			    }
-			});	
+			});
+
+			$('.cellEdit').typing({
+				stop: function(){
+					console.log('so soon?');
+				},
+				delay:500
+			});
 		});
 	});
 });
