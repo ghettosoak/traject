@@ -3,14 +3,16 @@
 </head>
 
 <body>
-	<div class="side"></div>
-	<div class="grid">
-		{{> theGrid}}
+	<div id="master">
+		<div class="side"></div>
+		<div class="grid">
+			{{> theGrid}}
+		</div>
 	</div>
+	
 </body>
 
 <template name="theGrid">
-	<p>yeah!</p>
 	{{#each cell}}
 		{{> cell}}
 	{{/each}}
@@ -19,11 +21,13 @@
 
 <template name="cell">
 
-	<li class="cell" id="cell_{{id}}" data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+	<li class="cell" id="cell_{{id}}" data-row="{{dimensional.x}}" data-col="{{dimensional.y}}" data-sizex="1" data-sizey="1">
 		<div class="cellHead">
 			<input class="title" type="text" value="{{title}}"></input>
 			<span class="grab"></span>
 		</div>
-		<div class="cellEdit" id="cellEdit_{{id}}"></div>
+		<div class="cellEdit" id="cellEdit_{{id}}">
+			
+		</div>
 	</li>
 </template>

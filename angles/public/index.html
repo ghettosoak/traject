@@ -1,0 +1,53 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="scotchTodo">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Node/Angular Todo App</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="css/lib/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="css/lib/jquery-ui-1.10.4.custom.min.css">
+	<!-- <link rel="stylesheet" href="css/master.css"> -->
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#todo-list 				{ margin-bottom:30px; }
+		#todo-form 	 			{ margin-bottom:50px; }
+	</style>
+	<script src="js/lib/angular.min.js"></script>
+
+	<script src="js/gridster.js"></script>
+    <script src="js/app.js"></script>
+    <!-- // <script src="js/controllers/main.js"></script> -->
+
+	<script src="js/core-m.js"></script>
+
+</head>
+<body ng-controller="mainController">
+	<div class="grid">
+
+		<!-- <div class="cell" ng-repeat="cell in traject" data-sizex="1" data-sizey="1">
+			<div class="cellHead">
+				<input class="title" type="text" />
+				<span class="grab"></span>
+			</div>
+			<div class="cellEdit"> {{ cell.text }} </div>
+		</div> -->
+
+		<div class="container" ng-include=" 'views/main.html' ">
+		</div>
+
+		<!-- NEW CELL -->
+		<div id="todo-form" class="row">
+			<div class="col-sm-8 col-sm-offset-2 text-center">
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,13 +1,13 @@
-@import 'lib/jquery.gridster.css';
-@import 'lib/medium.css';
+@import '../../public/css/jquery.gridster.scss';
+@import '../../public/css/medium.scss';
 
 @font-face {
     font-family: 'u47';
-    src: url('../type/u47/2760F4_0_0.eot');
-    src: url('../type/u47/2760F4_0_0.eot?#iefix') format('embedded-opentype'),
-         url('../type/u47/2760F4_0_0.woff') format('woff'),
-         url('../type/u47/2760F4_0_0.ttf') format('truetype'),
-         url('../type/u47/2760F4_0_0.svg#wf') format('svg');
+    src: url('/type/u47/2760F4_0_0.eot');
+    src: url('/type/u47/2760F4_0_0.eot?#iefix') format('embedded-opentype'),
+         url('/type/u47/2760F4_0_0.woff') format('woff'),
+         url('/type/u47/2760F4_0_0.ttf') format('truetype'),
+         url('/type/u47/2760F4_0_0.svg#wf') format('svg');
 }
 
 
@@ -62,8 +62,6 @@ body {
 	position: relative;
 	height:100%;
 	margin: 0px;
-	// border:10px $light solid;
-
 	background-color:$dark;
 }
 
@@ -73,13 +71,19 @@ body {
 	left:0px;
 	height:100%;
 	width:100%;
-
-	// padding:5px;
 }
 
 .grid{
 	margin:auto;
+	width:960px;
+	// width:100% !important;
+	// height:100% !important; 
+	position:relative;
+	top:0px;
+	left:0px;
 	.cell{
+		position: relative;
+		float:left;
  		background-color:$light;
  		list-style: none;
  		margin:0px;
