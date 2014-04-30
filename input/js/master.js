@@ -6,10 +6,9 @@
 
 // var $windowPane = $(window)
 
-new Medium({
-    element: document.getElementById('editable'),
-    tags:{
-    	paragraph: 'div'
-    }
-
-});
+// new Medium({
+//     element: document.getElementById('editable'),
+//     tags:{
+//     	paragraph: 'div'
+//     }
+// });

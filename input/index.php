@@ -32,15 +32,22 @@
 
 <body>
 	<div id="master">
-		<div id="editable" contenteditable="true">
-		    <ul>
-		        <li><span contenteditable="false"><img src="img/switch.svg" /></span>hello</li>
-		        <li><span contenteditable="false"><img src="img/switch.svg" /></span>i love you</li>
-		        <li><span contenteditable="false"><img src="img/switch.svg" /></span>won't you tell me your name</li>
-		    </ul>  
+		<div id="editable">
+		    <ul contenteditable="true">
+		        <li><span><img src="img/switch.svg" /></span>hello</li>
+		        <li><span><img src="img/switch.svg" /></span>i love you</li>
+		        <li><span><img src="img/switch.svg" /></span>won't you tell me your name</li>
+		    </ul>
+
+		    <div contenteditable="true">
+		        <div><span><img src="img/switch.svg" /></span>hello</div>
+		        <div><span><img src="img/switch.svg" /></span>i love you</div>
+		        <div><span><img src="img/switch.svg" /></span>won't you tell me your name</div>
+		    </div>
+
 		</div>
 	</div>
-<script type="text/javascript" src="js/master-m.js"></script>
-<script type="text/javascript" src="js/lib/medium.js"></script>
+<!-- <script type="text/javascript" src="js/master-m.js"></script> -->
+<!-- <script type="text/javascript" src="js/lib/medium.js"></script> -->
 </body>
 </html>

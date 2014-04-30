@@ -43,6 +43,40 @@
 $dark: #444;
 $light: #fff;
 
+$spritesheet_width:2px;
+$spritesheet_cell_width:50px;
+
+@mixin iconInclude(){
+   background-image:url(../images/spritesheet.png);
+    .lt-ie9 &, .no-svg & {
+//        background-image:url(../images/spritesheet_1x.png);
+    }
+}
+
+// useful for when we only need to resize our icons between layouts
+// @width = the width of the space you need to fill
+@mixin iconSize($width){
+    background-size:$width*$spritesheet_width auto;
+}
+
+
+// and here is where the magic happens on the spritesheet.
+// @width = the width of the space you need to fill (yes, it's repeated)
+// @posX = the X position of the desired icon on the icon grid
+// @posY = the Y position of the desired icon on the icon grid
+@mixin iconPlace($width, $posX, $posY) {
+    background-position: -$posX*$width -$posY*$width;
+}
+
+// this is an experimental mixin for placing logos and images included on the spritesheet.
+// to use it, please put your logo or icon PRECISELY how large it should be displayed on the page
+// at the TOP LEFT CORNER of a row, all the way at the BEGINNING. then, it will be perfect for IE8! :D
+@mixin imagePlace($steps){
+    background-size:$spritesheet_width*$spritesheet_cell_width auto;
+    background-position: 0px -$steps*$spritesheet_cell_width;
+}
+
+
 
 ::selection {
 	/*background: #;*/
@@ -100,34 +134,16 @@ input, textarea {
 	max-width: 1024px;
 }
 
-.gridster .gridster-item {
-	// -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.gridster .gridster-item {
-	// -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-	// box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-	// color: #004756;
-}
-
-.gridster .gridster-item {
-	// background: #ffffff;
-	// padding: 3px;
-}
-
 #master{
 	position: absolute;
 	top:0px;
 	left:0px;
 	height:100%;
 	width:100%;
-
-	// padding:5px;
 }
 
 .addCell{
 	cursor:pointer;
-
 }
 
 .grid{
@@ -148,7 +164,6 @@ input, textarea {
  			position: absolute;
  			top:0px;
  			left:0px;
-
 		}
 
 		.gaze,
@@ -177,6 +192,31 @@ input, textarea {
 
  	.cell .wristwatch{
  		display:table;
+
+ 		.status{
+ 			position:absolute;
+ 			top:5px;
+ 			left:5px;
+ 			width:25px;
+ 			height:25px;
+ 			opacity:0;
+
+ 			@include iconInclude;
+ 			@include iconSize(25);
+
+ 			&.online,
+ 			&.local{
+ 				opacity:1;
+ 			}
+
+ 			&.online{
+ 				@include iconPlace(25, 0, 0);
+ 			}
+
+ 			&.local{
+ 				@include iconPlace(25, 1, 0);
+ 			}
+ 		}
 
  		.wx, .date{
  			position: absolute;
@@ -391,7 +431,7 @@ input, textarea {
 	 				outline:none;
  				}
 			}
-	}
+		}
 
 		.cellEdit{
 			position: absolute;

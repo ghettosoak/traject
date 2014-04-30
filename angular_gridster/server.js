@@ -77,6 +77,7 @@ var Cellular = mongoose.model('testData', Cell);
 				}
 			);
 		}
+		res.send('SAVE')
 	});
 
 	app.post('/api/add', function(req, res) {
