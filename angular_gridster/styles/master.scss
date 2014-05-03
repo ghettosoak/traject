@@ -179,14 +179,17 @@ input, textarea {
 
  		.logo{
  			position: absolute;
- 			height:100px;
- 			width:100px;
- 			top:50%;
- 			left:50%;
- 			margin:-50px 0px 0px -50px;
- 			background-image:url(../images/logo.png);
- 			background-size:cover;
- 			background-position: center center
+ 			height: 120px;
+ 			width: 120px;
+ 			top: 50%;
+ 			left: 50%;
+ 			margin: -60px 0px 0px -60px;
+ 			background-image: url(../images/logo.png);
+ 			background-size: 100px 100px;
+ 			background-position: center center;
+ 			background-color: rgba(0,0,0,.5);
+ 			border-radius: 110px;
+ 			background-repeat: no-repeat;
  		}
  	}
 
@@ -441,6 +444,7 @@ input, textarea {
 			left:0px;
 			padding:50px 10px 10px 25px;
 			color:$dark;
+			text-align: left;
 		}
 
 		.grab{

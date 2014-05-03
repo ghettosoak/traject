@@ -15,7 +15,10 @@ angular.module('app', [
 		mobileBreakPoint: 768,
 		columns: 5,
 		defaultSizeX: 1,
-		defaultSizeY: 1
+		defaultSizeY: 1,
+		draggable: {
+			handle: '.grab', // optional selector for resize handle
+		}
 	};
 
 	var initialGet = function(){
@@ -35,7 +38,7 @@ angular.module('app', [
 			});
 	}
 
-	var storedStatus
+	var storedStatus;
 
 	if ($cookieStore.get('status') !== undefined){
 
@@ -51,12 +54,34 @@ angular.module('app', [
 
 			retryUpdate = setInterval(function(){
 				lazyUpdater(cellular);
-			}, 2000);
+			}, 10000);
 		}
 	}else{
 		$cookieStore.put('status','online');
 		initialGet();
 	}
+
+
+	// $scope.buildBits = function() {
+
+	//   var returnArr = [];
+
+	//   angular.forEach(cellular, function(valueC, keyC) {
+	//       angular.forEach(key.body, function(Bvalue, Bkey) {
+	//         this.push( {
+
+	// 			content:'this is some text'
+
+	//         });            
+	//       }, returnArr);
+	//   }, returnArr);
+
+	//    //apply sorting logic here
+
+	//   return returnArr;
+	// };
+
+	// $scope.listBits = $scope.buildBits();
 
 
 	var lazyUpdater = _.debounce(function(payload){
@@ -84,15 +109,23 @@ angular.module('app', [
 
 			   	retryUpdate = setInterval(function(){
 			   		lazyUpdater(thePackage);
-			   	}, 2000);
+			   	}, 10000);
 		   });
 	}, 250);
 
 	$scope.$watch('cells', function(items){
-		console.log(items)
-		cellular = items;
-		lazyUpdater(cellular);
+		// console.log(items)
+		// cellular = items;
+		// lazyUpdater(cellular);
 	}, true);
+
+	setInterval(function(){
+		lazyUpdater(cellular);
+	}, 300000);
+
+	window.onbeforeunload = function(e) {
+		lazyUpdater(cellular);
+	};
 
 	$scope.addCell = function(){
 		$http.post('/api/add')
@@ -116,37 +149,35 @@ angular.module('app', [
 			});
 	};
 
-	$scope.textArea = function(e){
-		// console.log(e.keyCode)
+	$scope.$watch('textArea', function(items){
+		console.log(items)
+		// console.log(items)
+		// cellular = items;
+		// lazyUpdater(cellular);
+	}, true);
 
-		if (e === 13){
+	//TODO: TURN BACK ON LOL
 
+	// var shift = 'https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=fb4e9edf281bc73c80eb89e1f847b465&format=json&nojsoncallback=1';
+	// var gazeList;
 
+	// $http.get(shift)
+	// 	.success(function(data) {
+	// 		gazeList = data.photos.photo;
+	// 		getGaze();
+	// 	})
+	// 	.error(function(data) {
+	// 		console.log('Error: ' + data);
+	// 	});
 
+	// var getGaze = function(){
+	// 	var getThisOne =  Math.floor(Math.random() * (100 - 0 + 1)) + 0;
+	// 	var stare = gazeList[getThisOne];
+	// 	var pull = 'http://farm' + stare.farm + '.staticflickr.com/' + stare.server + '/' + stare.id + '_' + stare.secret + '.jpg'
+	// 	$scope.gaze = 'url(' + pull + ')';
+	// }
 
-		}
-	}
-
-	var shift = 'https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=fb4e9edf281bc73c80eb89e1f847b465&format=json&nojsoncallback=1';
-	var gazeList;
-
-	$http.get(shift)
-		.success(function(data) {
-			gazeList = data.photos.photo;
-			getGaze();
-		})
-		.error(function(data) {
-			console.log('Error: ' + data);
-		});
-
-	var getGaze = function(){
-		var getThisOne =  Math.floor(Math.random() * (100 - 0 + 1)) + 0;
-		var stare = gazeList[getThisOne];
-		var pull = 'http://farm' + stare.farm + '.staticflickr.com/' + stare.server + '/' + stare.id + '_' + stare.secret + '.jpg'
-		$scope.gaze = 'url(' + pull + ')';
-	}
-
-	$interval(getGaze, 600000);
+	// $interval(getGaze, 600000);
 
 	//WRISTWATCH
 
@@ -187,26 +218,94 @@ angular.module('app', [
 		return moment(new Date()).format('D MMMM, YYYY')
 	}
 
+
+	$scope.cellEditBody = function(e){
+		// console.log();
+		$(e.target).find('li').last().focus()
+	}
 })
 
-// .directive('aTextArea', function() {
-//   return {
-//     require: 'ngModel',
-//     link: function(scope, element, attrs, ctrl) {
-//       // view -> model
-//       element.bind('blur', function() {
-//         scope.$apply(function() {
-//           ctrl.$setViewValue(element.html());
-//         });
-//       });
+.directive('contenteditable', function($http) {
 
-//       // model -> view
-//       ctrl.$render = function() {
-//         element.html(ctrl.$viewValue);
+	var granularLazyUpdater = _.debounce(function(cell, bit, content){
+		var thePackage = {
+			theCell : cell,
+			theBit : bit,
+			theContent : content
+		};
+		localStorage.setItem('traject' , JSON.stringify(thePackage) );
+
+		// console.log(thePackage)
+
+		// console.log(cellular)
+
+		$http.post('/api/updateBit', thePackage)
+		   .success(function(data) {
+			   	console.log(data);
+			   	console.log('yeah!');
+		   })
+		   .error(function(data) {
+			   	console.log('Error: ' + data);
+			   	console.log('oh no!');
+		   });
+	}, 200);
+
+
+
+    return {
+        require: 'ngModel',
+        link: function(scope, elem, attrs, ctrl) {
+            elem.bind('keydown', function(e){
+            	var that = this;
+
+            	if (e.keyCode === 8){
+            		e.preventDefault();
+            	}else if (e.keyCode === 13){
+            		e.preventDefault();
+            	}else{
+            		var theCell = that.parentNode.parentNode.parentNode.getAttribute('data-cellid');
+            		var theBit = that.getAttribute('data-bitid');
+            		var theContent = that.innerHTML;
+
+            		granularLazyUpdater(theCell, theBit, theContent);
+            	}
+            });
+
+            elem.bind('blur', function() {
+            	
+            });
+
+            // model -> view
+            ctrl.$render = function() {
+                console.log('here!')
+                // elem.html(ctrl.$viewValue);
+            };
+
+            // load init value from DOM
+            // ctrl.$setViewValue(elem.html());
+        }
+    };
+});
+
+// .directive("contenteditable", function() {
+//   return {
+//     restrict: "A",
+//     require: "ngModel",
+//     link: function(scope, element, attrs, ngModel) {
+
+//       function read() {
+//         ngModel.$setViewValue(element.html());
+//       }
+
+//       ngModel.$render = function() {
+//         element.html(ngModel.$viewValue || "");
 //       };
 
-//       // load init value from DOM
-//       ctrl.$render();
+//       element.bind("blur keyup change", function() {
+//         scope.$apply(read);
+//       });
+
+//       // read();
 //     }
 //   };
 // });

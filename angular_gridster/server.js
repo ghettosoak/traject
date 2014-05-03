@@ -18,20 +18,31 @@ app.configure(function() {
 
 // define model ================================================================
 
-var Schema = mongoose.Schema;
+// var Schema = mongoose.Schema;
 
-var Cell = new Schema({
+var Bit = new mongoose.Schema({
+	bitID: Number,
+	opened: Date,
+	closed: Date,
+	displayed: Boolean,
+	order: Number,
+	type: String,
+	content: String
+});
+
+var Cell = new mongoose.Schema({
 	sizeX : Number,
 	sizeY : Number,
 	row : Number,
 	col : Number,
 	title: String,
-	body: String,
+	body: [Bit],
+	cellID: Number,
 	gaze: Boolean, 
 	wristwatch: Boolean, 
 	addcell:Boolean, 
 	list: Boolean
-})
+});
 
 var Cellular = mongoose.model('testData', Cell);
 
@@ -48,7 +59,26 @@ var Cellular = mongoose.model('testData', Cell);
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err) res.send(err);
 
+			var theCells = cells;
+
+			var theBits;
+
+			for (var aCell in theCells){
+				// console.log(aCell)
+				// console.log(theCells[aCell].body);
+
+				for (var aBit in theCells[aCell].body){
+					// console.log(aBit)
+					// console.log(theCells[aCell].body[aBit])
+					// console.log(aCell[aBit])
+					// console.log(theCells[aCell][aBit])
+
+				}
+			}
+
 			res.json(cells); // return all cells in JSON format
+
+			// console.log(cells)
 
 		});
 	});
@@ -104,6 +134,46 @@ var Cellular = mongoose.model('testData', Cell);
 				});
 			});
 	});
+
+	app.post('/api/updateBit', function(req, res) {
+
+		// console.log(req.body)
+
+		// Cellular.find({
+		// 	'cellID': req.body.theCell,
+		// 	'body.bitID': req.body.theBit
+		// }, function(err, found){
+		// 	console.log(found)
+		// 	res.send(found)
+
+		// 	// for (var i in found){
+		// 	// 	res.send(i)
+		// 	// }
+		// })
+
+		// console.log(theTarget)
+		
+
+		Cellular.findOneAndUpdate({
+			'cellID': req.body.theCell,
+			'body.bitID': req.body.theBit
+		},{
+			'body.$.content': req.body.theContent
+		}, function(err, todo) {
+			if (err)
+				res.send(err);
+
+			// get and return all the todos after you create another
+			Cellular.find(function(err, todos) {
+				if (err)
+					res.send(err)
+				res.send('GOT IT')
+				// res.json(todos);
+
+			});
+		});
+	});
+
 
 	// delete a todo
 	app.post('/api/remove/:id', function(req, res) {
