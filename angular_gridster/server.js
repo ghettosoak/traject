@@ -38,6 +38,7 @@ var Cell = new mongoose.Schema({
 	title: String,
 	body: [Bit],
 	cellID: Number,
+	bitCount:Number,
 	gaze: Boolean, 
 	wristwatch: Boolean, 
 	addcell:Boolean, 
@@ -135,24 +136,7 @@ var Cellular = mongoose.model('testData', Cell);
 			});
 	});
 
-	app.post('/api/updateBit', function(req, res) {
-
-		// console.log(req.body)
-
-		// Cellular.find({
-		// 	'cellID': req.body.theCell,
-		// 	'body.bitID': req.body.theBit
-		// }, function(err, found){
-		// 	console.log(found)
-		// 	res.send(found)
-
-		// 	// for (var i in found){
-		// 	// 	res.send(i)
-		// 	// }
-		// })
-
-		// console.log(theTarget)
-		
+	app.post('/api/updateBit', function(req, res) {		
 
 		Cellular.findOneAndUpdate({
 			'cellID': req.body.theCell,
@@ -162,17 +146,46 @@ var Cellular = mongoose.model('testData', Cell);
 		}, function(err, todo) {
 			if (err)
 				res.send(err);
-
-			// get and return all the todos after you create another
-			Cellular.find(function(err, todos) {
-				if (err)
-					res.send(err)
-				res.send('GOT IT')
+			res.send('GOT IT')
+			
+			// Cellular.find(function(err, todos) {
+				// if (err)
+					// res.send(err)
 				// res.json(todos);
 
-			});
+			// });
 		});
 	});
+
+	app.post('/api/addBit', function(req, res) {
+	    Cellular.findOneAndUpdate(
+	    	{ 	 // conditions
+				cellID: req.body.theCell 
+			}, { //update
+				$push: { 
+					body: req.body.theNewBit
+				}
+			}, { // options
+				upsert: true 
+			}, function(err, bits) { //callback
+				if (err)
+					res.send(err)
+				res.send('GOT IT, ADDED')
+	        }
+        );
+	});
+
+	// app.post('/api/removeBit', function(req, res) {
+	//     Cellular.findOneAndRemove(
+	//     	{ 	'cellID': req.body.theCell,
+	// 			'body.bitID': req.body.theBit
+	// 		}, function(err, bits) { //callback
+	// 			if (err)
+	// 				res.send(err)
+	// 			res.send('GOT IT, ADDED')
+	//         }
+ //        );
+	// });
 
 
 	// delete a todo

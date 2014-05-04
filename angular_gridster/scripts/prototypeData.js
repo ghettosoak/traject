@@ -10,9 +10,10 @@ db.testdatas.insert(
 		list: true,
 		cellID: 000,
 		title: "this is a title",
+		bitCount:7,
 		body: [
 		 	{ 
-		 		bitID:111,
+		 		bitID:0,
 	 			opened: 123,
 				closed: null,
 				displayed: true,
@@ -21,7 +22,7 @@ db.testdatas.insert(
 				content:'this is some text'
 			},
 		 	{ 
-		 		bitID:111,
+		 		bitID:1,
 	 			opened: 123,
 				closed: null,
 				displayed: true,
@@ -30,7 +31,7 @@ db.testdatas.insert(
 				content:'this is some text'
 			},
 		 	{ 
-		 		bitID:111,
+		 		bitID:2,
 	 			opened: 123,
 				closed: null,
 				displayed: true,
@@ -39,7 +40,7 @@ db.testdatas.insert(
 				content:'this is some text'
 			},
 		 	{ 
-		 		bitID:111,
+		 		bitID:3,
 	 			opened: 123,
 				closed: null,
 				displayed: true,
@@ -48,7 +49,7 @@ db.testdatas.insert(
 				content:'this is some text'
 			},
 		 	{ 
-		 		bitID:111,
+		 		bitID:4,
 	 			opened: 123,
 				closed: null,
 				displayed: true,
@@ -57,7 +58,7 @@ db.testdatas.insert(
 				content:'this is some text'
 			},
 		 	{ 
-		 		bitID:111,
+		 		bitID:5,
 	 			opened: 123,
 				closed: null,
 				displayed: true,
@@ -66,7 +67,7 @@ db.testdatas.insert(
 				content:'this is some text'
 			},
 		 	{ 
-		 		bitID:111,
+		 		bitID:6,
 	 			opened: 123,
 				closed: null,
 				displayed: true,

@@ -1,7 +1,6 @@
 'use strict';
 
 var cellular; 
-var cellCheck;
 var retryUpdate;
 
 angular.module('app', [
@@ -149,12 +148,12 @@ angular.module('app', [
 			});
 	};
 
-	$scope.$watch('textArea', function(items){
-		console.log(items)
-		// console.log(items)
-		// cellular = items;
-		// lazyUpdater(cellular);
-	}, true);
+	// $scope.$watch('textArea', function(items){
+	// 	console.log(items)
+	// 	// console.log(items)
+	// 	// cellular = items;
+	// 	// lazyUpdater(cellular);
+	// }, true);
 
 	//TODO: TURN BACK ON LOL
 
@@ -227,17 +226,31 @@ angular.module('app', [
 
 .directive('contenteditable', function($http) {
 
+	var bitAdder = _.debounce(function(cell, newBit){
+		var thePackage = {
+			theCell : cell,
+			theNewBit: newBit
+			// theBit : bit,
+			// theContent : content
+		};
+
+		$http.post('/api/addBit', thePackage)
+		   .success(function(data) {
+			   	console.log(data);
+			   	console.log('yeah!');
+		   })
+		   .error(function(data) {
+			   	console.log('Error: ' + data);
+			   	console.log('oh no!');
+		   });
+	}, 200);
+
 	var granularLazyUpdater = _.debounce(function(cell, bit, content){
 		var thePackage = {
 			theCell : cell,
 			theBit : bit,
 			theContent : content
 		};
-		localStorage.setItem('traject' , JSON.stringify(thePackage) );
-
-		// console.log(thePackage)
-
-		// console.log(cellular)
 
 		$http.post('/api/updateBit', thePackage)
 		   .success(function(data) {
@@ -250,22 +263,59 @@ angular.module('app', [
 		   });
 	}, 200);
 
-
-
     return {
         require: 'ngModel',
         link: function(scope, elem, attrs, ctrl) {
             elem.bind('keydown', function(e){
             	var that = this;
+        		var theCell = that.parentNode.parentNode.parentNode.getAttribute('data-cellid');
 
-            	if (e.keyCode === 8){
+        		// console.log(elem[0].children)
+
+        		// var theContent = [];
+
+        		// for (var i in elem[0].children){
+        		// 	theContent[i] = elem[0].children[i].innerHTML;
+
+
+
+        		// }
+
+        		// granularLazyUpdater(theCell, theContent);
+
+            	// if (e.keyCode === 8){
+            	// }
+
+            	if (e.keyCode === 13){
             		e.preventDefault();
-            	}else if (e.keyCode === 13){
-            		e.preventDefault();
-            	}else{
-            		var theCell = that.parentNode.parentNode.parentNode.getAttribute('data-cellid');
+
+            		var theIndex = that.getAttribute('data-index');
+            		console.log(theIndex)
+
+            		for (var i in cellular){
+            			if (cellular[i].cellID == theCell){
+            				var theNewBitID = cellular[i].bitCount++;
+
+            				var theNewBit = {
+            				 		bitID:theNewBitID,
+            			 			opened: new Date(),
+            						closed: null,
+            						displayed: true,
+            						order:1,
+            						type:'plainText',
+            						content:''
+            					};
+
+            				cellular[i].body.splice(theIndex, 0, theNewBit);
+            			}
+            		}
+
+            		bitAdder(theCell, theNewBit);
+
+            	}
+            	else{
             		var theBit = that.getAttribute('data-bitid');
-            		var theContent = that.innerHTML;
+            		var theContent = that.innerHTML//.slice(13);
 
             		granularLazyUpdater(theCell, theBit, theContent);
             	}
@@ -277,7 +327,7 @@ angular.module('app', [
 
             // model -> view
             ctrl.$render = function() {
-                console.log('here!')
+            	console.log(ctrl.$viewValue)
                 // elem.html(ctrl.$viewValue);
             };
 
@@ -285,7 +335,7 @@ angular.module('app', [
             // ctrl.$setViewValue(elem.html());
         }
     };
-});
+})
 
 // .directive("contenteditable", function() {
 //   return {
