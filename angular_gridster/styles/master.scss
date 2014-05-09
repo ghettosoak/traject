@@ -76,6 +76,28 @@ $spritesheet_cell_width:50px;
     background-position: 0px -$steps*$spritesheet_cell_width;
 }
 
+@mixin transition($what){
+	-webkit-transition: $what;
+	-moz-transition: $what;
+	-o-transition: $what;
+	transition: $what;
+}
+
+@mixin transform-origin($where){
+	-webkit-transform-origin: $where;
+	-moz-transform-origin: $where;
+	-o-transform-origin: $where;
+	transform-origin: $where;
+}
+
+@mixin transform($what){
+	-webkit-transform: $what;
+	-moz-transform:    $what;
+	-ms-transform:     $what;
+	-o-transform:      $what;
+	transform:         $what;
+}
+
 
 
 ::selection {
@@ -442,9 +464,80 @@ input, textarea {
 			width:100%;
 			top:0px;
 			left:0px;
-			padding:50px 10px 10px 25px;
+			padding:50px 10px 10px 15px;
 			color:$dark;
 			text-align: left;
+			overflow: scroll;
+
+			.textarea-container {
+				// padding-left:20px;
+			  	position: relative;
+			  	width: 100%;
+
+			  	
+
+			  	.grabber{
+			  		position: absolute;
+			  		left:0px;
+			  		width:30px;
+			  		height:25px;
+			  		cursor: pointer;
+			  		z-index: 1;
+
+			  		span{
+			  			height:20px;
+			  			width:1px;
+			  			background-color:#ccc;
+			  			position: absolute;
+			  			top:0px;
+			  			left:10px;
+			  			border-radius: 0px;
+			  			@include transition((all .1s ease-in-out));
+			  		}
+			  	}
+
+			  	textarea, .sizer {
+			  		min-height: 25px;
+			  		font-size: 14px;
+			  		overflow: hidden;
+			  		width: 100%;
+			  	}
+
+			  	textarea {
+			  		position: absolute;
+			  		top: 0px;
+			  		left: 0px;
+			  		height: 100%;
+			  		padding-left: 20px;
+			  		resize:none;
+			  		white-space: normal;
+			  		@include transition( padding-left .1s ease-in-out );
+			  	}
+
+			  	.sizer {
+			  		visibility: hidden;
+			  		white-space: pre-wrap;
+			  		word-wrap: break-word;
+			  		overflow-wrap: break-word;
+			  	}
+			}
+
+			.grabbed{
+				padding-left:25px; 
+
+				.grabber span{
+					width:10px;
+					height:10px;
+					left:6px;
+					top:5px;
+					border-radius: 50px
+				}
+
+				textarea{
+					padding-left:25px;
+				}
+
+			}
 		}
 
 		.grab{

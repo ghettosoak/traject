@@ -5,59 +5,52 @@ var retryUpdate;
 
 angular.module('app', [
 	'gridster',
-	'ngCookies'
+	'ngCookies',
+	'ui.utils',
+	'ui.sortable'
 ])
 
 .controller('MainCtrl', function($scope, $http, $interval, $cookieStore) {
-	$scope.gridsterOpts = {
-		margins: [10, 10],
-		mobileBreakPoint: 768,
-		columns: 5,
-		defaultSizeX: 1,
-		defaultSizeY: 1,
-		draggable: {
-			handle: '.grab', // optional selector for resize handle
-		}
-	};
 
-	var initialGet = function(){
+
+	// var initialGet = function(){
 		$http.get('/api/testData')
 			.success(function(data) {
 				cellular = data;
 				$scope.cells = cellular;
-				localStorage.setItem('traject' , JSON.stringify(cellular) );
-				console.log(cellular)
+				// localStorage.setItem('traject' , JSON.stringify(cellular) );
+				console.log($scope.cells)
 				$scope.status = 'online';
 			})
 			.error(function(data) {
-				cellular = JSON.parse(localStorage.getItem('traject'));
-				$scope.cells = cellular;
-				$scope.status = 'local';
+				// cellular = JSON.parse(localStorage.getItem('traject'));
+				// $scope.cells = cellular;
+				// $scope.status = 'local';
 				console.log('Error: ' + data);
 			});
-	}
+	// }
 
 	var storedStatus;
 
 	if ($cookieStore.get('status') !== undefined){
 
-		storedStatus = $cookieStore.get('status');
-		console.log(storedStatus);
+		// storedStatus = $cookieStore.get('status');
+		// console.log(storedStatus);
 
 		if (storedStatus === 'online'){
-			initialGet();			
+			// initialGet();			
 		}else{
-			cellular = JSON.parse(localStorage.getItem('traject'));
-			$scope.cells = cellular;
-			$scope.status = 'local';
+			// cellular = JSON.parse(localStorage.getItem('traject'));
+			// $scope.cells = cellular;
+			// $scope.status = 'local';
 
-			retryUpdate = setInterval(function(){
-				lazyUpdater(cellular);
-			}, 10000);
+			// retryUpdate = setInterval(function(){
+			// 	lazyUpdater(cellular);
+			// }, 10000);
 		}
 	}else{
-		$cookieStore.put('status','online');
-		initialGet();
+		// $cookieStore.put('status','online');
+		// initialGet();
 	}
 
 
@@ -87,10 +80,6 @@ angular.module('app', [
 		var thePackage = payload;
 		localStorage.setItem('traject' , JSON.stringify(thePackage) );
 
-		console.log(thePackage)
-
-		console.log(cellular)
-
 		$http.post('/api/collect', thePackage)
 		   .success(function(data) {
 			   	console.log(data);
@@ -118,13 +107,27 @@ angular.module('app', [
 		// lazyUpdater(cellular);
 	}, true);
 
+	$scope.gridsterOpts = {
+		margins: [10, 10],
+		mobileBreakPoint: 768,
+		columns: 5,
+		defaultSizeX: 1,
+		defaultSizeY: 1,
+		draggable: {
+			handle: '.grab',
+			stop: function(event, uiWidget, $element) {
+				lazyUpdater(cellular);
+			}
+		}
+	};
+
 	setInterval(function(){
 		lazyUpdater(cellular);
 	}, 300000);
 
-	window.onbeforeunload = function(e) {
-		lazyUpdater(cellular);
-	};
+	// window.onbeforeunload = function(e) {
+	// 	lazyUpdater(cellular);
+	// };
 
 	$scope.addCell = function(){
 		$http.post('/api/add')
@@ -219,123 +222,291 @@ angular.module('app', [
 
 
 	$scope.cellEditBody = function(e){
-		// console.log();
-		$(e.target).find('li').last().focus()
+		$(e.target).find('.textarea-container').last().find('textarea').focus()
 	}
+
+
+
+	var cellUpdater = _.debounce(function(cell, cellIndex){
+		var thePackage = {
+			theCell : cell, 
+			theBits : cellular[cellIndex].body
+		};
+
+		$http.post('/api/cellUpdate', thePackage)
+		   .success(function(data) {
+			   	console.log(data);
+			   	console.log('yeah!');
+		   })
+		   .error(function(data) {
+			   	console.log('Error: ' + data);
+			   	console.log('oh no!');
+		   });
+	}, 200);
+
+	$scope.sortableOptions = {
+	    axis: 'y',
+	    update: function(e, ui) {
+	    	var that = e;
+	    	var theCell = that.target.parentNode.getAttribute('data-cellid');
+	    	var theCellIndex;
+	    	for (var i in cellular){
+				if (cellular[i].cellID == theCell) theCellIndex = i;
+			}
+	    	cellUpdater(theCell, theCellIndex);
+	    }
+	  };
+
+
+	$scope.killBit = function(e){
+		console.log(e)
+
+	};
+
+	$scope.cellTitle = function(e){
+		lazyUpdater(cellular);
+
+		var that = e;
+
+		var theCell = that.target.parentNode.parentNode.parentNode.getAttribute('data-cellid');
+
+		// cellUpdater(theCell, theCellIndex);
+	};
+
+	$scope.areaText = function(e){
+    	var that = e;
+
+		var theCell = that.target.parentNode.parentNode.parentNode.getAttribute('data-cellid');
+
+    	var theCellIndex;
+
+    	for (var i in cellular){
+			if (cellular[i].cellID == theCell) theCellIndex = i;
+		}
+
+		if ((that.keyCode === 8) && (that.target.value == '')){
+			that.preventDefault();
+
+			var theSentencedIndex = that.target.parentNode.getAttribute('data-index')
+
+			$(that.target).parent().prev('.textarea-container').find('textarea').focus();
+
+			cellular[theCellIndex].body.splice(theSentencedIndex, 1);
+
+		}
+
+		console.log(e)
+
+    	if (that.keyCode === 13){
+    		that.preventDefault();
+
+    		var theNewIndex = that.target.parentNode.getAttribute('data-index') + 1
+
+			var theNewBit = {
+				displayed: true,
+				type:'plainText',
+				content:''
+			};
+
+			cellular[theCellIndex].body.splice(theNewIndex, 0, theNewBit);
+
+			$(that.target).parent().next('.textarea-container').find('textarea').focus();
+		}
+
+		cellUpdater(theCell, theCellIndex);
+
+	}
+
+
 })
 
-.directive('contenteditable', function($http) {
-
-	var bitAdder = _.debounce(function(cell, newBit){
-		var thePackage = {
-			theCell : cell,
-			theNewBit: newBit
-			// theBit : bit,
-			// theContent : content
-		};
-
-		$http.post('/api/addBit', thePackage)
-		   .success(function(data) {
-			   	console.log(data);
-			   	console.log('yeah!');
-		   })
-		   .error(function(data) {
-			   	console.log('Error: ' + data);
-			   	console.log('oh no!');
-		   });
-	}, 200);
-
-	var granularLazyUpdater = _.debounce(function(cell, bit, content){
-		var thePackage = {
-			theCell : cell,
-			theBit : bit,
-			theContent : content
-		};
-
-		$http.post('/api/updateBit', thePackage)
-		   .success(function(data) {
-			   	console.log(data);
-			   	console.log('yeah!');
-		   })
-		   .error(function(data) {
-			   	console.log('Error: ' + data);
-			   	console.log('oh no!');
-		   });
-	}, 200);
-
-    return {
-        require: 'ngModel',
-        link: function(scope, elem, attrs, ctrl) {
-            elem.bind('keydown', function(e){
-            	var that = this;
-        		var theCell = that.parentNode.parentNode.parentNode.getAttribute('data-cellid');
-
-        		// console.log(elem[0].children)
-
-        		// var theContent = [];
-
-        		// for (var i in elem[0].children){
-        		// 	theContent[i] = elem[0].children[i].innerHTML;
+// .directive('areaText', function(){
+// 	return {
+// 	        require: 'ngModel',
+// 	        // scope:true,
+// 	        link: function(scope, elem, attrs, ctrl) {
 
 
+// 	        	elem.bind('keydown', function(e){
+// 	        		console.log(elem)
+// 	        	})
+// 	        }
+// 	    }
+// })
 
-        		// }
+// .directive('contenteditable', function($http) {
 
-        		// granularLazyUpdater(theCell, theContent);
+// 	// var bitAdder = _.debounce(function(cell, newBit, newIndex, newCount){
+// 	// 	var thePackage = {
+// 	// 		theCell : cell,
+// 	// 		theNewBit: newBit,
+// 	// 		theNewIndex : newIndex,
+// 	// 		theNewBitCount : newCount
+// 	// 	};
 
-            	// if (e.keyCode === 8){
-            	// }
+// 	// 	$http.post('/api/addBit', thePackage)
+// 	// 	   .success(function(data) {
+// 	// 		   	console.log(data);
+// 	// 		   	console.log('yeah!');
+// 	// 	   })
+// 	// 	   .error(function(data) {
+// 	// 		   	console.log('Error: ' + data);
+// 	// 		   	console.log('oh no!');
+// 	// 	   });
+// 	// }, 200);
 
-            	if (e.keyCode === 13){
-            		e.preventDefault();
+// 	// var granularLazyUpdater = _.debounce(function(cell, bit, content){
+// 	// 	var thePackage = {
+// 	// 		theCell : cell,
+// 	// 		theBit : bit,
+// 	// 		theContent : content
+// 	// 	};
 
-            		var theIndex = that.getAttribute('data-index');
-            		console.log(theIndex)
+// 	// 	$http.post('/api/updateBit', thePackage)
+// 	// 	   	.success(function(data) {
+// 	// 		   	console.log(data);
+// 	// 		   	console.log('yeah!');
+// 	// 	   	})
+// 	// 	   	.error(function(data) {
+// 	// 		   	console.log('Error: ' + data);
+// 	// 		   	console.log('oh no!');
+// 	// 	   	});
+// 	// }, 200);
 
-            		for (var i in cellular){
-            			if (cellular[i].cellID == theCell){
-            				var theNewBitID = cellular[i].bitCount++;
+// 	var cellUpdater = _.debounce(function(cell, cellIndex){
+// 		var thePackage = {
+// 			theCell : cell, 
+// 			theBits : cellular[cellIndex].body
+// 		};
+// 		$http.post('/api/cellUpdate', thePackage)
+// 		   .success(function(data) {
+// 			   	console.log(data);
+// 			   	console.log('yeah!');
+// 		   })
+// 		   .error(function(data) {
+// 			   	console.log('Error: ' + data);
+// 			   	console.log('oh no!');
+// 		   });
+// 	}, 200);
 
-            				var theNewBit = {
-            				 		bitID:theNewBitID,
-            			 			opened: new Date(),
-            						closed: null,
-            						displayed: true,
-            						order:1,
-            						type:'plainText',
-            						content:''
-            					};
+//     return {
+//         require: 'ngModel',
+//         // scope:true,
+//         link: function(scope, elem, attrs, ctrl) {
 
-            				cellular[i].body.splice(theIndex, 0, theNewBit);
-            			}
-            		}
+//         	console.log('DIRECTED!')
 
-            		bitAdder(theCell, theNewBit);
+//         	elem.bind('mousedown', function(e){
+//         		console.log(e)
+//         		this.focus();
+//         	})
 
-            	}
-            	else{
-            		var theBit = that.getAttribute('data-bitid');
-            		var theContent = that.innerHTML//.slice(13);
 
-            		granularLazyUpdater(theCell, theBit, theContent);
-            	}
-            });
 
-            elem.bind('blur', function() {
+//             elem.bind('keydown', function(e){
+
+//             	// console.log(document.activeElement)
+
+//             	var that = this;
+
+//         		var theCell = that.parentNode.parentNode.parentNode.getAttribute('data-cellid');
+
+//         		// console.log(scope.cells)
+
+//         		// var theContent = [];
+
+//         		// for (var i in elem[0].children){
+//         		// 	theContent[i] = elem[0].children[i].innerHTML;
+
+//         		// }
+
+//         		// granularLazyUpdater(theCell, theContent);
+
+//             	// if (e.keyCode === 8){
+//             	// }
+
+//             	var theCellIndex;
+
+//             	for (var i in cellular){
+//         			if (scope.cells[i].cellID == theCell) theCellIndex = i;
+//     			}
+
+//             	if (e.keyCode === 13){
+//             		e.preventDefault();
+
+//             		var theNewIndex = $(elem).index() + 1;
+
+//             		// var theOrder = parseInt(that.getAttribute('data-order'));
+
+//             		// console.log('THE ORDER = ' + theOrder);
+
+//     				// var theNewBitCount = scope.cells[theCellIndex].bitCount++;
+
+//     				var theNewBit = {
+// 				 		// bitID:theNewBitCount,
+// 			 			opened: new Date(),
+// 						closed: null,
+// 						displayed: true,
+// 						// order: theOrder,
+// 						type:'plainText',
+// 						content:''
+// 					};
+
+// 					scope.cells[theCellIndex].body.splice(theNewIndex, 0, theNewBit)
+
+// 					// // scope.$apply();
+				
+//     	// 			// scope.cells[theCellIndex].body.push(theNewBit);
+
+//             		// bitAdder(theCell, theNewBit, theNewIndex, theNewBitCount);
+//             		// cellUpdater(theCellIndex)
+//             	}
+//             	// else{
+//             	// 	var theBit = that.getAttribute('data-bitid');
+//             		var theContent = that.innerHTML//.slice(13);
+
+//             	// 	console.log(theBit)
+
+//             		// granularLazyUpdater(theCell, theBit, theContent);
+
+//             		// scope.cells[theCellIndex].body
+//             		// scope.$apply();
+
+//             		// scope.$apply(function() {
+//                         // ctrl.$setViewValue(elem.html());
+//                     // });
+
+// 					var thisBitHere = that.getAttribute('data-index');
+
+// 					console.log(thisBitHere)
+
+// 					// scope.$apply(function() {
+// 	    //                 ctrl.$setViewValue(elem.html());
+// 	    //             });
+
+//                     // scope.cells[theCellIndex].body[thisBitHere].content = that.innerHTML;
+//             		cellUpdater(theCell, theCellIndex);
+//             	// }
+//             });
+
+
+// // scope.$watch(scope.cells);
+
+//             elem.bind('blur', function() {
             	
-            });
+//             });
 
-            // model -> view
-            ctrl.$render = function() {
-            	console.log(ctrl.$viewValue)
-                // elem.html(ctrl.$viewValue);
-            };
+//             // model -> view
+//             ctrl.$render = function() {
+//             	console.log(ctrl.$viewValue)
+//                 elem.html(ctrl.$viewValue);
+//             };
 
-            // load init value from DOM
-            // ctrl.$setViewValue(elem.html());
-        }
-    };
-})
+//             // load init value from DOM
+//             ctrl.$setViewValue(elem.html());
+//         }
+//     };
+// })
 
 // .directive("contenteditable", function() {
 //   return {

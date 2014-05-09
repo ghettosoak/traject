@@ -136,6 +136,26 @@ var Cellular = mongoose.model('testData', Cell);
 			});
 	});
 
+	app.post('/api/addBit', function(req, res) {
+	    Cellular.findOneAndUpdate(
+	    	{ 	 // conditions
+				cellID: req.body.theCell
+			}, { //update
+				bitCount : req.body.theNewBitCount,
+				$push: { 
+					body: req.body.theNewBit//,
+					// order: req.body.theNewIndex
+				}
+			}, { // options
+				upsert: true 
+			}, function(err, bits) { //callback
+				if (err)
+					res.send(err)
+				res.send('GOT IT, ADDED')
+	        }
+        );
+	});
+
 	app.post('/api/updateBit', function(req, res) {		
 
 		Cellular.findOneAndUpdate({
@@ -157,22 +177,37 @@ var Cellular = mongoose.model('testData', Cell);
 		});
 	});
 
-	app.post('/api/addBit', function(req, res) {
-	    Cellular.findOneAndUpdate(
-	    	{ 	 // conditions
-				cellID: req.body.theCell 
-			}, { //update
-				$push: { 
-					body: req.body.theNewBit
-				}
-			}, { // options
-				upsert: true 
-			}, function(err, bits) { //callback
+	app.post('/api/cellUpdate', function(req, res) {		
+
+		console.log(req)
+
+		// Cellular.find({
+		// 	'cellID': req.body.theCell
+		// },function(err, CELLs) {
+		// 	if (err)
+		// 		res.send(err)
+		// 	res.json(CELLs);
+		// });
+
+		Cellular.findOneAndUpdate({
+			'cellID': req.body.theCell
+		},{
+			'body': req.body.theBits
+		}, function(err, todo) {
+			if (err)
+				res.send(err);
+			// res.send('GOT IT')
+
+			Cellular.find({
+				'cellID': req.body.theCell
+			},function(err, CELLs) {
 				if (err)
 					res.send(err)
-				res.send('GOT IT, ADDED')
-	        }
-        );
+				res.json(CELLs);
+			});
+
+
+		});
 	});
 
 	// app.post('/api/removeBit', function(req, res) {

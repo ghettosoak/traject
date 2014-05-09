@@ -333,9 +333,64 @@ input, textarea {
     width: 100%;
     top: 0px;
     left: 0px;
-    padding: 50px 10px 10px 25px;
+    padding: 50px 10px 10px 15px;
     color: #444444;
-    text-align: left; }
+    text-align: left;
+    overflow: scroll; }
+    .grid .cell .list .cellEdit .textarea-container {
+      position: relative;
+      width: 100%; }
+      .grid .cell .list .cellEdit .textarea-container .grabber {
+        position: absolute;
+        left: 0px;
+        width: 30px;
+        height: 25px;
+        cursor: pointer;
+        z-index: 1; }
+        .grid .cell .list .cellEdit .textarea-container .grabber span {
+          height: 20px;
+          width: 1px;
+          background-color: #ccc;
+          position: absolute;
+          top: 0px;
+          left: 10px;
+          border-radius: 0px;
+          -webkit-transition: all 0.1s ease-in-out;
+          -moz-transition: all 0.1s ease-in-out;
+          -o-transition: all 0.1s ease-in-out;
+          transition: all 0.1s ease-in-out; }
+      .grid .cell .list .cellEdit .textarea-container textarea, .grid .cell .list .cellEdit .textarea-container .sizer {
+        min-height: 25px;
+        font-size: 14px;
+        overflow: hidden;
+        width: 100%; }
+      .grid .cell .list .cellEdit .textarea-container textarea {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        padding-left: 20px;
+        resize: none;
+        white-space: normal;
+        -webkit-transition: padding-left 0.1s ease-in-out;
+        -moz-transition: padding-left 0.1s ease-in-out;
+        -o-transition: padding-left 0.1s ease-in-out;
+        transition: padding-left 0.1s ease-in-out; }
+      .grid .cell .list .cellEdit .textarea-container .sizer {
+        visibility: hidden;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word; }
+    .grid .cell .list .cellEdit .grabbed {
+      padding-left: 25px; }
+      .grid .cell .list .cellEdit .grabbed .grabber span {
+        width: 10px;
+        height: 10px;
+        left: 6px;
+        top: 5px;
+        border-radius: 50px; }
+      .grid .cell .list .cellEdit .grabbed textarea {
+        padding-left: 25px; }
   .grid .cell .list .grab {
     position: absolute;
     width: 15px;

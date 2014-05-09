@@ -28,19 +28,16 @@
 
 			<div class="list" ng-if="item.list" data-cellid="{{item.cellID}}">
 				<div class="cellHead">
-					<input class="title" type="text" ng-model="item.title"/>
+					<input class="title" type="text" ng-model="item.title" ng-keydown="cellTitle($event)"/>
 				</div>
-				<!-- <textarea class="cellEdit" ng-model="item.body" aTextArea ng-keyup="textArea($event.keyCode)"></textarea> -->
-				<div class="cellEdit" ng-click="cellEditBody($event)">
-					<ul>
-						<li 
-							contenteditable 
-							ng-model="item.body.content"
-							data-bitid="{{bit.bitID}}" 
-							ng-repeat="bit in item.body"
-							data-index="{{$index + 1}}"
-						>{{bit.content}}</li>
-					</ul>
+				<div class="cellEdit" ui-sortable="sortableOptions" ng-model="item.body" ng-click="cellEditBody($event)" >
+					<div class="textarea-container" ng-repeat="bit in item.body" ng-if="bit.displayed" data-index="{{$index}}" ng-class="{grabbed : grabbing === true}">
+						<span class="grabber" ng-mouseover="grabbing = true" ng-mouseleave="grabbing = false" ng-dblClick="bit.displayed = false">
+							<span></span>
+						</span>
+					  	<textarea ng-model="bit.content" ng-keydown="areaText($event)"></textarea>
+					  	<div class="sizer">{{bit.content}}</div>
+					</div>
 				</div>
 				<span class="grab" ng-dblClick="removeCell(item._id)"></span>
 			</div>
