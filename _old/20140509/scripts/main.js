@@ -1,17 +1,22 @@
 'use strict';
 
 var cellular; 
+var cellCheck;
 var retryUpdate;
 
 angular.module('app', [
 	'gridster',
-	'ngCookies',
-	'ui.utils',
-	'ui.sortable'
+	'ngCookies'
 ])
 
 .controller('MainCtrl', function($scope, $http, $interval, $cookieStore) {
-
+	$scope.gridsterOpts = {
+		margins: [10, 10],
+		mobileBreakPoint: 768,
+		columns: 5,
+		defaultSizeX: 1,
+		defaultSizeY: 1
+	};
 
 	var initialGet = function(){
 		$http.get('/api/testData')
@@ -19,7 +24,7 @@ angular.module('app', [
 				cellular = data;
 				$scope.cells = cellular;
 				localStorage.setItem('traject' , JSON.stringify(cellular) );
-				console.log($scope.cells)
+				console.log(cellular)
 				$scope.status = 'online';
 			})
 			.error(function(data) {
@@ -30,7 +35,7 @@ angular.module('app', [
 			});
 	}
 
-	var storedStatus;
+	var storedStatus
 
 	if ($cookieStore.get('status') !== undefined){
 
@@ -46,16 +51,21 @@ angular.module('app', [
 
 			retryUpdate = setInterval(function(){
 				lazyUpdater(cellular);
-			}, 10000);
+			}, 2000);
 		}
 	}else{
 		$cookieStore.put('status','online');
 		initialGet();
 	}
 
+
 	var lazyUpdater = _.debounce(function(payload){
 		var thePackage = payload;
 		localStorage.setItem('traject' , JSON.stringify(thePackage) );
+
+		console.log(thePackage)
+
+		console.log(cellular)
 
 		$http.post('/api/collect', thePackage)
 		   .success(function(data) {
@@ -74,34 +84,15 @@ angular.module('app', [
 
 			   	retryUpdate = setInterval(function(){
 			   		lazyUpdater(thePackage);
-			   	}, 10000);
+			   	}, 2000);
 		   });
 	}, 250);
 
-	$scope.gridsterOpts = {
-		margins: [10, 10],
-		mobileBreakPoint: 768,
-		columns: 5,
-		defaultSizeX: 1,
-		defaultSizeY: 1,
-		draggable: {
-			handle: '.grab',
-			start: function(event, uiWidget, $element) {
-				event.stopPropagation();
-			},
-			stop: function(event, uiWidget, $element) {
-				lazyUpdater(cellular);
-			}
-		}
-	};
-
-	setInterval(function(){
+	$scope.$watch('cells', function(items){
+		console.log(items)
+		cellular = items;
 		lazyUpdater(cellular);
-	}, 300000);
-
-	window.onbeforeunload = function(e) {
-		lazyUpdater(cellular);
-	};
+	}, true);
 
 	$scope.addCell = function(){
 		$http.post('/api/add')
@@ -125,11 +116,16 @@ angular.module('app', [
 			});
 	};
 
+	$scope.textArea = function(e){
+		// console.log(e.keyCode)
+
+		if (e === 13){
 
 
-	// GAZE.JS
 
-	//TODO: TURN BACK ON LOL
+
+		}
+	}
 
 	var shift = 'https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=fb4e9edf281bc73c80eb89e1f847b465&format=json&nojsoncallback=1';
 	var gazeList;
@@ -152,9 +148,7 @@ angular.module('app', [
 
 	$interval(getGaze, 600000);
 
-
-
-	// WRISTWATCH.JS
+	//WRISTWATCH
 
 	var getWeather = function(){
 		$http.get('http://api.openweathermap.org/data/2.5/weather?q=bern,ch')
@@ -193,127 +187,31 @@ angular.module('app', [
 		return moment(new Date()).format('D MMMM, YYYY')
 	}
 
-
-
-	// BITS.JS
-
-	$scope.cellEditBody = function(e){
-		var el = $(e.target).find('.textarea-container').last().find('textarea')[0]
-
-		if (typeof el.selectionStart == "number") {
-	        el.selectionStart = el.selectionEnd = el.value.length;
-	    } else if (typeof el.createTextRange != "undefined") {
-	        el.focus();
-	        var range = el.createTextRange();
-	        range.collapse(false);
-	        range.select();
-	    }
-	}
-
-	var cellUpdater = _.debounce(function(cell, cellIndex){
-		var thePackage = {
-			theCell : cell, 
-			theBits : cellular[cellIndex].body
-		};
-
-		$http.post('/api/cellUpdate', thePackage)
-		   .success(function(data) {
-			   	console.log(data);
-			   	console.log('yeah!');
-		   })
-		   .error(function(data) {
-			   	console.log('Error: ' + data);
-			   	console.log('oh no!');
-		   });
-	}, 200);
-
-	$scope.sortableOptions = {
-	    axis: 'y',
-	    start: function(e, ui) {
-	    	e.stopPropagation();
-	    },
-	    update: function(e, ui) {
-	    	var that = e;
-	    	var theCell = that.target.parentNode.getAttribute('data-cellid');
-	    	var theCellIndex;
-	    	for (var i in cellular){
-				if (cellular[i]._id == theCell) theCellIndex = i;
-			}
-	    	cellUpdater(theCell, theCellIndex);
-	    }
-	  };
-
-	$scope.cellTitle = function(e){
-		lazyUpdater(cellular);
-	};
-
-	$scope.areaText = function(e){
-    	var that = e;
-
-		var theCell = that.target.parentNode.parentNode.parentNode.getAttribute('data-cellid');
-
-    	var theCellIndex;
-
-    	for (var i in cellular){
-			if (cellular[i]._id == theCell) theCellIndex = i;
-		}
-
-		if ((that.keyCode === 8) && (that.target.value == '')){
-			that.preventDefault();
-
-			var theSentencedIndex = that.target.parentNode.getAttribute('data-index')
-
-			$(that.target).parent().prev('.textarea-container').find('textarea').focus();
-
-			cellular[theCellIndex].body.splice(theSentencedIndex, 1);
-		}
-
-    	if (that.keyCode === 13){
-    		that.preventDefault();
-
-    		var theNewIndex = that.target.parentNode.getAttribute('data-index') + 1
-
-			var theNewBit = {
-				displayed: true,
-				type:'plainText',
-				content:''
-			};
-
-			cellular[theCellIndex].body.splice(theNewIndex, 0, theNewBit);
-
-			$(that.target).parent().next('.textarea-container').find('textarea').focus();
-		}
-
-		// if (that.keyCode === )
-
-		cellUpdater(theCell, theCellIndex);
-	}
-
-	
-
-	// CATEGORICAL.JS
-
-	$scope.catSelector = function(e, newCat){
-
-		console.log('WHAT')
-    	var that = e;
-
-		that.preventDefault();
-		that.stopPropagation();
-
-		var theCell = that.target.parentNode.parentNode.parentNode.getAttribute('data-cellid');
-
-    	var theCellIndex;
-
-    	for (var i in cellular){
-			if (cellular[i]._id == theCell){
-				cellular[i].category = newCat;
-			}
-		}
-
-		lazyUpdater(cellular);
-	}
 })
+
+// .directive('aTextArea', function() {
+//   return {
+//     require: 'ngModel',
+//     link: function(scope, element, attrs, ctrl) {
+//       // view -> model
+//       element.bind('blur', function() {
+//         scope.$apply(function() {
+//           ctrl.$setViewValue(element.html());
+//         });
+//       });
+
+//       // model -> view
+//       ctrl.$render = function() {
+//         element.html(ctrl.$viewValue);
+//       };
+
+//       // load init value from DOM
+//       ctrl.$render();
+//     }
+//   };
+// });
+
+
 
 
 

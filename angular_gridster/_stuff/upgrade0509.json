@@ -1,0 +1,110 @@
+db.testdatas.remove({});
+db.testdatas.insert({ "sizeX" : 2, "sizeY" : 2, "row" : 0, "col" : 0, category: 1, "gaze" : true, "wristwatch" : false, "addcell" : false, "list" : false, cellID: 1, "title" : "this is a title", "body" : 
+[
+	 "this is some text" 
+] })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 2, "row" : 0, "col" : 2, category: 1, "gaze" : false, "wristwatch" : true, "addcell" : false, "list" : false, cellID: 2, "title" : "this is a title", "body" : 
+[
+	 "this is some text" 
+] })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 0, "col" : 4, category: 1, "gaze" : false, "wristwatch" : false, "addcell" : true, "list" : false, cellID: 3, "title" : "this is a title", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"this is some text" },
+] })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 1, "col" : 4, category: 1, "gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, cellID: 4, "title" : "submission", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"http://www.thefwa.com/"},
+	 {displayed:true, type:'plainText', content:"it's nice that"},
+	 {displayed:true, type:'plainText', content:"wwwawards" },
+] })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 2, "row" : 0, "col" : 3, category: 1, "gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, cellID: 5, "title" : "typefaces i love", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"lato"},
+	 {displayed:true, type:'plainText', content:"anonymous pro"},
+	 {displayed:true, type:'plainText', content:"alegreya"},
+	 {displayed:true, type:'plainText', content:"roboto"},
+	 {displayed:true, type:'plainText', content:"karla"},
+	 {displayed:true, type:'plainText', content:"clear sans"},
+	 {displayed:true, type:'plainText', content:"signika"},
+	 {displayed:true, type:'plainText', content:"domine"},
+	 {displayed:true, type:'plainText', content:"six caps"},
+	 {displayed:true, type:'plainText', content:"michroma" }
+] })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 3, "row" : 2, "col" : 1, category: 1, "gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, cellID: 6, "title" : "tra.ject next steps", "body" : 
+[
+	{displayed:true, type:'plainText', content:"checkbox to 'complete'"},
+	{displayed:true, type:'plainText', content:"header expands vertically, not horizontally"},
+	{displayed:true, type:'plainText', content:"easy to drag points around?"},
+	{displayed:true, type:'plainText', content:"typographic refinement"},
+	{displayed:true, type:'plainText', content:"bar expands on hover"},
+	{displayed:true, type:'plainText', content:"categories?"},
+	{displayed:true, type:'plainText', content:"mobile view"},
+	{displayed:true, type:'plainText', content:"collapses, so columnseasy to drag"},
+	{displayed:true, type:'plainText', content:"cell expands as you type?"},
+	{displayed:true, type:'plainText', content:"content types?"},
+	{displayed:true, type:'plainText', content:"youtube"},
+	{displayed:true, type:'plainText', content:"soundcloud"},
+	{displayed:true, type:'plainText', content:"images"},
+	{displayed:true, type:'plainText', content:"links"},
+	{displayed:true, type:'plainText', content:"history of a cell?"},
+	{displayed:true, type:'plainText', content:"tab goes to closest cell"},
+	{displayed:true, type:'plainText', content:"or arrow to adjacent cell"},
+	{displayed:true, type:'plainText', content:"google login? :D" }
+] })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 3, "col" : 3, category: 1, cellID: 7, "title" : "Connect", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"cp@carlphilippebrenner.com"},
+],
+"gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, "__v" : 0 })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 2, "col" : 4, category: 1, cellID: 8, "title" : "inject next", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"endless scroll?!"},
+	 {displayed:true, type:'plainText', content:"http://tympanus.net/Tutorials/MediumStylePageTransition/#4"}
+	 
+],
+"gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, "__v" : 0  })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 2, "col" : 2, category: 1, cellID: 9, "title" : "WANT", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"http://www.ideapaint.com/products/ideapaint"},
+]
+, "gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, "__v" : 0 })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 3, "col" : 4, category: 1, cellID: 10, "title" : "Research", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"http://tympanus.net/Development/GammaGallery/"}
+],
+"gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, "__v" : 0 })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 3, "col" : 2, category: 1, cellID: 11, "title" : "RM goodness", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"boosta & atmos T - feeling inside"},
+	 {displayed:true, type:'plainText', content:"Pharrel - happy dnb remix"},
+	 {displayed:true, type:'plainText', content:"Macca & Loz Contreras – Always Yours (55)" }
+]
+, "gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, "__v" : 0  })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 3, "row" : 2, "col" : 0, category: 1, "gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, cellID: 12, "title" : "things I want to write", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"thoughts on being 'creative' for a living"},
+	 {displayed:true, type:'plainText', content:"so you've been forced to work on windows after being productive on osx for the past decade"},
+	 {displayed:true, type:'plainText', content:"what I would tell my 24 year old self, on the precipice of coming to CH (or, so you've been cursed to forever wander)"},
+	 {displayed:true, type:'plainText', content:"the psychology of purchasing a new cell phone plan"},
+	 {displayed:true, type:'plainText', content:"smooth jazz"},
+	 {displayed:true, type:'plainText', content:"arguing in another language"},
+	 {displayed:true, type:'plainText', content:"scarcity of music (ie bandcamp)" },
+] })
+
+db.testdatas.insert({ "sizeX" : 1, "sizeY" : 1, "row" : 2, "col" : 3, category: 1, cellID: 13, "title" : "READ", "body" : 
+[
+	 {displayed:true, type:'plainText', content:"http://css-tricks.com/codekit-2-0/" },
+],
+"gaze" : false, "wristwatch" : false, "addcell" : false, "list" : true, "__v" : 0 })
+db.testdatas.find({})

@@ -8,36 +8,25 @@ db.testdatas.insert(
 		wristwatch: false,
 		addcell:false,
 		list: true,
+		category:1,
 		cellID: 000,
 		title: "this is a title",
 		bitCount:7,
 		body: [
 		 	{ 
-		 		bitID:0,
-	 			opened: 123,
-				closed: null,
 				displayed: true,
-				order:3,
 				type:'plainText',
 				content:'this is some text, order 3'
 			},
 		 	{ 
-		 		bitID:1,
-	 			opened: 123,
-				closed: null,
 				displayed: true,
-				order:2,
 				type:'plainText',
-				content:'this is some text, order 2'
+				content:'this is some text, order 3'
 			},
 		 	{ 
-		 		bitID:2,
-	 			opened: 123,
-				closed: null,
 				displayed: true,
-				order:1,
 				type:'plainText',
-				content:'this is some text, order 1'
+				content:'this is some text, order 3'
 			}
 		]
 	}

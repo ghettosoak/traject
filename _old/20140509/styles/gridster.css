@@ -5,7 +5,7 @@
 .gridster {
 	position: relative;
 	margin: auto;
-	/*background: rgba(0, 0, 0, .1);*/
+	background: rgba(0, 0, 0, .1);
 	height: 0;
 	border-radius:10px;
 }
@@ -67,7 +67,6 @@
     background-color: #fff;
     border-color: #fff;
     opacity: 0.2;
-    border-radius:5px;
 }
 
 .gridster .gridster-item-moving,

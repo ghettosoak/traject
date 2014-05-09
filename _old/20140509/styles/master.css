@@ -41,10 +41,10 @@ html {
 
 body {
   margin: 0;
-  padding: 0px;
-  background-color: #024959;
+  padding: 10px 0px 0px;
+  background: #FDF4D7;
   font-family: u47;
-  color: #f2efdc; }
+  color: #444; }
 
 input, textarea {
   font-family: u47;
@@ -80,6 +80,7 @@ input, textarea {
     .grid .cell .wristwatch,
     .grid .cell .addCell,
     .grid .cell .list {
+      background-color: white;
       height: 100%;
       width: 100%;
       position: absolute;
@@ -91,21 +92,17 @@ input, textarea {
       cursor: all-scroll; }
   .grid .cell .gaze {
     background-size: cover;
-    background-position: center center;
-    border: 4px #f2efdc solid; }
+    background-position: center center; }
     .grid .cell .gaze .logo {
       position: absolute;
-      height: 120px;
-      width: 120px;
+      height: 100px;
+      width: 100px;
       top: 50%;
       left: 50%;
-      margin: -60px 0px 0px -60px;
+      margin: -50px 0px 0px -50px;
       background-image: url(../images/logo.png);
-      background-size: 100px 100px;
-      background-position: center center;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 110px;
-      background-repeat: no-repeat; }
+      background-size: cover;
+      background-position: center center; }
   .grid .cell .wristwatch {
     display: table; }
     .grid .cell .wristwatch .status {
@@ -293,7 +290,7 @@ input, textarea {
     border-radius: 1000px; }
     .grid .cell .addCell span {
       position: absolute;
-      background-color: #363636; }
+      background-color: #444444; }
     .grid .cell .addCell .vert {
       height: 50%;
       width: 1px;
@@ -306,188 +303,40 @@ input, textarea {
       top: 50%;
       left: 50%;
       margin: -1px 0px 0px -25%; }
-  .grid .cell .list {
-    -webkit-transition: background-color 0.2s ease-in-out;
-    -moz-transition: background-color 0.2s ease-in-out;
-    -o-transition: background-color 0.2s ease-in-out;
-    transition: background-color 0.2s ease-in-out;
-    cursor: text; }
-    .grid .cell .list .textarea-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 5px; }
-      .grid .cell .list .textarea-container textarea, .grid .cell .list .textarea-container .sizer {
-        overflow: hidden;
-        width: 100%; }
-      .grid .cell .list .textarea-container textarea {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        height: 100%;
-        resize: none;
-        white-space: normal;
-        -webkit-transition: padding-left 0.1s ease-in-out, background-color 0.2s ease-in-out;
-        -moz-transition: padding-left 0.1s ease-in-out, background-color 0.2s ease-in-out;
-        -o-transition: padding-left 0.1s ease-in-out, background-color 0.2s ease-in-out;
-        transition: padding-left 0.1s ease-in-out, background-color 0.2s ease-in-out;
-        color: #f2efdc; }
-      .grid .cell .list .textarea-container .sizer {
-        visibility: hidden;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        overflow-wrap: break-word; }
-    .grid .cell .list .cellHead {
-      position: relative;
-      float: left;
-      width: 100%;
-      top: 0px;
-      left: 0px;
-      z-index: 10;
-      border-bottom: 1px #f2efdc solid; }
-      .grid .cell .list .cellHead textarea, .grid .cell .list .cellHead .sizer {
-        min-height: 33px;
-        padding: 8px 10px 6px 25px; }
-      .grid .cell .list .cellHead .title {
-        border: 0px;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        font-family: u67;
-        font-size: 16px;
-        color: #f2efdc; }
-        .grid .cell .list .cellHead .title:focus {
-          outline: none; }
-    .grid .cell .list .cellEdit {
-      position: relative;
-      float: left;
-      width: 100%;
-      top: 0px;
-      left: 0px;
-      padding: 10px 10px 10px 15px;
-      color: #f2efdc;
-      text-align: left;
-      overflow: scroll; }
-      .grid .cell .list .cellEdit textarea, .grid .cell .list .cellEdit .sizer {
-        min-height: 17px;
-        font-size: 14px; }
-      .grid .cell .list .cellEdit textarea {
-        padding: 0px 0px 0px 20px; }
-      .grid .cell .list .cellEdit .sizer {
-        padding-left: 20px; }
-      .grid .cell .list .cellEdit .grabber {
-        position: absolute;
-        left: 0px;
-        width: 30px;
-        height: 25px;
-        cursor: row-resize;
-        z-index: 1; }
-        .grid .cell .list .cellEdit .grabber span {
-          background-color: white;
-          position: absolute;
-          height: 15px;
-          width: 1px;
-          top: 0px;
-          left: 10px;
-          border-radius: 0px;
-          -webkit-transition: all 0.1s ease-in-out;
-          -moz-transition: all 0.1s ease-in-out;
-          -o-transition: all 0.1s ease-in-out;
-          transition: all 0.1s ease-in-out; }
-      .grid .cell .list .cellEdit .grabbed {
-        padding-left: 25px; }
-        .grid .cell .list .cellEdit .grabbed .grabber span {
-          width: 10px;
-          height: 10px;
-          left: 6px;
-          top: 3px;
-          border-radius: 50px; }
-        .grid .cell .list .cellEdit .grabbed textarea {
-          padding-left: 25px; }
-        .grid .cell .list .cellEdit .grabbed .sizer {
-          left: -26px;
-          padding-left: 0px; }
-    .grid .cell .list .grab {
-      position: absolute;
-      width: 15px;
+  .grid .cell .list .cellHead {
+    position: absolute;
+    height: 40px;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+    border-bottom: 1px #444444 solid; }
+    .grid .cell .list .cellHead .title {
+      border: 0px;
       height: 100%;
-      left: 0px;
+      width: 100%;
+      position: absolute;
       top: 0px;
-      background-color: #f2efdc;
-      z-index: 10; }
-      .grid .cell .list .grab .catOpener,
-      .grid .cell .list .grab .catSelect {
-        position: absolute;
-        cursor: pointer; }
-      .grid .cell .list .grab .catOpener {
-        height: 20px;
-        width: 14px;
-        bottom: 0px;
-        left: 0px;
-        z-index: 101;
-        background-repeat: no-repeat; }
-        .grid .cell .list .grab .catOpener:before {
-          content: '';
-          position: absolute;
-          top: 5px;
-          left: 4px;
-          width: 0px;
-          height: 0px;
-          border-style: solid;
-          border-width: 5px 0 5px 7px;
-          border-color: transparent transparent transparent #363636;
-          -webkit-transition: transform 0.2s ease-in-out;
-          -moz-transition: transform 0.2s ease-in-out;
-          -o-transition: transform 0.2s ease-in-out;
-          transition: transform 0.2s ease-in-out; }
-      .grid .cell .list .grab .catSelect {
-        top: 0px;
-        z-index: 100;
-        left: -14px;
-        height: 100%;
-        width: 14px;
-        padding-bottom: 20px;
-        -webkit-transition: left 0.2s ease-in-out;
-        -moz-transition: left 0.2s ease-in-out;
-        -o-transition: left 0.2s ease-in-out;
-        transition: left 0.2s ease-in-out; }
-        .grid .cell .list .grab .catSelect span {
-          height: 33.3333%;
-          width: 100%;
-          display: block;
-          position: relative;
-          float: left; }
-        .grid .cell .list .grab .catSelect .cat01 {
-          background-color: #037e8c; }
-        .grid .cell .list .grab .catSelect .cat02 {
-          background-color: #e74c30; }
-        .grid .cell .list .grab .catSelect .cat03 {
-          background-color: #363636; }
-      .grid .cell .list .grab.catSelecting .catOpener:before {
-        -webkit-transform: rotate(-90deg);
-        -moz-transform: rotate(-90deg);
-        -ms-transform: rotate(-90deg);
-        -o-transform: rotate(-90deg);
-        transform: rotate(-90deg); }
-      .grid .cell .list .grab.catSelecting .catSelect {
-        left: 0px; }
-
-.color00 {
-  background-color: #f2efdc;
-  color: #363636; }
-
-.color01 {
-  background-color: #037e8c; }
-  .color01 textarea {
-    background-color: #037e8c; }
-
-.color02 {
-  background-color: #e74c30; }
-  .color02 textarea {
-    background-color: #e74c30; }
-
-.color03 {
-  background-color: #363636; }
-  .color03 textarea {
-    background-color: #363636; }
+      left: 0px;
+      padding: 10px 10px 10px 25px;
+      font-family: u67;
+      font-size: 16px;
+      color: #444444; }
+      .grid .cell .list .cellHead .title:focus {
+        outline: none; }
+  .grid .cell .list .cellEdit {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    padding: 50px 10px 10px 25px;
+    color: #444444; }
+  .grid .cell .list .grab {
+    position: absolute;
+    width: 15px;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background-color: #444444;
+    z-index: 10; }

@@ -1,0 +1,38 @@
+<div gridster="gridsterOpts" class="grid">
+	<ul>
+		<li class="cell" gridster-item="item" ng-repeat="item in cells" >
+			<div class="gaze" ng-if="item.gaze" ng-style="{ 'background-image' : gaze }">
+				<div class="logo"></div>
+			</div>
+
+			<div class="wristWatch" ng-if="item.wristwatch">
+				<span class="status" ng-class="status"></span>
+
+				<p class="wx">
+					<span class="deg" ng-bind="temp"></span>
+					<span class="icon" ng-class="weather"></span>
+				</p>
+
+				<h1 class="time" ng-bind="time"></h1>
+
+				<p class="date">
+					<span class="today" ng-bind="today"></span>
+					<span ng-bind="date"></span>
+				</p>
+			</div>
+
+			<div class="addCell" ng-if="item.addcell" ng-click="addCell()" >
+				<span class="vert"></span>
+				<span class="horiz"></span>
+			</div>
+
+			<div class="list" ng-if="item.list">
+				<div class="cellHead">
+					<input class="title" type="text" ng-model="item.title"/>
+				</div>
+				<textarea class="cellEdit" ng-model="item.body" aTextArea ng-keyup="textArea($event.keyCode)"></textarea>
+				<span class="grab" ng-dblClick="removeCell(item._id)"></span>
+			</div>
+		</li>
+	</ul>
+</div>
