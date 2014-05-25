@@ -293,7 +293,7 @@ input, textarea {
     border-radius: 1000px; }
     .grid .cell .addCell span {
       position: absolute;
-      background-color: #363636; }
+      background-color: #555555; }
     .grid .cell .addCell .vert {
       height: 50%;
       width: 1px;
@@ -317,7 +317,6 @@ input, textarea {
       width: 100%;
       padding-bottom: 5px; }
       .grid .cell .list .textarea-container textarea, .grid .cell .list .textarea-container .sizer {
-        overflow: hidden;
         width: 100%; }
       .grid .cell .list .textarea-container textarea {
         position: absolute;
@@ -346,7 +345,8 @@ input, textarea {
       border-bottom: 1px #f2efdc solid; }
       .grid .cell .list .cellHead textarea, .grid .cell .list .cellHead .sizer {
         min-height: 33px;
-        padding: 8px 10px 6px 25px; }
+        padding: 8px 10px 6px 25px;
+        font-family: u67; }
       .grid .cell .list .cellHead .title {
         border: 0px;
         height: 100%;
@@ -354,7 +354,6 @@ input, textarea {
         position: absolute;
         top: 0px;
         left: 0px;
-        font-family: u67;
         font-size: 16px;
         color: #f2efdc; }
         .grid .cell .list .cellHead .title:focus {
@@ -367,22 +366,47 @@ input, textarea {
       left: 0px;
       padding: 10px 10px 10px 15px;
       color: #f2efdc;
-      text-align: left;
-      overflow: scroll; }
+      text-align: left; }
       .grid .cell .list .cellEdit textarea, .grid .cell .list .cellEdit .sizer {
         min-height: 17px;
-        font-size: 14px; }
-      .grid .cell .list .cellEdit textarea {
+        font-size: 14px;
+        line-height: 17px; }
+      .grid .cell .list .cellEdit .indent0 .grabber {
+        left: 0px; }
+      .grid .cell .list .cellEdit .indent0 textarea {
         padding: 0px 0px 0px 20px; }
+      .grid .cell .list .cellEdit .indent0 .sizer {
+        padding-left: 20px; }
+      .grid .cell .list .cellEdit .indent0.grabbed textarea {
+        padding: 0px 0px 0px 25px; }
+      .grid .cell .list .cellEdit .indent1 .grabber {
+        left: 10px; }
+      .grid .cell .list .cellEdit .indent1 textarea {
+        padding: 0px 0px 0px 30px; }
+      .grid .cell .list .cellEdit .indent1 .sizer {
+        padding-left: 30px; }
+      .grid .cell .list .cellEdit .indent1.grabbed textarea {
+        padding: 0px 0px 0px 35px; }
+      .grid .cell .list .cellEdit .indent2 .grabber {
+        left: 20px; }
+      .grid .cell .list .cellEdit .indent2 textarea {
+        padding: 0px 0px 0px 40px; }
+      .grid .cell .list .cellEdit .indent2 .sizer {
+        padding-left: 40px; }
+      .grid .cell .list .cellEdit .indent2.grabbed textarea {
+        padding: 0px 0px 0px 45px; }
       .grid .cell .list .cellEdit .sizer {
         padding-left: 20px; }
       .grid .cell .list .cellEdit .grabber {
         position: absolute;
-        left: 0px;
         width: 30px;
         height: 25px;
         cursor: row-resize;
-        z-index: 1; }
+        z-index: 1;
+        -webkit-transition: left 0.1s ease-in-out;
+        -moz-transition: left 0.1s ease-in-out;
+        -o-transition: left 0.1s ease-in-out;
+        transition: left 0.1s ease-in-out; }
         .grid .cell .list .cellEdit .grabber span {
           background-color: white;
           position: absolute;
@@ -395,19 +419,14 @@ input, textarea {
           -moz-transition: all 0.1s ease-in-out;
           -o-transition: all 0.1s ease-in-out;
           transition: all 0.1s ease-in-out; }
-      .grid .cell .list .cellEdit .grabbed {
+      .grid .cell .list .cellEdit .grabbed .grabber span {
+        width: 10px;
+        height: 10px;
+        left: 6px;
+        top: 3px;
+        border-radius: 50px; }
+      .grid .cell .list .cellEdit .grabbed .sizer {
         padding-left: 25px; }
-        .grid .cell .list .cellEdit .grabbed .grabber span {
-          width: 10px;
-          height: 10px;
-          left: 6px;
-          top: 3px;
-          border-radius: 50px; }
-        .grid .cell .list .cellEdit .grabbed textarea {
-          padding-left: 25px; }
-        .grid .cell .list .cellEdit .grabbed .sizer {
-          left: -26px;
-          padding-left: 0px; }
     .grid .cell .list .grab {
       position: absolute;
       width: 15px;
@@ -426,21 +445,30 @@ input, textarea {
         bottom: 0px;
         left: 0px;
         z-index: 101;
-        background-repeat: no-repeat; }
-        .grid .cell .list .grab .catOpener:before {
-          content: '';
+        background-color: #f2efdc;
+        border-top: 1px #f2efdc solid;
+        -webkit-transition: background-color 0.2s ease-in-out;
+        -moz-transition: background-color 0.2s ease-in-out;
+        -o-transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out; }
+        .grid .cell .list .grab .catOpener > span {
           position: absolute;
-          top: 5px;
+          height: 7px;
+          width: 7px;
+          top: 6px;
           left: 4px;
-          width: 0px;
-          height: 0px;
-          border-style: solid;
-          border-width: 5px 0 5px 7px;
-          border-color: transparent transparent transparent #363636;
-          -webkit-transition: transform 0.2s ease-in-out;
-          -moz-transition: transform 0.2s ease-in-out;
-          -o-transition: transform 0.2s ease-in-out;
-          transition: transform 0.2s ease-in-out; }
+          border-radius: 10px;
+          display: block;
+          overflow: hidden; }
+          .grid .cell .list .grab .catOpener > span span {
+            position: relative;
+            float: left;
+            height: 3px;
+            width: 9px;
+            -webkit-transition: background-color 0.2s ease-in-out;
+            -moz-transition: background-color 0.2s ease-in-out;
+            -o-transition: background-color 0.2s ease-in-out;
+            transition: background-color 0.2s ease-in-out; }
       .grid .cell .list .grab .catSelect {
         top: 0px;
         z-index: 100;
@@ -459,35 +487,43 @@ input, textarea {
           position: relative;
           float: left; }
         .grid .cell .list .grab .catSelect .cat01 {
-          background-color: #037e8c; }
+          background-color: #148490; }
         .grid .cell .list .grab .catSelect .cat02 {
           background-color: #e74c30; }
         .grid .cell .list .grab .catSelect .cat03 {
-          background-color: #363636; }
-      .grid .cell .list .grab.catSelecting .catOpener:before {
-        -webkit-transform: rotate(-90deg);
-        -moz-transform: rotate(-90deg);
-        -ms-transform: rotate(-90deg);
-        -o-transform: rotate(-90deg);
-        transform: rotate(-90deg); }
+          background-color: #555555; }
+      .grid .cell .list .grab.catSelecting .catOpener span {
+        background-color: #f2efdc; }
       .grid .cell .list .grab.catSelecting .catSelect {
         left: 0px; }
 
 .color00 {
   background-color: #f2efdc;
-  color: #363636; }
+  color: #555555; }
 
 .color01 {
-  background-color: #037e8c; }
+  background-color: #148490; }
   .color01 textarea {
-    background-color: #037e8c; }
+    background-color: #148490; }
+  .color01 .catOpener span {
+    background-color: #148490; }
+  .color01 .catSelecting .catOpener {
+    background-color: #148490 !important; }
 
 .color02 {
   background-color: #e74c30; }
   .color02 textarea {
     background-color: #e74c30; }
+  .color02 .catOpener span {
+    background-color: #e74c30; }
+  .color02 .catSelecting .catOpener {
+    background-color: #e74c30 !important; }
 
 .color03 {
-  background-color: #363636; }
+  background-color: #555555; }
   .color03 textarea {
-    background-color: #363636; }
+    background-color: #555555; }
+  .color03 .catOpener span {
+    background-color: #555555; }
+  .color03 .catSelecting .catOpener {
+    background-color: #555555 !important; }

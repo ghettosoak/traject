@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "ngMeteor": {}
+    },
+    "packages": {
+      "ngMeteor": {
+        "git": "https://github.com/loneleeandroo/ngMeteor.git",
+        "tag": "v0.1.22",
+        "commit": "170d9309fe16d7d38bffc1a6ce42a379be27cdaa"
+      }
+    }
+  }
+}

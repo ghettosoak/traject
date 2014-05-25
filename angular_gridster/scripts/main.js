@@ -2,6 +2,10 @@
 
 var cellular; 
 var retryUpdate;
+var wide = 5;
+var sterGrid;
+
+var populator
 
 angular.module('app', [
 	'gridster',
@@ -11,6 +15,32 @@ angular.module('app', [
 ])
 
 .controller('MainCtrl', function($scope, $http, $interval, $cookieStore) {
+
+	// console.log($gridster);
+
+
+
+	populator = function(){
+		$http.post('/api/populator')
+		   .success(function(data) {
+			   	console.log(data);
+			   	// console.log('CELLULAR UPDATE');
+			   	// $scope.status = 'online';
+
+			   	// $cookieStore.put('status','online');
+			   	// clearInterval(retryUpdate);
+		   })
+		   .error(function(data) {
+			   	console.log('Error: ' + data);
+			   	// console.log('oh no!');
+			   	// $scope.status = 'local';
+			   	// $cookieStore.put('status','local');
+
+			   	// retryUpdate = setInterval(function(){
+			   	// 	lazyUpdater(thePackage);
+			   	// }, 10000);
+		   });
+	}
 
 
 	var initialGet = function(){
@@ -60,7 +90,7 @@ angular.module('app', [
 		$http.post('/api/collect', thePackage)
 		   .success(function(data) {
 			   	console.log(data);
-			   	console.log('yeah!');
+			   	console.log('CELLULAR UPDATE');
 			   	$scope.status = 'online';
 
 			   	$cookieStore.put('status','online');
@@ -78,12 +108,16 @@ angular.module('app', [
 		   });
 	}, 250);
 
-	$scope.gridsterOpts = {
+	sterGrid = $scope.gridsterOpts = {
 		margins: [10, 10],
-		mobileBreakPoint: 768,
-		columns: 5,
+		// mobileBreakPoint: 768,
+		// columns: 3,
+		maxColumns: 4,
+		minColumns:3,
 		defaultSizeX: 1,
 		defaultSizeY: 1,
+		colWidth:200,
+		rowHeight:200,
 		draggable: {
 			handle: '.grab',
 			start: function(event, uiWidget, $element) {
@@ -92,8 +126,16 @@ angular.module('app', [
 			stop: function(event, uiWidget, $element) {
 				lazyUpdater(cellular);
 			}
-		}
+		},
+		resizable: {
+			stop: function(event, uiWidget, $element) {
+				console.log('RESIZED')
+				lazyUpdater(cellular);
+			}
+		},
 	};
+
+	console.log($scope)
 
 	setInterval(function(){
 		lazyUpdater(cellular);
@@ -219,7 +261,7 @@ angular.module('app', [
 		$http.post('/api/cellUpdate', thePackage)
 		   .success(function(data) {
 			   	console.log(data);
-			   	console.log('yeah!');
+			   	console.log('GRANULAR UPDATE');
 		   })
 		   .error(function(data) {
 			   	console.log('Error: ' + data);
@@ -233,6 +275,8 @@ angular.module('app', [
 	    	e.stopPropagation();
 	    },
 	    update: function(e, ui) {
+	    	console.log(e)
+	    	console.log(ui)
 	    	var that = e;
 	    	var theCell = that.target.parentNode.getAttribute('data-cellid');
 	    	var theCellIndex;
@@ -241,24 +285,64 @@ angular.module('app', [
 			}
 	    	cellUpdater(theCell, theCellIndex);
 	    }
-	  };
+	};
 
 	$scope.cellTitle = function(e){
 		lazyUpdater(cellular);
 	};
 
-	$scope.areaText = function(e){
+	$scope.bitKiller = function(e){
+		var that = e;
+
+		var theCell = that.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-cellid');
+
+    	var theCellIndex;
+
+    	// WHICH CELL ARE WE IN
+    	for (var i in cellular){
+			if (cellular[i]._id == theCell) theCellIndex = i;
+		}
+
+		var theSentencedIndex = that.target.parentNode.parentNode.getAttribute('data-index')
+
+		$(that.target).parent().prev('.textarea-container').find('textarea').focus();
+
+		localStorage.setItem('traject' , JSON.stringify(thePackage) );
+
+		cellular[theCellIndex].body.splice(theSentencedIndex, 1);
+
+		cellUpdater(theCell, theCellIndex);
+	}
+
+	var map = [];
+
+	$scope.areaText = function(e, bit){
     	var that = e;
+
+    	map[that.keyCode] = that.type == 'keydown';
 
 		var theCell = that.target.parentNode.parentNode.parentNode.getAttribute('data-cellid');
 
     	var theCellIndex;
 
+    	// WHICH CELL ARE WE IN
     	for (var i in cellular){
 			if (cellular[i]._id == theCell) theCellIndex = i;
 		}
 
-		if ((that.keyCode === 8) && (that.target.value == '')){
+		// GET CARET
+		var currentCaret = $(that.target)[0].selectionStart;
+		var theValue = that.target.value;
+
+		var $theSizer = $(that.target).siblings('.sizer')
+
+		$theSizer.html(
+			theValue.substring(0, currentCaret) + 
+			'<span class="hiddenCaret"></span>' + 
+			theValue.substring(currentCaret, theValue.length)
+		)
+
+		if (map[8] && (that.target.value == '')){ // DELETE WHEN EMPTY
 			that.preventDefault();
 
 			var theSentencedIndex = that.target.parentNode.getAttribute('data-index')
@@ -268,28 +352,81 @@ angular.module('app', [
 			cellular[theCellIndex].body.splice(theSentencedIndex, 1);
 		}
 
-    	if (that.keyCode === 13){
+    	else if (map[13]){ // ENTER KEY
     		that.preventDefault();
 
-    		var theNewIndex = that.target.parentNode.getAttribute('data-index') + 1
+    		var theNewIndex = parseInt(that.target.parentNode.getAttribute('data-index')) + 1;
+
+    		console.log(cellular[theCellIndex].body.indexOf(bit))
 
 			var theNewBit = {
 				displayed: true,
 				type:'plainText',
+				tabCount:0,
 				content:''
 			};
 
 			cellular[theCellIndex].body.splice(theNewIndex, 0, theNewBit);
 
-			$(that.target).parent().next('.textarea-container').find('textarea').focus();
+			setTimeout(function(){
+				$(that.target).parent().next('.textarea-container').find('textarea').focus();
+			}, 50);
 		}
 
-		// if (that.keyCode === )
+		else if (map[9] && map[16]){ // SHIFT + TAB
+			that.preventDefault();
+
+			var theIndentingIndex = that.target.parentNode.getAttribute('data-index')
+			if (cellular[theCellIndex].body[theIndentingIndex].tabCount > 0)
+				cellular[theCellIndex].body[theIndentingIndex].tabCount --;
+		}
+
+		else if (map[9]){ // TAB
+			that.preventDefault();
+
+			var theIndentingIndex = that.target.parentNode.getAttribute('data-index')
+			if (cellular[theCellIndex].body[theIndentingIndex].tabCount < 2)
+				cellular[theCellIndex].body[theIndentingIndex].tabCount ++;
+		}		
+
+		else if (map[38]){ // UP ARROW
+
+			if ($theSizer.find('.hiddenCaret').position().top < 14){
+				that.preventDefault();
+
+				var $prevTA = $(that.target).parent().prev('.textarea-container').find('textarea');
+				
+				var prevTACount = $prevTA.val().length;
+
+				console.log(prevTACount-currentCaret);
+
+				$prevTA.focus()[0]
+				.setSelectionRange(10000, 10000);
+			}
+
+		}
+
+		else if (map[40]){ // DOWN ARROW
+
+			if ($theSizer.find('.hiddenCaret').position().top > $theSizer.height() - 28){
+				that.preventDefault();
+
+				var $nextTA = $(that.target).parent().next('.textarea-container').find('textarea');
+				
+				var nextTACount = $nextTA.val().length;
+
+				console.log(nextTACount-currentCaret);
+
+				$nextTA.focus()[0]
+				.setSelectionRange(nextTACount-currentCaret, nextTACount-currentCaret);
+			}
+
+		}
 
 		cellUpdater(theCell, theCellIndex);
 	}
 
-	
+
 
 	// CATEGORICAL.JS
 
@@ -315,7 +452,22 @@ angular.module('app', [
 	}
 })
 
+.directive('resizable', function($window) {
+	return function($scope) {
+		$scope.initializeWindowSize = function() {
+			$scope.windowHeight = $window.innerHeight;
+			$scope.windowWidth  = $window.innerWidth;
+			console.log('WHOA')
+		};
+		angular.element($window).bind("resize", function() {
+			$scope.initializeWindowSize();
+			$scope.$apply();
 
+			
+		});
+		$scope.initializeWindowSize();
+	}
+});
 
 
 

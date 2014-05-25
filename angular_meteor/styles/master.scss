@@ -1,0 +1,743 @@
+@import 'lib/jquery.gridster.css';
+@import 'lib/medium.css';
+
+@font-face {
+    font-family: 'u47';
+    src: url('../type/u47/2760F4_0_0.eot');
+    src: url('../type/u47/2760F4_0_0.eot?#iefix') format('embedded-opentype'),
+         url('../type/u47/2760F4_0_0.woff') format('woff'),
+         url('../type/u47/2760F4_0_0.ttf') format('truetype'),
+         url('../type/u47/2760F4_0_0.svg#wf') format('svg');
+}
+
+
+@font-face {
+    font-family: 'u39';
+    src: url('../type/u39/276103_0_0.eot');
+    src: url('../type/u39/276103_0_0.eot?#iefix') format('embedded-opentype'),
+         url('../type/u39/276103_0_0.woff') format('woff'),
+         url('../type/u39/276103_0_0.ttf') format('truetype'),
+         url('../type/u39/276103_0_0.svg#wf') format('svg');
+}
+ 
+  
+@font-face {
+    font-family: 'u67';
+    src: url('../type/u67/276103_1_0.eot');
+    src: url('../type/u67/276103_1_0.eot?#iefix') format('embedded-opentype'),
+         url('../type/u67/276103_1_0.woff') format('woff'),
+         url('../type/u67/276103_1_0.ttf') format('truetype'),
+         url('../type/u67/276103_1_0.svg#wf') format('svg');
+}
+ 
+  
+@font-face {
+    font-family: 'wxFont';
+    src: url('../type/wx/weathericons-regular-webfont.eot');
+    src: url('../type/wx/weathericons-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../type/wx/weathericons-regular-webfont.woff') format('woff'),
+         url('../type/wx/weathericons-regular-webfont.ttf') format('truetype'),
+         url('../type/wx/weathericons-regular-webfont.svg#wf') format('svg');
+}
+
+
+
+$spritesheet_width:2px;
+$spritesheet_cell_width:50px;
+
+@mixin iconInclude(){
+   background-image:url(../images/spritesheet.png);
+    .lt-ie9 &, .no-svg & {
+//        background-image:url(../images/spritesheet_1x.png);
+    }
+}
+
+// useful for when we only need to resize our icons between layouts
+// @width = the width of the space you need to fill
+@mixin iconSize($width){
+    background-size:$width*$spritesheet_width auto;
+}
+
+
+// and here is where the magic happens on the spritesheet.
+// @width = the width of the space you need to fill (yes, it's repeated)
+// @posX = the X position of the desired icon on the icon grid
+// @posY = the Y position of the desired icon on the icon grid
+@mixin iconPlace($width, $posX, $posY) {
+    background-position: -$posX*$width -$posY*$width;
+}
+
+// this is an experimental mixin for placing logos and images included on the spritesheet.
+// to use it, please put your logo or icon PRECISELY how large it should be displayed on the page
+// at the TOP LEFT CORNER of a row, all the way at the BEGINNING. then, it will be perfect for IE8! :D
+@mixin imagePlace($steps){
+    background-size:$spritesheet_width*$spritesheet_cell_width auto;
+    background-position: 0px -$steps*$spritesheet_cell_width;
+}
+
+@mixin transition($what){
+	-webkit-transition: $what;
+	-moz-transition: $what;
+	-o-transition: $what;
+	transition: $what;
+}
+
+@mixin transform-origin($where){
+	-webkit-transform-origin: $where;
+	-moz-transform-origin: $where;
+	-o-transform-origin: $where;
+	transform-origin: $where;
+}
+
+@mixin transform($what){
+	-webkit-transform: $what;
+	-moz-transform:    $what;
+	-ms-transform:     $what;
+	-o-transform:      $what;
+	transform:         $what;
+}
+
+
+
+$active: #F2EFDC;
+$bg: #024959;
+
+$color01: #148490;
+$color02: #E74C30;
+$color03: #555555;
+
+$light: $active;
+$dark: $color03;
+
+
+
+::selection {
+	/*background: #;*/
+}
+
+::-moz-selection {
+	/*background: #;*/
+}
+
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+a img {
+	border: none;
+}
+
+html {
+	height: 100%;
+	font-family: u47;
+	font-size:16px;
+}
+
+// body {
+// 	position: relative;
+// 	height:100%;
+// 	margin: 0px;
+// 	// border:10px $cell solid;
+
+// 	background-color:$active;
+// }
+
+body {
+	margin: 0;
+	padding: 10px;
+	background-color: $bg;
+	font-family: u47;
+	color: $active;
+}
+
+input, textarea {
+	font-family: u47;
+	font-size: 14px;
+	padding: 2px;
+	margin:0px;
+	border:0px;
+	width:100%;
+	outline:0px;
+}
+
+.container {
+	margin: auto;
+	// max-width: 1024px;
+}
+
+#master{
+	position: absolute;
+	top:0px;
+	left:0px;
+	height:100%;
+	width:100%;
+}
+
+.addCell{
+	cursor:pointer;
+}
+
+.grid{
+	margin:auto;
+
+	ul{
+	 	padding:0px;
+	 	margin:0px auto;
+	 	width:100%;
+
+	 	@media screen and (min-width: 1 * 210px) { width: 1 * 210px ;}
+	 	@media screen and (min-width: 2 * 210px) { width: 2 * 210px ;}
+	 	@media screen and (min-width: 3 * 210px) { width: 3 * 210px ;}
+	 	@media screen and (min-width: 4 * 210px) { width: 4 * 210px ;}
+	 	@media screen and (min-width: 5 * 210px) { width: 5 * 210px ;}
+	 	@media screen and (min-width: 6 * 210px) { width: 6 * 210px ;}
+	 	@media screen and (min-width: 7 * 210px) { width: 7 * 210px ;}
+	 	@media screen and (min-width: 8 * 210px) { width: 8 * 210px ;}
+	}
+
+	.cell{
+ 		list-style: none;
+ 		margin:0px;
+ 		border-radius: 5px;
+ 		overflow: hidden;
+ 		height:200px;
+ 		width:200px;
+
+
+ 		.gaze,
+ 		.wristwatch,
+ 		.addCell,
+ 		.list{
+ 			height:100%;
+ 			width:100%;
+ 			position: absolute;
+ 			top:0px;
+ 			left:0px;
+		}
+
+		.gaze,
+		.wristwatch,
+		.list .grab{
+			cursor: all-scroll;
+		}
+
+		&.ui-resizable-resizing{
+			@include transition(all .1s ease-in-out);
+		}
+ 	}
+
+ 	.cell .gaze{
+ 		background-size:cover;
+ 		background-position: center center;
+ 		border:4px $light solid;
+
+ 		.logo{
+ 			position: absolute;
+ 			height: 120px;
+ 			width: 120px;
+ 			top: 50%;
+ 			left: 50%;
+ 			margin: -60px 0px 0px -60px;
+ 			background-image: url(../images/logo.png);
+ 			background-size: 100px 100px;
+ 			background-position: center center;
+ 			background-color: rgba(0,0,0,.5);
+ 			border-radius: 110px;
+ 			background-repeat: no-repeat;
+ 		}
+ 	}
+
+ 	.cell .wristwatch{
+ 		display:table;
+
+ 		.status{
+ 			position:absolute;
+ 			top:5px;
+ 			left:5px;
+ 			width:25px;
+ 			height:25px;
+ 			opacity:0;
+
+ 			@include iconInclude;
+ 			@include iconSize(25);
+
+ 			&.online,
+ 			&.local{
+ 				opacity:1;
+ 			}
+
+ 			&.online{
+ 				@include iconPlace(25, 0, 0);
+ 			}
+
+ 			&.local{
+ 				@include iconPlace(25, 1, 0);
+ 			}
+ 		}
+
+ 		.wx, .date{
+ 			position: absolute;
+ 			font-size:14px;
+ 			margin:0px;
+ 		}
+
+ 		.wx{
+ 			top:5px;
+ 			right:5px;
+
+ 			.deg, .icon{
+ 				position: relative;
+ 				float:right;
+ 			}
+
+ 			.deg{
+ 				margin: 2px 0px 0px 5px;	
+ 				&:after{
+ 					content: "\00b0";
+ 				}
+ 			}
+ 			
+ 			.icon:before{
+				height:100%;
+				width:100%;
+				display:block;
+				font-family: wxFont;
+ 			}
+
+ 			.w_day_200:before,
+ 			.w_day_201:before,
+ 			.w_day_202:before,
+ 			.w_day_210:before,
+ 			.w_day_211:before,
+ 			.w_day_212:before,
+ 			.w_day_221:before,
+ 			.w_day_230:before,
+ 			.w_day_231:before,
+ 			.w_day_232:before{content:"\f00e";}
+
+ 			.w_day_300:before,
+ 			.w_day_301:before,
+ 			.w_day_302:before,
+ 			.w_day_310:before,
+ 			.w_day_311:before,
+ 			.w_day_312:before,
+ 			.w_day_321:before{content:"\f00b";}
+
+ 			.w_day_500:before,
+ 			.w_day_501:before,
+ 			.w_day_502:before,
+ 			.w_day_503:before,
+ 			.w_day_504:before,
+ 			.w_day_511:before,
+ 			.w_day_520:before,
+ 			.w_day_521:before,
+ 			.w_day_522:before{content:"\f009";}
+
+ 			.w_day_600:before,
+ 			.w_day_601:before,
+ 			.w_day_602:before,
+ 			.w_day_611:before,
+ 			.w_day_621:before{content:"\f00a";}
+
+ 			.w_day_701:before,
+ 			.w_day_711:before,
+ 			.w_day_721:before,
+ 			.w_day_731:before,
+ 			.w_day_741:before{content:"\f003";}
+
+ 			.w_day_800:before{content:"\f00d";}
+ 			.w_day_801:before{content:"\f002";}
+ 			.w_day_802:before{content:"\f002";}
+ 			.w_day_803:before{content:"\f002";}
+ 			.w_day_804:before{content:"\f013";}
+
+ 			.w_day_900:before{content:"\f056";}
+ 			.w_day_901:before{content:"\f050";}
+ 			.w_day_902:before{content:"\f050";}
+ 			.w_day_903:before{content:"\f053";}
+ 			.w_day_904:before{content:"\f055";}
+ 			.w_day_905:before{content:"\f021";}
+ 			.w_day_906:before{content:"\f01d";}
+
+
+
+ 			.w_night_200:before,
+ 			.w_night_201:before,
+ 			.w_night_202:before,
+ 			.w_night_210:before,
+ 			.w_night_211:before,
+ 			.w_night_212:before,
+ 			.w_night_221:before,
+ 			.w_night_230:before,
+ 			.w_night_231:before,
+ 			.w_night_232:before{content:"\f02c";}
+
+ 			.w_night_300:before,
+ 			.w_night_301:before,
+ 			.w_night_302:before,
+ 			.w_night_310:before,
+ 			.w_night_311:before,
+ 			.w_night_312:before,
+ 			.w_night_321:before{content:"\f039";}
+
+ 			.w_night_500:before,
+ 			.w_night_501:before,
+ 			.w_night_502:before,
+ 			.w_night_503:before,
+ 			.w_night_504:before,
+ 			.w_night_511:before,
+ 			.w_night_520:before,
+ 			.w_night_521:before,
+ 			.w_night_522:before{content:"\f037";}
+
+ 			.w_night_600:before,
+ 			.w_night_601:before,
+ 			.w_night_602:before,
+ 			.w_night_611:before,
+ 			.w_night_621:before{content:"\f038";}
+
+ 			.w_night_701:before,
+ 			.w_night_711:before,
+ 			.w_night_721:before,
+ 			.w_night_731:before,
+ 			.w_night_741:before{content:"\f04a";}
+
+ 			.w_night_800:before{content:"\f02e";}
+ 			.w_night_801:before{content:"\f031";}
+ 			.w_night_802:before{content:"\f031";}
+ 			.w_night_803:before{content:"\f031";}
+ 			.w_night_804:before{content:"\f013";}
+
+ 			.w_night_900:before{content:"\f056";}
+ 			.w_night_901:before{content:"\f050";}
+ 			.w_night_902:before{content:"\f050";}
+ 			.w_night_903:before{content:"\f053";}
+ 			.w_night_904:before{content:"\f055";}
+ 			.w_night_905:before{content:"\f021";}
+ 			.w_night_906:before{content:"\f01d";}
+ 		}
+
+ 		.time{
+ 			height: 58px;
+ 			width: 100%;
+ 			position: absolute;
+ 			top: 50%;
+ 			margin-top: -28px;
+ 			text-align: center;
+ 			font-family: u39;
+ 			font-size: 75px;
+ 			font-weight: normal;
+ 			line-height: 70px;
+ 		}
+
+ 		.date{
+ 			left:0px;
+ 			width:100%;
+ 			bottom:5px;
+ 			text-align:center;
+ 			.today{font-family: u67;}
+ 		}
+ 	}
+
+	.cell .addCell{
+		border-radius: 1000px;
+		
+		span{
+			position: absolute;
+			background-color:$dark;
+		}
+
+		.vert{
+			height:50%;
+			width:1px;
+			top:50%;
+			left:50%;
+			margin:-25% 0px 0px -1px;
+		}
+
+		.horiz{
+			width:50%;
+			height:1px;
+			top:50%;
+			left:50%;
+			margin:-1px 0px 0px -25%;
+		}
+	}
+
+	.cell .list{
+
+		@include transition(background-color .2s ease-in-out);
+
+		cursor: text;
+
+		.textarea-container {
+		  	position: relative;
+		  	width: 100%;
+		  	padding-bottom:5px;
+		
+		  	textarea, .sizer {
+		  		// overflow: hidden;
+		  		width: 100%;
+		  	}
+
+		  	textarea {
+		  		position: absolute;
+		  		top: 0px;
+		  		left: 0px;
+		  		height: 100%;
+		  		resize:none;
+		  		white-space: normal;
+		  		@include transition( (padding-left .1s ease-in-out, background-color .2s ease-in-out) );
+		  		color: $active;
+		  	}
+
+		  	.sizer {
+		  		visibility: hidden;
+		  		white-space: pre-wrap;
+		  		word-wrap: break-word;
+		  		overflow-wrap: break-word;
+		  	}
+		}
+
+
+		.cellHead{		
+			position: relative;
+			float:left;
+			width:100%;
+			top:0px;
+			left:0px;
+			z-index:10;
+			border-bottom:1px $active solid;
+
+			textarea, .sizer {
+				min-height: 33px;
+				padding:8px 10px 6px 25px;
+				font-family: u67;
+			}
+
+			.title{
+				border:0px;
+				height:100%;
+				width:100%;
+				position: absolute;
+				top:0px;
+				left:0px;
+	 			font-size:16px;
+	 			color:$active;
+	 			&:focus{
+	 				outline:none;
+ 				}
+			}
+		}
+
+		.cellEdit{
+			position: relative;
+			float:left;
+			width:100%;
+			top:0px;
+			left:0px;
+			padding:10px 10px 10px 15px;
+			color:$active;
+			text-align: left;
+			// overflow: scroll;
+
+			textarea, .sizer {
+				min-height: 17px;
+				font-size: 14px;
+				line-height: 17px;
+			}
+
+			.indent0{
+				.grabber{left:0px;}
+				textarea{padding: 0px 0px 0px 20px;}
+				.sizer{padding-left: 20px;}
+				&.grabbed textarea{padding: 0px 0px 0px 25px;}
+			}
+			.indent1{
+				.grabber{left:10px;}
+				textarea{padding: 0px 0px 0px 30px;}
+				.sizer{padding-left: 30px;}
+				&.grabbed textarea{padding: 0px 0px 0px 35px;}
+			}
+			.indent2{
+				.grabber{left:20px;}
+				textarea{padding: 0px 0px 0px 40px;}
+				.sizer{padding-left: 40px;}
+				&.grabbed textarea{padding: 0px 0px 0px 45px;}
+			}
+
+			.sizer{
+				padding-left: 20px;
+			}
+
+			.grabber{
+				position: absolute;
+				width:30px;
+				height:25px;
+				cursor: row-resize;;
+				z-index: 1;
+
+				@include transition(left .1s ease-in-out);
+
+				span{
+					background-color: lighten($active, 50%);
+					position: absolute;
+					height:15px;
+					width:1px;
+					top:0px;
+					left:10px;
+					border-radius: 0px;
+					@include transition(all .1s ease-in-out);
+				}
+			}
+
+			.grabbed{
+
+				.grabber span{
+					width:10px;
+					height:10px;
+					left:6px;
+					top:3px;
+					border-radius: 50px
+				}
+
+				.sizer{
+					padding-left:25px;
+				}
+			}
+		}
+
+		.grab{
+			position: absolute;
+			width:15px;
+			height:100%;
+			left:0px;
+			top:0px;
+			background-color:$active;
+			z-index: 10;
+
+			.catOpener, 
+			.catSelect{
+				position: absolute;
+				
+				cursor: pointer;
+			}
+
+			.catOpener{
+				height:20px;
+				width:14px;
+				bottom:0px;
+				left:0px;
+				z-index:101;				
+				background-color:$light;
+				border-top:1px $light solid;
+				@include transition(background-color .2s ease-in-out);
+
+				& > span{
+					position: absolute;
+					height:7px;
+					width:7px;
+					top: 6px;
+					left: 4px;
+					border-radius:10px;
+					display:block;
+					overflow:hidden;
+					
+
+					span{
+						position: relative;
+						float:left;
+						height:3px;
+						width:9px;
+						@include transition(background-color .2s ease-in-out);
+					}
+				}
+				
+
+				
+			}
+
+			.catSelect{
+				top:0px;
+				z-index:100;
+				left:-14px;
+				height:100%;
+				width:14px;
+				padding-bottom:20px;
+				@include transition((left .2s ease-in-out));
+
+				span{
+					height:33.3333%;
+					width:100%;
+					display:block;
+					position: relative;
+					float:left;
+				}
+				.cat01{ background-color: $color01 ;}
+				.cat02{ background-color: $color02 ;}
+				.cat03{ background-color: $color03 ;}
+			}
+
+			&.catSelecting{
+				.catOpener span{
+					background-color:$light;
+				}
+				.catSelect{
+					left:0px; 
+				}
+			}
+		}
+	}
+}
+
+.color00{
+	background-color:$active;
+ 	color:$color03;
+}
+
+.color01{ 
+	background-color: $color01 ;
+	textarea{
+		background-color:$color01;
+	}
+
+ 	.catOpener span{ background-color: $color01;}
+ 	.catSelecting .catOpener{ background-color:$color01 !important;}
+}
+.color02{ 
+	background-color: $color02 ;
+	textarea{
+		background-color:$color02;
+	}
+
+ 	.catOpener span{ background-color: $color02;}
+ 	.catSelecting .catOpener{ background-color:$color02 !important;}
+}
+.color03{ 
+	background-color: $color03 ;
+	textarea{
+		background-color:$color03;
+	}
+
+ 	.catOpener span{ background-color: $color03;}
+ 	.catSelecting .catOpener{ background-color:$color03 !important;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

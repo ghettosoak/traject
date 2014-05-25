@@ -1,6 +1,12 @@
 <div gridster="gridsterOpts" class="grid">
 	<ul>
-		<li class="cell" gridster-item="item" ng-repeat="item in cells | orderBy: ['row', 'col']" >
+		<li class="cell" 
+			gridster-item="item" 
+			ng-repeat="item in cells | orderBy: ['row', 'col']" 
+			row="item.dimensions[5].row" 
+			col="item.dimensions[5].col" 
+			size-x="item.dimensions[5].sizeX" 
+			size-y="item.dimensions[5].sizeY">
 			<div class="gaze grab color00" ng-if="item.gaze" ng-style="{ 'background-image' : gaze }">
 				<div class="logo"></div>
 			</div>
@@ -41,17 +47,31 @@
 					  	<div class="sizer">{{item.title}}</div>
 					</div>
 				</div>
-				<div class="cellEdit" ui-sortable="sortableOptions" ng-model="item.body" >
-					<div class="textarea-container" ng-repeat="bit in item.body" ng-if="bit.displayed" data-index="{{$index}}" ng-class="{ grabbed : grabbing === true }">
-						<span class="grabber" ng-mouseover="grabbing = true" ng-mouseleave="grabbing = false" ng-dblClick="bit.displayed = false">
+				<div class="cellEdit" ui-sortable="sortableOptions" ng-model="item.body">
+					<div 
+						class="textarea-container indent{{bit.tabCount}}" 
+						ng-repeat="bit in item.body"
+						data-index="{{$index}}" 
+						ng-class="{ grabbed : grabbing === true }">
+						<span 
+							class="grabber" 
+							ng-mouseover="grabbing = true" 
+							ng-mouseleave="grabbing = false" 
+							ng-dblClick="bitKiller($event)">
 							<span></span>
 						</span>
-					  	<textarea ng-model="bit.content" ng-keydown="areaText($event)"></textarea>
+					  	<textarea 
+						  	ng-model="bit.content" 
+						  	ng-keydown="areaText($event, bit)" 
+						  	ng-keyup="areaText($event, bit)">
+					  	</textarea>
 					  	<div class="sizer">{{bit.content}}</div>
 					</div>
 				</div>
 				<span class="grab" ng-dblClick="removeCell(item._id)" ng-class="{ catSelecting : catSelectTray === true }">
-					<span class="catOpener" ng-click="catSelectTray = (catSelectTray !== true) ? true : false"></span>
+					<span class="catOpener" ng-click="catSelectTray = (catSelectTray !== true) ? true : false">
+						<span></span>
+					</span>
 					<div class="catSelect">
 						<span class="cat01" ng-click="catSelector($event, 1); catSelectTray = false;"></span>
 						<span class="cat02" ng-click="catSelector($event, 2); catSelectTray = false;"></span>

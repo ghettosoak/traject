@@ -102,9 +102,9 @@ $spritesheet_cell_width:50px;
 $active: #F2EFDC;
 $bg: #024959;
 
-$color01: #037E8C;
+$color01: #148490;
 $color02: #E74C30;
-$color03: #363636;
+$color03: #555555;
 
 $light: $active;
 $dark: $color03;
@@ -454,7 +454,7 @@ input, textarea {
 		  	padding-bottom:5px;
 		
 		  	textarea, .sizer {
-		  		overflow: hidden;
+		  		// overflow: hidden;
 		  		width: 100%;
 		  	}
 
@@ -490,10 +490,7 @@ input, textarea {
 			textarea, .sizer {
 				min-height: 33px;
 				padding:8px 10px 6px 25px;
-			}
-
-			.sizer{
-				
+				font-family: u67;
 			}
 
 			.title{
@@ -503,7 +500,6 @@ input, textarea {
 				position: absolute;
 				top:0px;
 				left:0px;
-	 			font-family: u67;
 	 			font-size:16px;
 	 			color:$active;
 	 			&:focus{
@@ -521,15 +517,31 @@ input, textarea {
 			padding:10px 10px 10px 15px;
 			color:$active;
 			text-align: left;
-			overflow: scroll;
+			// overflow: scroll;
 
 			textarea, .sizer {
 				min-height: 17px;
 				font-size: 14px;
+				line-height: 17px;
 			}
 
-			textarea{
-				padding: 0px 0px 0px 20px;
+			.indent0{
+				.grabber{left:0px;}
+				textarea{padding: 0px 0px 0px 20px;}
+				.sizer{padding-left: 20px;}
+				&.grabbed textarea{padding: 0px 0px 0px 25px;}
+			}
+			.indent1{
+				.grabber{left:10px;}
+				textarea{padding: 0px 0px 0px 30px;}
+				.sizer{padding-left: 30px;}
+				&.grabbed textarea{padding: 0px 0px 0px 35px;}
+			}
+			.indent2{
+				.grabber{left:20px;}
+				textarea{padding: 0px 0px 0px 40px;}
+				.sizer{padding-left: 40px;}
+				&.grabbed textarea{padding: 0px 0px 0px 45px;}
 			}
 
 			.sizer{
@@ -538,11 +550,12 @@ input, textarea {
 
 			.grabber{
 				position: absolute;
-				left:0px;
 				width:30px;
 				height:25px;
 				cursor: row-resize;;
 				z-index: 1;
+
+				@include transition(left .1s ease-in-out);
 
 				span{
 					background-color: lighten($active, 50%);
@@ -552,12 +565,11 @@ input, textarea {
 					top:0px;
 					left:10px;
 					border-radius: 0px;
-					@include transition((all .1s ease-in-out));
+					@include transition(all .1s ease-in-out);
 				}
 			}
 
 			.grabbed{
-				padding-left:25px; 
 
 				.grabber span{
 					width:10px;
@@ -567,13 +579,8 @@ input, textarea {
 					border-radius: 50px
 				}
 
-				textarea{
-					padding-left:25px;
-				}
-
 				.sizer{
-					left:-26px;
-					padding-left:0px;
+					padding-left:25px;
 				}
 			}
 		}
@@ -600,22 +607,32 @@ input, textarea {
 				bottom:0px;
 				left:0px;
 				z-index:101;				
-				background-repeat: no-repeat;
+				background-color:$light;
+				border-top:1px $light solid;
+				@include transition(background-color .2s ease-in-out);
+
+				& > span{
+					position: absolute;
+					height:7px;
+					width:7px;
+					top: 6px;
+					left: 4px;
+					border-radius:10px;
+					display:block;
+					overflow:hidden;
+					
+
+					span{
+						position: relative;
+						float:left;
+						height:3px;
+						width:9px;
+						@include transition(background-color .2s ease-in-out);
+					}
+				}
 				
 
-				&:before{
-					content:'';
-					position: absolute;
-					top: 5px;
-					left: 4px;
-					width: 0px;
-					height: 0px;
-					border-style: solid;
-					border-width: 5px 0 5px 7px;
-					border-color: transparent transparent transparent $dark;
-
-					@include transition(transform .2s ease-in-out);
-				}
+				
 			}
 
 			.catSelect{
@@ -625,7 +642,7 @@ input, textarea {
 				height:100%;
 				width:14px;
 				padding-bottom:20px;
-				@include transition(left .2s ease-in-out);
+				@include transition((left .2s ease-in-out));
 
 				span{
 					height:33.3333%;
@@ -640,8 +657,8 @@ input, textarea {
 			}
 
 			&.catSelecting{
-				.catOpener:before{
-					@include transform(rotate(-90deg));
+				.catOpener span{
+					background-color:$light;
 				}
 				.catSelect{
 					left:0px; 
@@ -661,18 +678,27 @@ input, textarea {
 	textarea{
 		background-color:$color01;
 	}
+
+ 	.catOpener span{ background-color: $color01;}
+ 	.catSelecting .catOpener{ background-color:$color01 !important;}
 }
 .color02{ 
 	background-color: $color02 ;
 	textarea{
 		background-color:$color02;
 	}
+
+ 	.catOpener span{ background-color: $color02;}
+ 	.catSelecting .catOpener{ background-color:$color02 !important;}
 }
 .color03{ 
 	background-color: $color03 ;
 	textarea{
 		background-color:$color03;
 	}
+
+ 	.catOpener span{ background-color: $color03;}
+ 	.catSelecting .catOpener{ background-color:$color03 !important;}
 }
 
 
