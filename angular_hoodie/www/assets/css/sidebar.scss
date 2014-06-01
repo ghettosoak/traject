@@ -4,11 +4,17 @@
 	height:100%;
 	background-color:$light;
 	top:0px;
-	left:-200px;
-	@include transition(all .2s ease-in-out);
-	z-index: 1000;
+	left:-250px;
+	z-index: 500;
 	border-right:1px $light solid;
+	opacity:0;
 
+	@include transition(left .2s ease-in-out);
+
+	.yesLetsGo &{
+		left:-200px;
+		opacity: 1;
+	}
 
 	&.sidebarOpen{
 		left:0px;
@@ -38,11 +44,21 @@
 				vertical-align: middle;
 				text-transform: uppercase;
 				letter-spacing: 2px;
+
+				a{
+					display:block;
+					color:$bg; 
+					text-decoration: none;
+				}
 			}
 
 			&:hover{
 				color:$light;
 				background-color:$bg;
+
+				a{
+					color:$light;
+				}
 			}
 		}
 

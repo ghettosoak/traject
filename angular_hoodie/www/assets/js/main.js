@@ -17,6 +17,21 @@ var signingIn = false;
 
 var signupCount = 0;
 
+
+// STARTUP.JS
+
+// var startupCount = 0
+
+// $('.SUB_left').click(function(){
+	
+// })
+
+// $('.SUB_right').click(function(){
+	
+// })
+
+
+
 var hoodie  = new Hoodie('http://127.0.0.1:6001/');
 window.hoodie = hoodie;
 
@@ -37,37 +52,16 @@ var lazyUpdater = _.debounce(function(id){
 
 }, 1000);
 
-function killSome(){
-	hoodie.store.removeAll('cell')
-	console.log('KILL')
-}
-
-function getSome(){
-
-	hoodie.store.add('cell', { dimensions:[ {},{}, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 } ], gaze: true, wristwatch: false, addcell:false, category: null, list: false, title: "this is a title", body: "this is some text" });
-	hoodie.store.add('cell', { dimensions:[ {},{}, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 } ], gaze: false, wristwatch: true, addcell:false, category: null, list: false, title: "this is a title", body: "this is some text" });
-	hoodie.store.add('cell', { dimensions:[ {},{}, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 } ], gaze: false, wristwatch: false, addcell:true, category: null, list: false, title: "this is a title", body: "this is some text" });
-	hoodie.store.add('cell', { dimensions:[ {},{}, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 } ], gaze: false, wristwatch: false, addcell:false, list: true, category:1, cellID: 1, title: "this is a title", body: [ {  displayed: true, type:'plainText', tabCount:0, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:1, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:2, content:'this is some text, order 3' } ] } );
-	hoodie.store.add('cell', { dimensions:[ {},{}, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 2, col: 1 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 } ], gaze: false, wristwatch: false, addcell:false, list: true, category:1, cellID: 2, title: "this is a title", body: [ {  displayed: true, type:'plainText', tabCount:0, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:1, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:2, content:'this is some text, order 3' } ] } );
-	hoodie.store.add('cell', { dimensions:[ {},{}, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 2, col: 2 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 } ], gaze: false, wristwatch: false, addcell:false, list: true, category:1, cellID: 3, title: "this is a title", body: [ {  displayed: true, type:'plainText', tabCount:0, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:1, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:2, content:'this is some text, order 3' } ] } );
-	hoodie.store.add('cell', { dimensions:[ {},{}, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 2, col: 3 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 }, { sizeX: 1, sizeY: 1, row: 0, col: 5 } ], gaze: false, wristwatch: false, addcell:false, list: true, category:1, cellID: 4, title: "this is a title", body: [ {  displayed: true, type:'plainText', tabCount:0, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:1, content:'this is some text, order 3' }, {  displayed: true, type:'plainText', tabCount:2, content:'this is some text, order 3' } ] } );
-
-	console.log('GOT')
-}
-
-// killSome();
-// getSome();
-
 var columnCounter = function(){
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 1) + 50) ) columnCount = 1;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 2) + 50) ) columnCount = 2;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 3) + 50) ) columnCount = 3;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 4) + 50) ) columnCount = 4;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 5) + 50) ) columnCount = 5;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 6) + 50) ) columnCount = 6;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 7) + 50) ) columnCount = 7;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 8) + 50) ) columnCount = 8;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 9) + 50) ) columnCount = 9;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 1) + 60) ) columnCount = 1;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 2) + 60) ) columnCount = 2;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 3) + 60) ) columnCount = 3;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 4) + 60) ) columnCount = 4;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 5) + 60) ) columnCount = 5;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 6) + 60) ) columnCount = 6;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 7) + 60) ) columnCount = 7;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 8) + 60) ) columnCount = 8;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 9) + 60) ) columnCount = 9;
 
 	console.log('columnCount = '+columnCount);
 }
@@ -94,7 +88,8 @@ var app = angular.module('app', [
 	$scope.threeOpen = false;
 	$scope.fourOpen = false;
 
-	
+	$scope.startUpIndex;
+
 
 	// SIGN UP
 
@@ -104,7 +99,9 @@ var app = angular.module('app', [
 		if (
 			( $scope.threeOpen === true ) && 
 			( $(signUpForm.emailSignup).hasClass('ng-valid') )
-			){
+		){
+
+			$scope.startUpIndex = 0;
 
 			signingUp = true;
 			signingIn = false;
@@ -118,6 +115,8 @@ var app = angular.module('app', [
 			hoodie.account.signUp(newEmail, newPass);
 
 			console.log(newEmail + ' /// ' + newPass)
+		}else{
+			$(signUpForm.emailSignup).focus()
 		}
 	};
 
@@ -172,7 +171,9 @@ var app = angular.module('app', [
 				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
 			}, 550)
 
-			// startup();
+			setTimeout(function(){
+				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway startingUp';
+			}, 1000)
 		});
 	});
 
@@ -180,7 +181,13 @@ var app = angular.module('app', [
 	// LOG IN
 
 	$scope.signIn = function(){
-		if ($scope.fourOpen === true){
+		if (
+			($scope.fourOpen === true)
+			&& ( !$(signInForm).hasClass('ng-pristine') )
+		){
+			cellular = $scope.cells = [];
+			$scope.startUpIndex = 1;
+
 			signingIn = true;
 			signupCount = 4;
 			var returnEmail = signInForm.emailSignin.value;
@@ -195,6 +202,7 @@ var app = angular.module('app', [
 
 			hoodie.store.findAll()
 				.done(function (objects) {
+					objects.splice(0, 1)
 					cellular = $scope.cells = objects;
 					console.log(cellular)
 
@@ -202,10 +210,27 @@ var app = angular.module('app', [
 
 					setTimeout(function(){
 						$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+
+						$(signInForm).parents('.four').removeClass('active')
+						$scope.fourOpen = false;
 					}, 550)
 				});
+		}else{
+			$(signInForm.emailSignin).focus()
 		}
 	};
+ 
+	$scope.logOut = function(e){
+		hoodie.account.signOut();
+		$scope.howCanIHelpYou = '';
+	}
+
+	hoodie.account.on('signout', function (user) {
+		localStorage.removeItem('user');
+		localStorage.removeItem('pass');
+	});
+
+
 
 	if (localStorage.getItem('user') !== null){
 
@@ -218,19 +243,18 @@ var app = angular.module('app', [
 
 		hoodie.store.findAll()
 			.done(function (objects) {
-				cellular = $scope.cells = objects;
+				$scope.startUpIndex = 1;
+				cellular = $scope.cells = objects//.splice(0, 1);
 				console.log(cellular)
 
 				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
 			});
 	}
 
-
-	hoodie.account.on('signout', function (user) {
-		localStorage.removeItem('user');
-		localStorage.removeItem('pass');
-	});
-
+	
+	$scope.demo = function(){
+		$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway startingUp';
+	};
 
 	$scope.changePassword = function(e){
 		var $that = $(e.target).parent()
@@ -248,13 +272,39 @@ var app = angular.module('app', [
 		setTimeout(function(){
 			$that.removeClass('actionComplete');
 		}, 3200);
+	};
+
+	$scope.aboutOpener = function(){
+		$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway viewingAbout';
+	};
+
+	$scope.modalCloser = function(){
+		$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
 	}
 
-	$scope.sendFeedback = function(e){
-		var that = $(e.target)
 
-		
-	}
+
+
+	// STARTUP.JS
+
+	$scope.SUB_left = function(){
+		if ($scope.startUpIndex === 14){
+			$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+			$scope.startUpIndex = 1;
+		}else{
+			$scope.startUpIndex--;
+		}
+	};
+
+	$scope.SUB_right = function(){
+		if ($scope.startUpIndex >= 14){
+			$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+			$scope.startUpIndex = 1;
+		}else{
+			$scope.startUpIndex++;
+		}
+	};
+
 
 
 
@@ -337,10 +387,10 @@ var app = angular.module('app', [
 	};
 
 	hoodie.remote.on('add', function (newObject) {
-		if (!signingUp && (signupCount == 4)){
+		if ( !signingUp && (signupCount == 4) ){
 			console.log('INCOMING NEW')
 			console.log(newObject)
-			$scope.cells.push(newObject)
+			if (newObject.id !== 'permissions') $scope.cells.push(newObject)
 			cellular = $scope.cells
 			console.log($scope.cells)
 		}else{
@@ -416,7 +466,7 @@ var app = angular.module('app', [
 		var getThisOne =  Math.floor(Math.random() * (100 - 0 + 1)) + 0;
 		var stare = gazeList[getThisOne];
 		var pull = 'http://farm' + stare.farm + '.staticflickr.com/' + stare.server + '/' + stare.id + '_' + stare.secret + '.jpg'
-		$scope.gaze = 'url(' + pull + ')';
+		// $scope.gaze = 'url(' + pull + ')';
 	}
 
 	$interval(getGaze, 600000);
@@ -805,6 +855,13 @@ var app = angular.module('app', [
         }
     };
 }]);
+
+
+
+
+
+
+
 
 
 

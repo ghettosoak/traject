@@ -1,0 +1,47 @@
+.modalCloser{
+		height:50px;
+		width:50px;
+		position: absolute;
+		top:0px;
+		left:-60px;
+		background-color:$light;
+		border-radius: 50px;
+		cursor: pointer;
+		.crossbar1,
+		.crossbar2{
+			position: absolute;
+			height:30px;
+			width:1px;
+			background-color:$bg;
+			top:50%;
+			left:50%;
+			margin:-15px 0px 0px 0px;
+		}
+
+		.crossbar1{
+			@include transform(rotate(45deg));
+		}
+
+		.crossbar2{
+			@include transform(rotate(-45deg));
+		}
+
+		&:before{
+			content:'';
+			height:100%;
+			width:100%;
+			position: absolute;
+			top:0px;
+			left:0px;
+			border: 1px $light solid;
+			border-radius: 50px;
+			@include transition(all .1s ease-in-out);
+		}
+
+		&:hover:before{
+			height:120%;
+			width:120%;
+			top:-10%;
+			left:-10%;
+		}
+	}

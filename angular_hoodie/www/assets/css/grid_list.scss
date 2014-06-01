@@ -46,7 +46,7 @@
 			textarea, .sizer {
 				min-height: 33px;
 				padding:8px 10px 6px 25px;
-				font-family: u67;
+				font-family: $type_bold;
 			}
 
 			.title{
@@ -79,6 +79,7 @@
 				min-height: 17px;
 				font-size: 14px;
 				line-height: 17px;
+				font-family:$type_list
 			}
 
 			.indent0{

@@ -1,6 +1,8 @@
 // @import 'lib/jquery.gridster.css';
 // @import 'lib/medium.css';
 
+@import "bourbon";
+
 @import 'type';
 
 @import 'definitions';
@@ -27,7 +29,7 @@ a img {
 
 html {
 	height: 100%;
-	font-family: u47;
+	font-family: $type_regular;
 	font-size:16px;
 }
 
@@ -35,13 +37,13 @@ body {
 	margin: 0;
 	padding: 10px;
 	background-color: $bg;
-	font-family: u47;
+	font-family: $type_regular;
 	color: $active;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 input, textarea {
-	font-family: u47;
+	font-family: $type_regular;
 	font-size: 14px;
 	padding: 2px;
 	margin:0px;
@@ -65,19 +67,29 @@ input, textarea {
 .modalBG{
 	position: fixed;
 	top:0px;
-	left:0px;
+	left:-100%;
 	height:100%;
 	width:100%;
 	background-color:rgba(0,0,0,.5);
-	z-index: -1; 
-	display:none;
+	z-index: 800; 
+	opacity: 0;
+	@include transition(opacity .5s ease-in-out);
+
+	.startingUp &,
+	.viewingAbout &{
+		opacity:1;
+		left:0px;
+	}
 }
 
 @import 'button';
+@import 'modalCloser';
 
 @import 'hello';
 
 @import 'startup';
+
+@import 'about';
 
 @import 'sidebar';
 

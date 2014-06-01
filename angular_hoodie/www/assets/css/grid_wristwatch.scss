@@ -65,7 +65,7 @@
  			top: 50%;
  			margin-top: -28px;
  			text-align: center;
- 			font-family: u39;
+ 			font-family: $type_thin;
  			font-size: 75px;
  			font-weight: normal;
  			line-height: 70px;
@@ -76,6 +76,6 @@
  			width:100%;
  			bottom:5px;
  			text-align:center;
- 			.today{font-family: u67;}
+ 			.today{font-family: $type_bold;}
  		}
  	}

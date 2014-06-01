@@ -11,7 +11,7 @@ button.primary{
 	background-color:$light;
 	color:$bg;
 	cursor:pointer;
-	font-family:u67;
+	font-family:$type_bold;
 	font-size:16px;
 	z-index:10;
 	@include transition(all .35s ease-in-out);
@@ -79,7 +79,7 @@ button.secondary{
 	border-radius:0px 0px 5px 5px;
 	cursor: pointer;
 	color:$bg;
-	font-family:u47;
+	font-family:$type_regular;
 	font-size:14px;
 	text-transform: uppercase;
 

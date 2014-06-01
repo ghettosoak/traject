@@ -17,7 +17,7 @@
 	}
 
 	.upUpAndAway &{
-		display:none;
+		display: none;
 	}
 
 	.andWelcome{
@@ -50,7 +50,6 @@
 			border-top:5px $light solid;
 			border-bottom:5px $light solid;
 			margin-top:-125px;
-			overflow:hidden;
 		}
 
 		.two{
@@ -61,10 +60,21 @@
 				font-size: 27px;
 				line-height: 25px;
 				span{
-					font-family:u67;
+					font-family:$type_bold;
 					letter-spacing: 2px;
 				}
 			}
+		}
+
+		.three p{
+			position: absolute;
+			text-align: center;
+			top:100%;
+			width:100%;
+			left:0px;
+			margin-top:25px;
+			color:$light;
+			font-size:14px;
 		}
 
 		.three,
@@ -111,5 +121,13 @@
 			}
 			
 		}
+	}
+
+	.homepageCopyright{
+		position: absolute;
+		bottom:0px;
+		width:100%;
+		text-align: center;
+		font-size:14px;
 	}
 }
