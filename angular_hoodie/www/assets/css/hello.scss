@@ -1,0 +1,115 @@
+.hello{
+	position:fixed;
+	height:100%;
+	width:100%;
+	top:0px;
+	left:0px;
+	background-color:$bg;
+	z-index:1000;
+	opacity:1;
+
+	@include transition(all .5s ease-in-out);
+	@include transform(scale(1));
+
+	.yesLetsGo &{
+		@include transform(scale(1.5));
+		opacity:0;
+	}
+
+	.upUpAndAway &{
+		display:none;
+	}
+
+	.andWelcome{
+		position:relative;
+		height:100%;
+		width:100%;
+		max-width:1024px;
+		margin:auto;
+		padding:20px;
+		div{
+			height:250px;
+			position:relative;
+			float:left;
+			top:50%;
+		}
+
+		.one{
+			width:100%;
+			background-image: url(../img/logo.png);
+ 			background-size: 100px 100px;
+ 			background-position: center center;
+ 			background-repeat:no-repeat;
+ 			margin-top:-375px;
+		}
+
+		.two,
+		.three,
+		.four{
+			width:33.33333%;
+			border-top:5px $light solid;
+			border-bottom:5px $light solid;
+			margin-top:-125px;
+			overflow:hidden;
+		}
+
+		.two{
+			display:table;
+			p{
+				display:table-cell;
+				vertical-align: middle;
+				font-size: 27px;
+				line-height: 25px;
+				span{
+					font-family:u67;
+					letter-spacing: 2px;
+				}
+			}
+		}
+
+		.three,
+		.four{
+			.input{
+				height:100%;
+				width:100%;
+				position:absolute;
+				top:-100%;
+				left:0px;
+				padding:0px 10px;
+				background-color:$light;
+				@include transition(all .35s ease-in-out);
+				opacity:0;
+				border-top:10px $bg solid;
+				border-bottom:10px $bg solid;
+				input{
+					position:relative;
+					float:left;
+					width:100%;
+					background-color:$bg;
+					border:1px $light solid;
+					border-radius:5px;
+					margin-top:10px;
+					color:$light;
+					padding: 12px;
+					font-size: 20px;
+					@include transition(background-color .35s ease-in-out)
+				}
+
+				.ng-invalid-email{
+					background-color:rgb(200,0,0);
+				}
+			}
+
+			&.active{
+				button{
+					margin:20px 0px 0px -40px;
+				}
+				.input{
+					top:0px;
+					opacity:1;
+				} 
+			}
+			
+		}
+	}
+}

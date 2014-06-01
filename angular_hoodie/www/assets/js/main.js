@@ -12,9 +12,13 @@ var victim;
 
 var populator;
 
-var hoodie  = new Hoodie()
-window.hoodie = hoodie;
+var signingUp = false;
+var signingIn = false;
 
+var signupCount = 0;
+
+var hoodie  = new Hoodie('http://127.0.0.1:6001/');
+window.hoodie = hoodie;
 
 var lazyUpdater = _.debounce(function(id){
 
@@ -31,7 +35,7 @@ var lazyUpdater = _.debounce(function(id){
 		}
 	}
 
-}, 250);
+}, 1000);
 
 function killSome(){
 	hoodie.store.removeAll('cell')
@@ -55,18 +59,19 @@ function getSome(){
 // getSome();
 
 var columnCounter = function(){
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 1) ) columnCount = 1;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 2) ) columnCount = 2;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 3) ) columnCount = 3;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 4) ) columnCount = 4;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 5) ) columnCount = 5;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 6) ) columnCount = 6;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 7) ) columnCount = 7;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 8) ) columnCount = 8;
-	if (window.innerWidth > ((GRIDSIZE + GUTTERSIZE) * 9) ) columnCount = 9;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 1) + 50) ) columnCount = 1;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 2) + 50) ) columnCount = 2;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 3) + 50) ) columnCount = 3;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 4) + 50) ) columnCount = 4;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 5) + 50) ) columnCount = 5;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 6) + 50) ) columnCount = 6;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 7) + 50) ) columnCount = 7;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 8) + 50) ) columnCount = 8;
+	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 9) + 50) ) columnCount = 9;
 
 	console.log('columnCount = '+columnCount);
 }
+
 
 var app = angular.module('app', [
 	'ngCookies',
@@ -75,20 +80,187 @@ var app = angular.module('app', [
 	'hoodie'
 ])
 
+// .config(function(hoodieProvider) {
+  // hoodieProvider.url('http://127.0.0.1:6001/');
+// })
+
 .controller('MainCtrl', function($window, $scope, $http, $interval, $cookieStore, hoodie, hoodieArray) {
 
 	// hoodie.account.signUp('m', 'f');
-	hoodie.account.signIn('m', 'f');
+	// hoodie.account.signIn('m', 'f');
 
 	columnCounter();
 
-	hoodie.store.findAll()
-	  .done(function (objects) {
-	  	cellular = $scope.cells = objects;
-	  	console.log(cellular)
-	  });
+	$scope.threeOpen = false;
+	$scope.fourOpen = false;
+
+	
+
+	// SIGN UP
+
+	// hoodie.account.signUp('m', 'f');
+
+	$scope.signUp = function(e){
+		if (
+			( $scope.threeOpen === true ) && 
+			( $(signUpForm.emailSignup).hasClass('ng-valid') )
+			){
+
+			signingUp = true;
+			signingIn = false;
+
+			var newEmail = signUpForm.emailSignup.value;
+			var newPass = signUpForm.passwordSignup.value;
+
+			localStorage.setItem('user' , newEmail);
+			localStorage.setItem('pass' , newPass);
+
+			hoodie.account.signUp(newEmail, newPass);
+
+			console.log(newEmail + ' /// ' + newPass)
+		}
+	};
+
+	hoodie.account.on('signup', function (user) {
+
+		$scope.cells = [];
+
+		console.log(user)
+
+		hoodie.store.add('cell', {
+			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
+			gaze: true,
+		}).done(function(object){
+			$scope.cells.push(object);
+			cellular = $scope.cells;
+		});
+
+		hoodie.store.add('cell', {
+			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
+			wristwatch: true,
+		}).done(function(object){
+			$scope.cells.push(object);
+			cellular = $scope.cells;
+		});
+
+		hoodie.store.add('cell', {
+			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
+			addcell: true,
+		}).done(function(object){
+			$scope.cells.push(object);
+			cellular = $scope.cells;
+		});
+
+		hoodie.store.add('cell', {
+			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
+			title: '',
+			body: [{
+				displayed: true,
+				type:'plainText',
+				tabCount:0,
+				content:''
+			}],
+			category:1,
+			list: true,
+		}).done(function(object){
+			$scope.cells.push(object);
+			cellular = $scope.cells;
+
+			$scope.howCanIHelpYou = 'yesLetsGo';
+
+			setTimeout(function(){
+				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+			}, 550)
+
+			// startup();
+		});
+	});
 
 
+	// LOG IN
+
+	$scope.signIn = function(){
+		if ($scope.fourOpen === true){
+			signingIn = true;
+			signupCount = 4;
+			var returnEmail = signInForm.emailSignin.value;
+			var returnPass = signInForm.passwordSignin.value;
+
+			localStorage.setItem('user' , returnEmail);
+			localStorage.setItem('pass' , returnPass);
+
+			hoodie.account.signIn(returnEmail, returnPass);
+
+			console.log(returnEmail + ' /// ' + returnPass)
+
+			hoodie.store.findAll()
+				.done(function (objects) {
+					cellular = $scope.cells = objects;
+					console.log(cellular)
+
+					$scope.howCanIHelpYou = 'yesLetsGo';
+
+					setTimeout(function(){
+						$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+					}, 550)
+				});
+		}
+	};
+
+	if (localStorage.getItem('user') !== null){
+
+		var returnEmail = localStorage.getItem('user');
+		var returnPass = localStorage.getItem('pass');
+
+		hoodie.account.signIn(returnEmail, returnPass);
+
+		console.log(returnEmail + ' /// ' + returnPass)
+
+		hoodie.store.findAll()
+			.done(function (objects) {
+				cellular = $scope.cells = objects;
+				console.log(cellular)
+
+				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+			});
+	}
+
+
+	hoodie.account.on('signout', function (user) {
+		localStorage.removeItem('user');
+		localStorage.removeItem('pass');
+	});
+
+
+	$scope.changePassword = function(e){
+		var $that = $(e.target).parent()
+
+		var oldPass = passwordChange.oldPassword.value;
+		var newPass = passwordChange.newPassword.value;
+		hoodie.account.changePassword(oldPass, newPass);
+
+		$that.addClass('actionComplete');
+
+		setTimeout(function(){
+			$that.removeClass('changingPassword');
+		}, 3000);
+
+		setTimeout(function(){
+			$that.removeClass('actionComplete');
+		}, 3200);
+	}
+
+	$scope.sendFeedback = function(e){
+		var that = $(e.target)
+
+		
+	}
+
+
+
+
+
+	// ACTION / REACTION
 
 	$scope.addCell = function(e){
 		hoodie.store.add('cell', {
@@ -149,8 +321,6 @@ var app = angular.module('app', [
 	}
 
 
-
-
 	$scope.removeCell = function(id) {
 		console.log(id)
 		hoodie.store.remove('cell', id).done(function(object){
@@ -167,11 +337,16 @@ var app = angular.module('app', [
 	};
 
 	hoodie.remote.on('add', function (newObject) {
-		console.log('INCOMING NEW')
-		console.log(newObject)
-		$scope.cells.push(newObject)
-		cellular = $scope.cells
-		console.log($scope.cells)
+		if (!signingUp && (signupCount == 4)){
+			console.log('INCOMING NEW')
+			console.log(newObject)
+			$scope.cells.push(newObject)
+			cellular = $scope.cells
+			console.log($scope.cells)
+		}else{
+			signupCount++;
+		}
+		
 	});
 
 	// existing doc updated
@@ -301,19 +476,19 @@ var app = angular.module('app', [
 		.done(function(updatedObject){
 			console.log(updatedObject)
 		})
-	}, 200);
+	}, 1000);
 
 	$scope.cellEditBody = function(e){
-		var el = $(e.target).find('.textarea-container').last().find('textarea')[0]
+		// var el = $(e.target).find('.textarea-container').last().find('textarea')[0]
 
-		if (typeof el.selectionStart == "number") {
-	        el.selectionStart = el.selectionEnd = el.value.length;
-	    } else if (typeof el.createTextRange != "undefined") {
-	        el.focus();
-	        var range = el.createTextRange();
-	        range.collapse(false);
-	        range.select();
-	    }
+		// if (typeof el.selectionStart == "number") {
+	 //        el.selectionStart = el.selectionEnd = el.value.length;
+	 //    } else if (typeof el.createTextRange != "undefined") {
+	 //        el.focus();
+	 //        var range = el.createTextRange();
+	 //        range.collapse(false);
+	 //        range.select();
+	 //    }
 	}
 
 	$scope.textSort = {

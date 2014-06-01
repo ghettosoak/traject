@@ -42,7 +42,8 @@ body {
   padding: 10px;
   background-color: #024959;
   font-family: u47;
-  color: #f2efdc; }
+  color: #f2efdc;
+  overflow: hidden; }
 
 input, textarea {
   font-family: u47;
@@ -63,39 +64,425 @@ input, textarea {
   height: 100%;
   width: 100%; }
 
-.addCell {
-  cursor: pointer; }
+.modalBG {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  display: none; }
+
+button.primary {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0px 0px -40px;
+  border-radius: 100px;
+  text-align: center;
+  border: 0px;
+  background-color: #f2efdc;
+  color: #024959;
+  cursor: pointer;
+  font-family: u67;
+  font-size: 16px;
+  z-index: 10;
+  -webkit-transition: all 0.35s ease-in-out;
+  -moz-transition: all 0.35s ease-in-out;
+  -o-transition: all 0.35s ease-in-out;
+  transition: all 0.35s ease-in-out; }
+  button.primary:before {
+    content: '';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    border: 1px #f2efdc solid;
+    border-radius: 100px;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out; }
+  button.primary:hover:before {
+    height: 110%;
+    width: 110%;
+    top: -5%;
+    left: -5%; }
+  button.primary:focus {
+    outline: 0px; }
+    button.primary:focus:before {
+      height: 110%;
+      width: 110%;
+      top: -5%;
+      left: -5%; }
+  .active button.primary {
+    background-color: #024959;
+    color: #f2efdc; }
+    .active button.primary:before {
+      height: 110%;
+      width: 110%;
+      top: -5%;
+      left: -5%;
+      border: 1px #024959 solid; }
+    .active button.primary:hover:before, .active button.primary:focus:before {
+      border: 3px #024959 solid; }
+
+button.secondary {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  background-color: #f2efdc;
+  border-top: 1px #024959 solid;
+  border-right: 1px #024959 solid;
+  border-bottom: 1px #024959 solid;
+  border-left: 1px #024959 solid;
+  border-radius: 0px 0px 5px 5px;
+  cursor: pointer;
+  color: #024959;
+  font-family: u47;
+  font-size: 14px;
+  text-transform: uppercase; }
+  button.secondary:hover {
+    background-color: #024959;
+    border-top: 1px #f2efdc solid;
+    color: #f2efdc; }
+  button.secondary:focus {
+    outline: 0;
+    border-right: 1px #024959 dashed;
+    border-bottom: 1px #024959 dashed;
+    border-left: 1px #024959 dashed; }
+
+.hello {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: #024959;
+  z-index: 1000;
+  opacity: 1;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1); }
+  .yesLetsGo .hello {
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+    opacity: 0; }
+  .upUpAndAway .hello {
+    display: none; }
+  .hello .andWelcome {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+    padding: 20px; }
+    .hello .andWelcome div {
+      height: 250px;
+      position: relative;
+      float: left;
+      top: 50%; }
+    .hello .andWelcome .one {
+      width: 100%;
+      background-image: url(../img/logo.png);
+      background-size: 100px 100px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      margin-top: -375px; }
+    .hello .andWelcome .two,
+    .hello .andWelcome .three,
+    .hello .andWelcome .four {
+      width: 33.33333%;
+      border-top: 5px #f2efdc solid;
+      border-bottom: 5px #f2efdc solid;
+      margin-top: -125px;
+      overflow: hidden; }
+    .hello .andWelcome .two {
+      display: table; }
+      .hello .andWelcome .two p {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 27px;
+        line-height: 25px; }
+        .hello .andWelcome .two p span {
+          font-family: u67;
+          letter-spacing: 2px; }
+    .hello .andWelcome .three .input,
+    .hello .andWelcome .four .input {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: -100%;
+      left: 0px;
+      padding: 0px 10px;
+      background-color: #f2efdc;
+      -webkit-transition: all 0.35s ease-in-out;
+      -moz-transition: all 0.35s ease-in-out;
+      -o-transition: all 0.35s ease-in-out;
+      transition: all 0.35s ease-in-out;
+      opacity: 0;
+      border-top: 10px #024959 solid;
+      border-bottom: 10px #024959 solid; }
+      .hello .andWelcome .three .input input,
+      .hello .andWelcome .four .input input {
+        position: relative;
+        float: left;
+        width: 100%;
+        background-color: #024959;
+        border: 1px #f2efdc solid;
+        border-radius: 5px;
+        margin-top: 10px;
+        color: #f2efdc;
+        padding: 12px;
+        font-size: 20px;
+        -webkit-transition: background-color 0.35s ease-in-out;
+        -moz-transition: background-color 0.35s ease-in-out;
+        -o-transition: background-color 0.35s ease-in-out;
+        transition: background-color 0.35s ease-in-out; }
+      .hello .andWelcome .three .input .ng-invalid-email,
+      .hello .andWelcome .four .input .ng-invalid-email {
+        background-color: #c80000; }
+    .hello .andWelcome .three.active button,
+    .hello .andWelcome .four.active button {
+      margin: 20px 0px 0px -40px; }
+    .hello .andWelcome .three.active .input,
+    .hello .andWelcome .four.active .input {
+      top: 0px;
+      opacity: 1; }
+
+.startUp {
+  display: none;
+  height: 500px;
+  width: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -250px 0 0 -250px;
+  background-color: #024959;
+  border: 2px #f2efdc solid;
+  z-index: 100; }
+  .startUp .startUpCarousel {
+    position: absolute;
+    height: 100%;
+    width: 1300%;
+    z-index: 101; }
+  .startUp .startUpShow {
+    position: relative;
+    float: left;
+    height: 100%;
+    width: 7.69231%; }
+
+.sidebar {
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  background-color: #f2efdc;
+  top: 0px;
+  left: -200px;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  z-index: 1000;
+  border-right: 1px #f2efdc solid; }
+  .sidebar.sidebarOpen {
+    left: 0px; }
+    .sidebar.sidebarOpen .menu {
+      opacity: 1; }
+  .sidebar .menu {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -moz-transition: opacity 0.2s ease-in-out;
+    -o-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out; }
+    .sidebar .menu li {
+      color: #024959;
+      list-style: none;
+      width: 100%;
+      cursor: pointer;
+      height: 50px;
+      display: table;
+      padding: 10px; }
+      .sidebar .menu li span {
+        display: table-cell;
+        vertical-align: middle;
+        text-transform: uppercase;
+        letter-spacing: 2px; }
+      .sidebar .menu li:hover {
+        color: #f2efdc;
+        background-color: #024959; }
+    .sidebar .menu form {
+      margin: 0px; }
+    .sidebar .menu .passwordChanger,
+    .sidebar .menu .feedbackForm {
+      position: relative;
+      float: left;
+      width: 100%;
+      height: 0px;
+      overflow: hidden;
+      padding: 0px 10px;
+      opacity: 0;
+      -webkit-transition: all 0.2s ease-in-out;
+      -moz-transition: all 0.2s ease-in-out;
+      -o-transition: all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out; }
+      .sidebar .menu .passwordChanger p,
+      .sidebar .menu .feedbackForm p {
+        position: relative;
+        width: 100%;
+        display: none;
+        color: #024959;
+        text-align: center;
+        text-transform: uppercase;
+        line-height: 170px;
+        margin: 0px;
+        text-align: center; }
+      .sidebar .menu .passwordChanger.actionComplete p,
+      .sidebar .menu .feedbackForm.actionComplete p {
+        display: block; }
+      .sidebar .menu .passwordChanger.actionComplete input,
+      .sidebar .menu .passwordChanger.actionComplete textarea, .sidebar .menu .passwordChanger.actionComplete button,
+      .sidebar .menu .feedbackForm.actionComplete input,
+      .sidebar .menu .feedbackForm.actionComplete textarea,
+      .sidebar .menu .feedbackForm.actionComplete button {
+        display: none; }
+    .sidebar .menu input,
+    .sidebar .menu textarea {
+      position: relative;
+      float: left;
+      width: 100%;
+      background-color: #024959;
+      color: #f2efdc;
+      padding: 12px;
+      font-size: 16px; }
+    .sidebar .menu .oldPassword {
+      border-radius: 5px 5px 0px 0px;
+      border-bottom: 1px #f2efdc solid; }
+    .sidebar .menu .passwordChanger input {
+      text-align: center; }
+    .sidebar .menu .feedbackForm textarea {
+      border-radius: 5px 5px 0px 0px;
+      height: 100px; }
+    .sidebar .menu .changingPassword {
+      height: 170px;
+      padding: 10px;
+      opacity: 1;
+      border-top: 1px #024959 solid; }
+    .sidebar .menu .feedbackOpen {
+      height: 170px;
+      padding: 10px;
+      opacity: 1;
+      border-top: 1px #024959 solid; }
+  .sidebar .side {
+    position: absolute;
+    height: 100%;
+    width: 50px;
+    left: 200px;
+    top: 0px;
+    cursor: pointer;
+    z-index: 100; }
+    .sidebar .side span {
+      height: 1px;
+      width: 20px;
+      left: 15px;
+      position: absolute;
+      background-color: #024959; }
+    .sidebar .side span:nth-of-type(1) {
+      top: 15px; }
+    .sidebar .side span:nth-of-type(2) {
+      top: 20px; }
+    .sidebar .side span:nth-of-type(3) {
+      top: 25px; }
 
 .grid {
-  margin: auto; }
+  margin: auto;
+  opacity: 0;
+  display: none;
+  padding-left: 50px;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: scale 0.5s ease-in-out;
+  -moz-transition: scale 0.5s ease-in-out;
+  -o-transition: scale 0.5s ease-in-out;
+  transition: scale 0.5s ease-in-out;
+  -webkit-transition: left 0.2s ease-in-out;
+  -moz-transition: left 0.2s ease-in-out;
+  -o-transition: left 0.2s ease-in-out;
+  transition: left 0.2s ease-in-out;
+  -webkit-transform: scale(0.5);
+  -moz-transform: scale(0.5);
+  -ms-transform: scale(0.5);
+  -o-transform: scale(0.5);
+  transform: scale(0.5); }
+  .yesLetsGo .grid {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+    display: block; }
+  .grid.sidebarOpen {
+    left: 250px; }
   .grid ul {
     padding: 0px;
     margin: 0px auto;
+    position: absolute !important;
+    left: 50%;
     width: 100%; }
-    @media screen and (min-width: 210px) {
+    @media screen and (min-width: 260px) {
       .grid ul {
-        width: 210px; } }
-    @media screen and (min-width: 420px) {
+        width: 210px;
+        margin-left: -75px; } }
+    @media screen and (min-width: 470px) {
       .grid ul {
-        width: 420px; } }
-    @media screen and (min-width: 630px) {
+        width: 420px;
+        margin-left: -180px; } }
+    @media screen and (min-width: 680px) {
       .grid ul {
-        width: 630px; } }
-    @media screen and (min-width: 840px) {
+        width: 630px;
+        margin-left: -285px; } }
+    @media screen and (min-width: 890px) {
       .grid ul {
-        width: 840px; } }
-    @media screen and (min-width: 1050px) {
+        width: 840px;
+        margin-left: -390px; } }
+    @media screen and (min-width: 1100px) {
       .grid ul {
-        width: 1050px; } }
-    @media screen and (min-width: 1260px) {
+        width: 1050px;
+        margin-left: -495px; } }
+    @media screen and (min-width: 1310px) {
       .grid ul {
-        width: 1260px; } }
-    @media screen and (min-width: 1470px) {
+        width: 1260px;
+        margin-left: -600px; } }
+    @media screen and (min-width: 1520px) {
       .grid ul {
-        width: 1470px; } }
-    @media screen and (min-width: 1680px) {
+        width: 1470px;
+        margin-left: -705px; } }
+    @media screen and (min-width: 1730px) {
       .grid ul {
-        width: 1680px; } }
+        width: 1680px;
+        margin-left: -810px; } }
   .grid .cell {
     list-style: none;
     margin: 0px;
@@ -341,7 +728,8 @@ input, textarea {
         font-family: u67; }
   .grid .cell .addCell {
     border-radius: 1000px;
-    overflow: hidden; }
+    overflow: hidden;
+    cursor: pointer; }
     .grid .cell .addCell .add {
       height: 100%;
       width: 100%;

@@ -1,0 +1,32 @@
+.color00{
+	background-color:$active;
+ 	color:$color03;
+}
+
+.color01{ 
+	background-color: $color01 ;
+	textarea{
+		background-color:$color01;
+	}
+
+ 	.catOpener span{ background-color: $color01;}
+ 	.catSelecting .catOpener{ background-color:$color01 !important;}
+}
+.color02{ 
+	background-color: $color02 ;
+	textarea{
+		background-color:$color02;
+	}
+
+ 	.catOpener span{ background-color: $color02;}
+ 	.catSelecting .catOpener{ background-color:$color02 !important;}
+}
+.color03{ 
+	background-color: $color03 ;
+	textarea{
+		background-color:$color03;
+	}
+
+ 	.catOpener span{ background-color: $color03;}
+ 	.catSelecting .catOpener{ background-color:$color03 !important;}
+}

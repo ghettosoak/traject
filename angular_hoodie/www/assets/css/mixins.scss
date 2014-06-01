@@ -1,0 +1,51 @@
+@mixin iconInclude(){
+   background-image:url(../img/spritesheet.png);
+    .lt-ie9 &, .no-svg & {
+//        background-image:url(../img/spritesheet_1x.png);
+    }
+}
+
+// useful for when we only need to resize our icons between layouts
+// @width = the width of the space you need to fill
+@mixin iconSize($width){
+    background-size:$width*$spritesheet_width auto;
+}
+
+
+// and here is where the magic happens on the spritesheet.
+// @width = the width of the space you need to fill (yes, it's repeated)
+// @posX = the X position of the desired icon on the icon grid
+// @posY = the Y position of the desired icon on the icon grid
+@mixin iconPlace($width, $posX, $posY) {
+    background-position: -$posX*$width -$posY*$width;
+}
+
+// this is an experimental mixin for placing logos and img included on the spritesheet.
+// to use it, please put your logo or icon PRECISELY how large it should be displayed on the page
+// at the TOP LEFT CORNER of a row, all the way at the BEGINNING. then, it will be perfect for IE8! :D
+@mixin imagePlace($steps){
+    background-size:$spritesheet_width*$spritesheet_cell_width auto;
+    background-position: 0px -$steps*$spritesheet_cell_width;
+}
+
+@mixin transition($what){
+	-webkit-transition: $what;
+	-moz-transition: $what;
+	-o-transition: $what;
+	transition: $what;
+}
+
+@mixin transform-origin($where){
+	-webkit-transform-origin: $where;
+	-moz-transform-origin: $where;
+	-o-transform-origin: $where;
+	transform-origin: $where;
+}
+
+@mixin transform($what){
+	-webkit-transform: $what;
+	-moz-transform:    $what;
+	-ms-transform:     $what;
+	-o-transform:      $what;
+	transform:         $what;
+}

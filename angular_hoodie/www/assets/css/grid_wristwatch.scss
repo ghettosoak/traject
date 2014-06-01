@@ -1,0 +1,81 @@
+.cell .wristwatch{
+ 		display:table;
+
+ 		.status{
+ 			position:absolute;
+ 			top:5px;
+ 			left:5px;
+ 			width:25px;
+ 			height:25px;
+ 			opacity:0;
+
+ 			@include iconInclude;
+ 			@include iconSize(25);
+
+ 			&.online,
+ 			&.local{
+ 				opacity:1;
+ 			}
+
+ 			&.online{
+ 				@include iconPlace(25, 0, 0);
+ 			}
+
+ 			&.local{
+ 				@include iconPlace(25, 1, 0);
+ 			}
+ 		}
+
+ 		.wx, .date{
+ 			position: absolute;
+ 			font-size:14px;
+ 			margin:0px;
+ 		}
+
+ 		.wx{
+ 			top:5px;
+ 			right:5px;
+
+ 			.deg, .icon{
+ 				position: relative;
+ 				float:right;
+ 			}
+
+ 			.deg{
+ 				margin: 2px 0px 0px 5px;	
+ 				&:after{
+ 					content: "\00b0";
+ 				}
+ 			}
+ 			
+ 			.icon:before{
+				height:100%;
+				width:100%;
+				display:block;
+				font-family: wxFont;
+ 			}
+
+ 			@import 'grid_wristwatch_wx';
+ 		}
+
+ 		.time{
+ 			height: 58px;
+ 			width: 100%;
+ 			position: absolute;
+ 			top: 50%;
+ 			margin-top: -28px;
+ 			text-align: center;
+ 			font-family: u39;
+ 			font-size: 75px;
+ 			font-weight: normal;
+ 			line-height: 70px;
+ 		}
+
+ 		.date{
+ 			left:0px;
+ 			width:100%;
+ 			bottom:5px;
+ 			text-align:center;
+ 			.today{font-family: u67;}
+ 		}
+ 	}
