@@ -17,20 +17,7 @@ var signingIn = false;
 
 var signupCount = 0;
 
-
-// STARTUP.JS
-
-// var startupCount = 0
-
-// $('.SUB_left').click(function(){
-	
-// })
-
-// $('.SUB_right').click(function(){
-	
-// })
-
-
+var theContainer = document.getElementById('ng-app');
 
 var hoodie  = new Hoodie('http://127.0.0.1:6001/');
 window.hoodie = hoodie;
@@ -80,15 +67,14 @@ var app = angular.module('app', [
 
 .controller('MainCtrl', function($window, $scope, $http, $interval, $cookieStore, hoodie, hoodieArray) {
 
-	// hoodie.account.signUp('m', 'f');
-	// hoodie.account.signIn('m', 'f');
-
 	columnCounter();
 
 	$scope.threeOpen = false;
 	$scope.fourOpen = false;
 
 	$scope.startUpIndex;
+
+	theContainer.className = 'modalClear';
 
 
 	// SIGN UP
@@ -165,14 +151,14 @@ var app = angular.module('app', [
 			$scope.cells.push(object);
 			cellular = $scope.cells;
 
-			$scope.howCanIHelpYou = 'yesLetsGo';
+			theContainer.className = 'yesLetsGo';
 
 			setTimeout(function(){
-				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+				theContainer.className = 'yesLetsGo upUpAndAway';
 			}, 550)
 
 			setTimeout(function(){
-				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway startingUp';
+				theContainer.className = 'yesLetsGo upUpAndAway startingUp';
 			}, 1000)
 		});
 	});
@@ -206,10 +192,10 @@ var app = angular.module('app', [
 					cellular = $scope.cells = objects;
 					console.log(cellular)
 
-					$scope.howCanIHelpYou = 'yesLetsGo';
+					theContainer.className = 'yesLetsGo';
 
 					setTimeout(function(){
-						$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+						theContainer.className = 'yesLetsGo upUpAndAway';
 
 						$(signInForm).parents('.four').removeClass('active')
 						$scope.fourOpen = false;
@@ -222,13 +208,16 @@ var app = angular.module('app', [
  
 	$scope.logOut = function(e){
 		hoodie.account.signOut();
-		$scope.howCanIHelpYou = '';
-	}
-
-	hoodie.account.on('signout', function (user) {
+		theContainer.className = '';
 		localStorage.removeItem('user');
 		localStorage.removeItem('pass');
-	});
+		cellular = $scope.cells = [];
+	}
+
+	// hoodie.account.on('signout', function (user) {
+	// 	localStorage.removeItem('user');
+	// 	localStorage.removeItem('pass');
+	// });
 
 
 
@@ -247,13 +236,17 @@ var app = angular.module('app', [
 				cellular = $scope.cells = objects//.splice(0, 1);
 				console.log(cellular)
 
-				$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+				theContainer.className = 'yesLetsGo upUpAndAway modalClear';
 			});
 	}
 
 	
 	$scope.demo = function(){
-		$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway startingUp';
+		theContainer.className = 'yesLetsGo upUpAndAway';
+
+		setTimeout(function(){
+			theContainer.className = 'yesLetsGo upUpAndAway startingUp';
+		}, 5);
 	};
 
 	$scope.changePassword = function(e){
@@ -275,11 +268,19 @@ var app = angular.module('app', [
 	};
 
 	$scope.aboutOpener = function(){
-		$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway viewingAbout';
+		theContainer.className = 'yesLetsGo upUpAndAway';
+
+		setTimeout(function(){
+			theContainer.className = 'yesLetsGo upUpAndAway viewingAbout';
+		}, 5);
 	};
 
 	$scope.modalCloser = function(){
-		$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+		theContainer.className = 'yesLetsGo upUpAndAway';
+
+		setTimeout(function(){
+			theContainer.className = 'yesLetsGo upUpAndAway modalClear';
+		}, 500);
 	}
 
 
@@ -289,7 +290,7 @@ var app = angular.module('app', [
 
 	$scope.SUB_left = function(){
 		if ($scope.startUpIndex === 14){
-			$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+			theContainer.className = 'yesLetsGo upUpAndAway';
 			$scope.startUpIndex = 1;
 		}else{
 			$scope.startUpIndex--;
@@ -298,7 +299,10 @@ var app = angular.module('app', [
 
 	$scope.SUB_right = function(){
 		if ($scope.startUpIndex >= 14){
-			$scope.howCanIHelpYou = 'yesLetsGo upUpAndAway';
+			theContainer.className = 'yesLetsGo upUpAndAway';
+			setTimeout(function(){
+				theContainer.className = 'yesLetsGo upUpAndAway modalClear';
+			}, 500);
 			$scope.startUpIndex = 1;
 		}else{
 			$scope.startUpIndex++;
@@ -466,7 +470,7 @@ var app = angular.module('app', [
 		var getThisOne =  Math.floor(Math.random() * (100 - 0 + 1)) + 0;
 		var stare = gazeList[getThisOne];
 		var pull = 'http://farm' + stare.farm + '.staticflickr.com/' + stare.server + '/' + stare.id + '_' + stare.secret + '.jpg'
-		// $scope.gaze = 'url(' + pull + ')';
+		$scope.gaze = 'url(' + pull + ')';
 	}
 
 	$interval(getGaze, 600000);
@@ -529,16 +533,16 @@ var app = angular.module('app', [
 	}, 1000);
 
 	$scope.cellEditBody = function(e){
-		// var el = $(e.target).find('.textarea-container').last().find('textarea')[0]
+		var el = $(e.target).find('.textarea-container').last().find('textarea')[0]
 
-		// if (typeof el.selectionStart == "number") {
-	 //        el.selectionStart = el.selectionEnd = el.value.length;
-	 //    } else if (typeof el.createTextRange != "undefined") {
-	 //        el.focus();
-	 //        var range = el.createTextRange();
-	 //        range.collapse(false);
-	 //        range.select();
-	 //    }
+		if (typeof el.selectionStart == "number") {
+	        el.selectionStart = el.selectionEnd = el.value.length;
+	    } else if (typeof el.createTextRange != "undefined") {
+	        el.focus();
+	        var range = el.createTextRange();
+	        range.collapse(false);
+	        range.select();
+	    }
 	}
 
 	$scope.textSort = {
@@ -720,7 +724,7 @@ var app = angular.module('app', [
     	var theCellIndex;
 
     	for (var i in cellular){
-			if (cellular[i]._id == theCell){
+			if (cellular[i].id == theCell){
 				cellular[i].category = newCat;
 			}
 		}

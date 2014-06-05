@@ -1,22 +1,27 @@
 #startUp{
 	// display:none;
-	height:450px;
+	height:480px;
 	width:439px;
 	position: fixed;
-	top:-50%;
+	top:50%;
 	left:50%;
-	margin:-225px 0 0 -219.5px;
-	background-color:$light;
-	color:$bg;
-	border-radius:5px;
+	margin:-240px 0 0 -219.5px;
+	// background-color:$light;
+	// color:$bg;
 	z-index: 900;
 	
 	opacity: 0;
 	@include transition(all .5s ease-in-out);
+	@include transform(scale(1.5));
 
 	.startingUp &{
-		top:50%;
+		@include transform(scale(1));
 		opacity: 1;
+	}
+
+	.modalClear &, 
+	.viewingAbout &{
+		display:none
 	}
 
 	.startUpImage{
@@ -28,9 +33,19 @@
 		background-image:url(../img/startup_field.png);
 		@include transition(all .5s ease-in-out);
 		background-repeat:no-repeat;
-		background-color:$bg;
-		border-radius:5px 5px 0px 0px;
-		overflow: hidden;
+
+		&:before{
+			width:459px;
+			height:305px;
+			top:-10px;
+			left:-10px;
+			position: absolute;
+			background-color:$bg;
+			content:'';
+			border:1px $light solid;
+			border-radius: 5px;
+			z-index: -1;
+		}
 
 		.shadow{
 			position: absolute;
@@ -79,12 +94,13 @@
 	.startUpText{
 		overflow: hidden;
 		position: absolute;
-		top:285px;
+		top:305px;
 		left:0px;
 		height:115px;
 		width:100%;
 		z-index: 101;
-		border-top:1px $bg solid;
+		border-top:1px $light solid;
+		border-bottom:1px $light solid;
 		.startUpCarousel{
 			position: absolute;
 			height:100%;
@@ -112,14 +128,11 @@
 
 
 	.startUpButton{
-		width:50%;
+		width:49%;
 		height:50px;
 		position: absolute;
 		bottom:0px;
-		border-top:1px $bg solid;
-		border-right:1px $light solid;
-		border-bottom:1px $light solid;
-		border-left:0px;
+		border:1px $light solid;
 		background-color:$light;
 		text-transform: uppercase;
 		color:$bg;
@@ -128,13 +141,13 @@
 		cursor: pointer;
 		font-family: $type_bold;
 		font-size:16px;
+		border-radius:5px;
+		line-height: 50px;
 
 		&:hover{
 			background-color:$bg;
 			color:$light;
-			border-right:1px $light dashed;
-			border-bottom:1px $light dashed;
-			border-left:1px $light dashed;
+			border:1px $light solid;
 		}
 
 		&:focus{
@@ -143,14 +156,9 @@
 
 		&.SUB_left{
 			left:0px;
-			line-height: 50px;
-			border-right:1px $bg solid;
-			border-radius:0px 0px 0px 5px;
 		}
 		&.SUB_right {
 			right:0px;
-			line-height: 50px;
-			border-radius: 0px 0px 5px 0px;
 		}
 	}
 
@@ -197,8 +205,8 @@
 
 	&.startUp_0{
 		.startUpImage{
-			background-size: 610px;
-			background-position: -168px 0px;
+			background-size: 580px;
+			background-position: -126px 0px;
 		}
 
 		.SUB_left:before{
@@ -224,7 +232,7 @@
 		
 		.SUB_right{
 			width:100%;
-			border-radius:0px 0px 5px 5px;
+			border-radius:5px 5px 5px 5px;
 			&:before{
 				content:'NEXT';
 			}
@@ -358,8 +366,8 @@
 
 	&.startUp_14{
 		.startUpImage{
-			background-size: 610px;
-			background-position: -168px 0px;
+			background-size: 580px;
+			background-position: -126px 0px;
 		}
 
 		.SUB_left:before{

@@ -29,6 +29,15 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
+a {
+  text-decoration: none;
+  color: #f2efdc;
+  border-bottom: 1px #f2efdc dotted; }
+
+b {
+  font-weight: normal;
+  font-family: u67; }
+
 a img {
   border: none; }
 
@@ -67,19 +76,78 @@ input, textarea {
 .modalBG {
   position: fixed;
   top: 0px;
-  left: -100%;
+  left: 0%;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(2, 73, 89, 0.8);
   z-index: 800;
   opacity: 0;
-  -webkit-transition: opacity 0.5s ease-in-out;
-  -moz-transition: opacity 0.5s ease-in-out;
-  -o-transition: opacity 0.5s ease-in-out;
-  transition: opacity 0.5s ease-in-out; }
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  transform: scale(1.5); }
   .startingUp .modalBG, .viewingAbout .modalBG {
     opacity: 1;
-    left: 0px; }
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1); }
+  .modalClear .modalBG {
+    display: none; }
+  .modalBG .modalCloser {
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #f2efdc;
+    border-radius: 50px;
+    cursor: pointer; }
+    .modalBG .modalCloser .crossbar1,
+    .modalBG .modalCloser .crossbar2 {
+      position: absolute;
+      height: 30px;
+      width: 1px;
+      background-color: #024959;
+      top: 50%;
+      left: 50%;
+      margin: -15px 0px 0px 0px; }
+    .modalBG .modalCloser .crossbar1 {
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg); }
+    .modalBG .modalCloser .crossbar2 {
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      transform: rotate(-45deg); }
+    .modalBG .modalCloser:before {
+      content: '';
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      border: 1px #f2efdc solid;
+      border-radius: 50px;
+      -webkit-transition: all 0.1s ease-in-out;
+      -moz-transition: all 0.1s ease-in-out;
+      -o-transition: all 0.1s ease-in-out;
+      transition: all 0.1s ease-in-out; }
+    .modalBG .modalCloser:hover:before {
+      height: 120%;
+      width: 120%;
+      top: -10%;
+      left: -10%; }
 
 button.primary {
   position: absolute;
@@ -163,55 +231,6 @@ button.secondary {
     border-right: 1px #024959 dashed;
     border-bottom: 1px #024959 dashed;
     border-left: 1px #024959 dashed; }
-
-.modalCloser {
-  height: 50px;
-  width: 50px;
-  position: absolute;
-  top: 0px;
-  left: -60px;
-  background-color: #f2efdc;
-  border-radius: 50px;
-  cursor: pointer; }
-  .modalCloser .crossbar1,
-  .modalCloser .crossbar2 {
-    position: absolute;
-    height: 30px;
-    width: 1px;
-    background-color: #024959;
-    top: 50%;
-    left: 50%;
-    margin: -15px 0px 0px 0px; }
-  .modalCloser .crossbar1 {
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg); }
-  .modalCloser .crossbar2 {
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    transform: rotate(-45deg); }
-  .modalCloser:before {
-    content: '';
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    border: 1px #f2efdc solid;
-    border-radius: 50px;
-    -webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -o-transition: all 0.1s ease-in-out;
-    transition: all 0.1s ease-in-out; }
-  .modalCloser:hover:before {
-    height: 120%;
-    width: 120%;
-    top: -10%;
-    left: -10%; }
 
 .hello {
   position: fixed;
@@ -335,24 +354,32 @@ button.secondary {
     font-size: 14px; }
 
 #startUp {
-  height: 450px;
+  height: 480px;
   width: 439px;
   position: fixed;
-  top: -50%;
+  top: 50%;
   left: 50%;
-  margin: -225px 0 0 -219.5px;
-  background-color: #f2efdc;
-  color: #024959;
-  border-radius: 5px;
+  margin: -240px 0 0 -219.5px;
   z-index: 900;
   opacity: 0;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  transform: scale(1.5); }
   .startingUp #startUp {
-    top: 50%;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
     opacity: 1; }
+  .modalClear #startUp, .viewingAbout #startUp {
+    display: none; }
   #startUp .startUpImage {
     position: absolute;
     top: 0px;
@@ -364,10 +391,18 @@ button.secondary {
     -moz-transition: all 0.5s ease-in-out;
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
-    background-repeat: no-repeat;
-    background-color: #024959;
-    border-radius: 5px 5px 0px 0px;
-    overflow: hidden; }
+    background-repeat: no-repeat; }
+    #startUp .startUpImage:before {
+      width: 459px;
+      height: 305px;
+      top: -10px;
+      left: -10px;
+      position: absolute;
+      background-color: #024959;
+      content: '';
+      border: 1px #f2efdc solid;
+      border-radius: 5px;
+      z-index: -1; }
     #startUp .startUpImage .shadow {
       position: absolute;
       height: 100%;
@@ -413,12 +448,13 @@ button.secondary {
   #startUp .startUpText {
     overflow: hidden;
     position: absolute;
-    top: 285px;
+    top: 305px;
     left: 0px;
     height: 115px;
     width: 100%;
     z-index: 101;
-    border-top: 1px #024959 solid; }
+    border-top: 1px #f2efdc solid;
+    border-bottom: 1px #f2efdc solid; }
     #startUp .startUpText .startUpCarousel {
       position: absolute;
       height: 100%;
@@ -439,14 +475,11 @@ button.secondary {
             font-weight: normal;
             font-family: u67; }
   #startUp .startUpButton {
-    width: 50%;
+    width: 49%;
     height: 50px;
     position: absolute;
     bottom: 0px;
-    border-top: 1px #024959 solid;
-    border-right: 1px #f2efdc solid;
-    border-bottom: 1px #f2efdc solid;
-    border-left: 0px;
+    border: 1px #f2efdc solid;
     background-color: #f2efdc;
     text-transform: uppercase;
     color: #024959;
@@ -454,24 +487,19 @@ button.secondary {
     padding: 0px;
     cursor: pointer;
     font-family: u67;
-    font-size: 16px; }
+    font-size: 16px;
+    border-radius: 5px;
+    line-height: 50px; }
     #startUp .startUpButton:hover {
       background-color: #024959;
       color: #f2efdc;
-      border-right: 1px #f2efdc dashed;
-      border-bottom: 1px #f2efdc dashed;
-      border-left: 1px #f2efdc dashed; }
+      border: 1px #f2efdc solid; }
     #startUp .startUpButton:focus {
       outline: 0px; }
     #startUp .startUpButton.SUB_left {
-      left: 0px;
-      line-height: 50px;
-      border-right: 1px #024959 solid;
-      border-radius: 0px 0px 0px 5px; }
+      left: 0px; }
     #startUp .startUpButton.SUB_right {
-      right: 0px;
-      line-height: 50px;
-      border-radius: 0px 0px 5px 0px; }
+      right: 0px; }
   #startUp.startUp_0 .startUpCarousel {
     left: 0%; }
   #startUp.startUp_1 .startUpCarousel {
@@ -507,8 +535,8 @@ button.secondary {
   #startUp.startUp_1 .SUB_right:before, #startUp.startUp_2 .SUB_right:before, #startUp.startUp_3 .SUB_right:before, #startUp.startUp_4 .SUB_right:before, #startUp.startUp_5 .SUB_right:before, #startUp.startUp_6 .SUB_right:before, #startUp.startUp_7 .SUB_right:before, #startUp.startUp_8 .SUB_right:before, #startUp.startUp_9 .SUB_right:before, #startUp.startUp_10 .SUB_right:before, #startUp.startUp_11 .SUB_right:before, #startUp.startUp_12 .SUB_right:before, #startUp.startUp_13 .SUB_right:before, #startUp.startUp_14 .SUB_right:before {
     content: 'NEXT'; }
   #startUp.startUp_0 .startUpImage {
-    background-size: 610px;
-    background-position: -168px 0px; }
+    background-size: 580px;
+    background-position: -126px 0px; }
   #startUp.startUp_0 .SUB_left:before {
     content: 'NOPE'; }
   #startUp.startUp_0 .SUB_right:before {
@@ -522,7 +550,7 @@ button.secondary {
     display: none; }
   #startUp.startUp_1 .SUB_right {
     width: 100%;
-    border-radius: 0px 0px 5px 5px; }
+    border-radius: 5px 5px 5px 5px; }
     #startUp.startUp_1 .SUB_right:before {
       content: 'NEXT'; }
   #startUp.startUp_2 .startUpImage {
@@ -590,33 +618,41 @@ button.secondary {
   #startUp.startUp_13 .shadow {
     opacity: 1; }
   #startUp.startUp_14 .startUpImage {
-    background-size: 610px;
-    background-position: -168px 0px; }
+    background-size: 580px;
+    background-position: -126px 0px; }
   #startUp.startUp_14 .SUB_left:before {
     content: 'PREVIOUS'; }
   #startUp.startUp_14 .SUB_right:before {
     content: 'SWEET'; }
 
 .aboutTraject {
-  height: 500px;
+  height: 670px;
   width: 500px;
   position: fixed;
-  top: -50%;
+  top: 50%;
   left: 50%;
   padding: 20px;
-  margin: -250px 0 0 -250px;
-  border-radius: 5px;
-  background-color: #024959;
-  border: 2px #f2efdc solid;
+  margin: -335px 0 0 -250px;
   z-index: 900;
   opacity: 0;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   -o-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  transform: scale(1.5); }
   .viewingAbout .aboutTraject {
-    top: 50%;
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
     opacity: 1; }
+  .modalClear .aboutTraject, .startingUp .aboutTraject {
+    display: none; }
   .aboutTraject .logo {
     position: relative;
     float: left;

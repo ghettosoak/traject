@@ -1,9 +1,32 @@
-.modalCloser{
+.modalBG{
+	position: fixed;
+	top:0px;
+	left:0%;
+	height:100%;
+	width:100%;
+	background-color:rgba($bg, .8);
+	z-index: 800; 
+	opacity: 0;
+	@include transition(all .5s ease-in-out);
+	@include transform(scale(1.5));
+
+	.startingUp &,
+	.viewingAbout &{
+		opacity:1;
+		@include transform(scale(1));
+	}	
+
+	.modalClear &{
+		display:none
+	}
+
+
+	.modalCloser{
 		height:50px;
 		width:50px;
-		position: absolute;
-		top:0px;
-		left:-60px;
+		position: fixed;
+		top:20px;
+		left:20px;
 		background-color:$light;
 		border-radius: 50px;
 		cursor: pointer;
@@ -45,3 +68,8 @@
 			left:-10%;
 		}
 	}
+}
+
+
+
+

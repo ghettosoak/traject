@@ -1,5 +1,10 @@
 <div class="modalBG" 
-	ng-click="modalCloser()"></div>
+	ng-click="modalCloser()">
+	<div class="modalCloser">
+		<div class="crossbar1"></div>
+		<div class="crossbar2"></div>
+	</div>
+</div>
 
 <div class="hello">
 	<div class="andWelcome">
@@ -42,12 +47,6 @@
 
 <div id="startUp" class="startUp_{{startUpIndex}}" ng-class="">
 	
-	<div class="modalCloser"
-		ng-click="modalCloser()">
-		<div class="crossbar1"></div>
-		<div class="crossbar2"></div>
-	</div>
-
 	<div class="startUpImage">
 		<div class="shadow"></div>
 		<div class="cursor"></div>
@@ -109,16 +108,16 @@
 </div>
 
 <div class="aboutTraject">
-	<div class="modalCloser"
-		ng-click="modalCloser()">
-		<div class="crossbar1"></div>
-		<div class="crossbar2"></div>
-	</div>
 	<div class="logo"></div>
 	<div class="text">
-		<p><b>Tra.ject</b> is a product of social and creative frustration.</p>
-		<p>It leverages angular.js hood.ie and a healthy dose of minimalism to provide a list  </p>
-		<p>&copy; 2014 Mike Fischer.</p>
+		<p><b>Tra.ject</b> is a pet project of Mike Fischer.</p>
+		<p>It is set entirely in Univers: 39, 47 and 67.</p>
+		<p>It is built with <a href="https://angularjs.org/" target="_blank">Angular.js</a> and <a href="http://hood.ie/" target="_blank">Hoodie</a> for the front and back ends respectively.</p>
+		<p>It uses <a href="http://packery.metafizzy.co/" target="_blank">Packery</a> to become responsive, <a href="http://angular-ui.github.io/" target="_blank">Angular UI</a> to become sortable, and <a href="http://momentjs.com/" target="_blank">Moment.js</a> to keep time.</p>
+		<p>It gets images from the <a href="https://www.flickr.com/services/api/" target="_blank">Flickr API</a>, weather from <a href="http://openweathermap.org/" target="_blank">Open Weather Map,</a> and weather icons from <a href="http://erikflowers.github.io/weather-icons/" target="_blank">Eric Flowers.</a></p>
+		<p>Among other things, it is a product of social and creative frustration.</p>
+		<p>A mobile version Tra.ject is coming soon.</p>
+		<p>&copy; 2014 Mike Fischer</p>
 	</div>
 	
 </div>
@@ -142,7 +141,7 @@
 				ng-click="changePassword($event)">change</button>
 		</div>
 
-		<li class="feedback"><span><a href="mailto:e@ject.ch&subject=something%27s%20broken&body=hi!%20thanks%20for%20taking%20the%20time%20to%20give%20feedback%20--%20every%20little%20bit%20helps.%20you%20can%20delete%20this%20little%20message%2C%20but%20please%20be%20as%20specific%20as%20possible%3A%20steps%20leading%20up%20to%20your%20problem%2C%20what%20you%27re%20trying%20to%20do%2C%20the%20current%20phase%20of%20the%20moon%3B%20literally%20everything%20helps%2C%20and%20nothing%20is%20too%20small.%20thanks%20again!">Something's Broken</a></span></li>
+		<li class="feedback"><span><a href="mailto:e@ject.ch?subject=something%27s%20broken&body=hi!%20thanks%20for%20taking%20the%20time%20to%20give%20feedback%20--%20every%20little%20bit%20helps.%20you%20can%20delete%20this%20little%20message%2C%20but%20please%20be%20as%20specific%20as%20possible%3A%20steps%20leading%20up%20to%20your%20problem%2C%20what%20you%27re%20trying%20to%20do%2C%20the%20current%20phase%20of%20the%20moon%3B%20literally%20everything%20helps%2C%20and%20nothing%20is%20too%20small.%20thanks%20again!">Something's Broken</a></span></li>
 
 		<li class="logOut" ng-click="logOut(); sidebarOpen = false"><span>Log Out</span></li>
 
