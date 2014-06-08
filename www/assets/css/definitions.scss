@@ -1,0 +1,50 @@
+$spritesheet_width:3px;
+$spritesheet_cell_width:50px; 
+
+// $type_thin: roboto_condensedlight;
+// $type_regular: robotothin;
+// $type_list: roboto_slabregular;
+// $type_bold: robotomedium;
+
+$type_thin: u39;
+$type_regular: u47;
+$type_list: u47;
+$type_bold: u67;
+
+// ORIGINAL
+$active: #F2EFDC;
+$bg: #024959;
+
+$color01: #2F8E90;
+$color02: #E7614A;
+$color03: #555555;
+
+// ORIG 2.0
+
+// $active: #f3edd6;
+// $bg: #0d3e58;
+
+// $color01: #1c848c;
+// $color02: #da6260;
+// $color03: #575757;
+
+// SUMMER
+// $active: #f2e6d0;
+// $bg: #84d0d9;
+
+// $color01: #f2bc57;
+// $color02: #f25d27;
+// $color03: #76a668;
+
+// LIGHT
+// $active: #ededea;
+// $bg: #a2d7d8;
+
+// $color01: #de5842;
+// $color02: #CCBA88;
+// $color03: #8cba8c;
+
+$light: $active;
+$dark: $color03;
+
+$startupCount: 15;

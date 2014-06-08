@@ -1,0 +1,224 @@
+.cell .list{
+
+		@include transition(background-color .2s ease-in-out);
+
+		cursor: text;
+
+		.textarea-container {
+		  	position: relative;
+		  	width: 100%;
+		  	padding-bottom:5px;
+		
+		  	textarea, .sizer {
+		  		// overflow: hidden;
+		  		width: 100%;
+		  	}
+
+		  	textarea {
+		  		position: absolute;
+		  		top: 0px;
+		  		left: 0px;
+		  		height: 100%;
+		  		resize:none;
+		  		white-space: normal;
+		  		@include transition( (padding-left .1s ease-in-out, background-color .2s ease-in-out) );
+		  		color: $active;
+		  	}
+
+		  	.sizer {
+		  		visibility: hidden;
+		  		white-space: pre-wrap;
+		  		word-wrap: break-word;
+		  		overflow-wrap: break-word;
+		  	}
+		}
+
+
+		.cellHead{		
+			position: relative;
+			float:left;
+			width:100%;
+			top:0px;
+			left:0px;
+			z-index:10;
+			border-bottom:1px $active solid;
+
+			textarea, .sizer {
+				min-height: 33px;
+				padding:8px 10px 6px 25px;
+				font-family: $type_bold;
+			}
+
+			.title{
+				border:0px;
+				height:100%;
+				width:100%;
+				position: absolute;
+				top:0px;
+				left:0px;
+	 			font-size:16px;
+	 			color:$active;
+	 			&:focus{
+	 				outline:none;
+ 				}
+			}
+		}
+
+		.cellEdit{
+			position: relative;
+			float:left;
+			width:100%;
+			top:0px;
+			left:0px;
+			padding:10px 10px 10px 15px;
+			color:$active;
+			text-align: left;
+
+			textarea, .sizer {
+				min-height: 17px;
+				font-size: 14px;
+				line-height: 17px;
+				font-family:$type_list
+			}
+
+			.indent0{
+				.grabber{left:0px;}
+				textarea{padding: 0px 0px 0px 20px;}
+				.sizer{padding-left: 20px;}
+				&.grabbed textarea{padding: 0px 0px 0px 25px;}
+			}
+			.indent1{
+				.grabber{left:10px;}
+				textarea{padding: 0px 0px 0px 30px;}
+				.sizer{padding-left: 30px;}
+				&.grabbed textarea{padding: 0px 0px 0px 35px;}
+			}
+			.indent2{
+				.grabber{left:20px;}
+				textarea{padding: 0px 0px 0px 40px;}
+				.sizer{padding-left: 40px;}
+				&.grabbed textarea{padding: 0px 0px 0px 45px;}
+			}
+
+			.sizer{
+				padding-left: 20px;
+			}
+
+			.grabber{
+				position: absolute;
+				width:30px;
+				height:25px;
+				cursor: row-resize;;
+				z-index: 1;
+
+				@include transition(left .1s ease-in-out);
+
+				span{
+					background-color: lighten($active, 50%);
+					position: absolute;
+					height:15px;
+					width:1px;
+					top:0px;
+					left:10px;
+					border-radius: 0px;
+					@include transition(all .1s ease-in-out);
+				}
+			}
+
+			.grabbed{
+
+				.grabber span{
+					width:10px;
+					height:10px;
+					left:6px;
+					top:3px;
+					border-radius: 50px
+				}
+
+				.sizer{
+					padding-left:25px;
+				}
+			}
+		}
+
+		.grab{
+			position: absolute;
+			width:15px;
+			height:100%;
+			left:0px;
+			top:0px;
+			background-color:$active;
+			z-index: 10;
+
+			.catOpener, 
+			.catSelect{
+				position: absolute;
+				
+				cursor: pointer;
+			}
+
+			.catOpener{
+				height:20px;
+				width:14px;
+				bottom:0px;
+				left:0px;
+				z-index:101;				
+				background-color:$light;
+				border-top:1px $light solid;
+				@include transition(background-color .2s ease-in-out);
+
+				& > span{
+					position: absolute;
+					height:7px;
+					width:7px;
+					top: 6px;
+					left: 4px;
+					border-radius:10px;
+					display:block;
+					overflow:hidden;
+					
+
+					span{
+						position: relative;
+						float:left;
+						height:3px;
+						width:9px;
+						@include transition(background-color .2s ease-in-out);
+					}
+				}
+				
+
+				
+			}
+
+			.catSelect{
+				top:0px;
+				z-index:100;
+				left:-14px;
+				height:100%;
+				width:14px;
+				padding-bottom:20px;
+				@include transition((left .2s ease-in-out));
+
+				span{
+					height:33.3333%;
+					width:100%;
+					display:block;
+					position: relative;
+					float:left;
+				}
+				.cat01{ background-color: $color01 ;}
+				.cat02{ background-color: $color02 ;}
+				.cat03{ background-color: $color03 ;}
+			}
+
+			&.catSelecting{
+				.catOpener span{
+					background-color:$light;
+				}
+				.catSelect{
+					left:0px; 
+				}
+			}
+		}
+	}
