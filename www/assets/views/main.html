@@ -128,8 +128,8 @@
 
 <div class="versioning">
 	<div class="text">
-		<h1>Version 1.0</h1>
-		<p>Holy shit we're at 1.0!</p>
+		<h1>Version 1.0.4</h1>
+		<li>So, I've reached somewhat of a </li>
 		<h4>Known Issues</h4>
 		<li>Deleted cells sometimes have a hard time being recognized by the server. This is a hoodie issue.</li>
 		<li>Added cells are added to the current window, but will not add in other windows until reload. The new cells are still saved. This, again, is a hoodie issue.</li>
@@ -157,6 +157,8 @@
 		</div>
 
 		<li class="feedback"><span><a href="mailto:e@ject.ch?subject=something%27s%20broken&body=hi!%20thanks%20for%20taking%20the%20time%20to%20give%20feedback%20--%20every%20little%20bit%20helps.%20you%20can%20delete%20this%20little%20message%2C%20but%20please%20be%20as%20specific%20as%20possible%3A%20steps%20leading%20up%20to%20your%20problem%2C%20what%20you%27re%20trying%20to%20do%2C%20the%20current%20phase%20of%20the%20moon%3B%20literally%20everything%20helps%2C%20and%20nothing%20is%20too%20small.%20thanks%20again!">Something's Broken</a></span></li>
+		
+		<li class="feedback"><span><a href="mailto:e@ject.ch?subject=something%27s%20missing&body=hi!%20thanks%20for%20taking%20the%20time%20to%20give%20feedback%2C%20I%20really%20REALLY%20appreciate%20it.%20it%27s%20with%20your%20help%20that%20TRA.JECT%20will%20get%20better!%20feel%20free%20to%20delete%20this%20message%2C%20but%20please%20remember%20that%20no%20input%20is%20too%20small.%20thanks%20again!">Something's Missing</a></span></li>
 
 		<li class="logOut" ng-click="logOut(); sidebarOpen = false"><span>Log Out</span></li>
 
@@ -242,7 +244,12 @@
 				}">
 				<div class="cellHead">
 					<div class="textarea-container">
-					  	<textarea ng-model="item.title" class="title" ng-keydown="cellTitle($event)"></textarea>
+					  	<textarea 
+					  	ng-model="item.title" 
+					  	class="title" 
+					  	ng-keydown="cellTitle($event)"
+					  	ng-focus="weAreFocused($event)"
+					  	ng-blur="weAreNotFocused($event)"></textarea>
 					  	<div class="sizer">{{item.title}}</div>
 					</div>
 				</div>
@@ -262,7 +269,9 @@
 					  	<textarea 
 						  	ng-model="bit.content" 
 						  	ng-keydown="areaText($event, bit)" 
-						  	ng-keyup="areaText($event, bit)">
+						  	ng-keyup="areaText($event, bit)"
+						  	ng-focus="weAreFocused($event)"
+						  	ng-blur="weAreNotFocused($event)">
 					  	</textarea>
 					  	<div class="sizer">{{bit.content}}</div>
 					</div>

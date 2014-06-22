@@ -869,35 +869,35 @@ button.secondary {
     @media screen and (min-width: 270px) {
       .grid ul {
         width: 210px;
-        margin-left: -80px; } }
+        margin-left: -75px; } }
     @media screen and (min-width: 480px) {
       .grid ul {
         width: 420px;
-        margin-left: -185px; } }
+        margin-left: -180px; } }
     @media screen and (min-width: 690px) {
       .grid ul {
         width: 630px;
-        margin-left: -290px; } }
+        margin-left: -285px; } }
     @media screen and (min-width: 900px) {
       .grid ul {
         width: 840px;
-        margin-left: -395px; } }
+        margin-left: -390px; } }
     @media screen and (min-width: 1110px) {
       .grid ul {
         width: 1050px;
-        margin-left: -500px; } }
+        margin-left: -495px; } }
     @media screen and (min-width: 1320px) {
       .grid ul {
         width: 1260px;
-        margin-left: -605px; } }
+        margin-left: -600px; } }
     @media screen and (min-width: 1530px) {
       .grid ul {
         width: 1470px;
-        margin-left: -710px; } }
+        margin-left: -705px; } }
     @media screen and (min-width: 1740px) {
       .grid ul {
         width: 1680px;
-        margin-left: -815px; } }
+        margin-left: -810px; } }
   .grid .cell {
     list-style: none;
     margin: 0px;
