@@ -15,14 +15,24 @@ var populator;
 var returnEmail;
 var returnPass;
 
+
 var signingUp = false;
 var signingIn = false;
 
 var signupCount = 0;
 
+var externalStartUpIndex;
+
+var $theFace;
+var $theFaceOrigPos;
+
 var theContainer = document.getElementById('ng-app');
 
 var addFlag;
+
+var randomizr = function(){ 
+	return Math.floor(Math.random() * (1000000000 - 0 + 1)) + 0; 
+}
 
 var hoodie  = new Hoodie();
 window.hoodie = hoodie;
@@ -34,6 +44,7 @@ var lazyUpdater = _.debounce(function(id){
 			hoodie.store.update('cell', cellular[i].id, {dimensions : cellular[i].dimensions})
 			hoodie.store.update('cell', cellular[i].id, {title : cellular[i].title})
 			hoodie.store.update('cell', cellular[i].id, {category : cellular[i].category})
+			hoodie.store.update('cell', cellular[i].id, {displayed : cellular[i].displayed})
 			hoodie.store.update('cell', cellular[i].id, {body : cellular[i].body})
 				.done(function(object){
 					console.log(object);
@@ -84,12 +95,48 @@ var app = angular.module('app', [
 
 .controller('MainCtrl', function($window, $scope, $http, $interval, $cookieStore) {
 
+	$scope.areWeUpdating = false;
+
+	$scope.versionCheck = function(){
+		var updateItYo = _.once($scope.versionUpdater);
+
+		console.log('looking for NOPE')
+
+		for (var i in cellular){
+			if ((cellular[i].list === true) && (cellular[i].displayed === undefined)){
+			// if ((cellular[i].list === true) && (cellular[i].displayed === false)){
+				console.log('NOPE found!')
+				$('.weAreUpdating').addClass('letsUpdate')
+				$scope.areWeUpdating = true;
+				updateItYo();
+			}
+		}
+	}
+
+	$scope.versionUpdater = function(){
+		console.log('WE\'RE UPDATING');
+
+		for (var i in cellular){
+			cellular[i].displayed = true;
+
+			$scope.cells[i].displayed = true;
+
+			hoodie.store.update('cell', cellular[i].id, {displayed: true})
+
+			console.log('UPDATED ' + cellular[i].id);
+		}	
+	}
+
+
 	columnCounter();
 
 	$scope.threeOpen = false;
 	$scope.fourOpen = false;
 
-	$scope.startUpIndex;
+	$scope.startUpIndex = 'off';
+	externalStartUpIndex = 'off';
+	// $scope.startUpIndex = 0;
+	// externalStartUpIndex = 0;
 
 	$scope.isFocused = false;
 
@@ -106,7 +153,7 @@ var app = angular.module('app', [
 			( $(signUpForm.emailSignup).hasClass('ng-valid') )
 		){
 
-			$scope.startUpIndex = 0;
+			// $scope.startUpIndex = 0;
 
 			signingUp = true;
 			signingIn = false;
@@ -159,14 +206,35 @@ var app = angular.module('app', [
 		hoodie.store.add('cell', {
 			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
 			title: '',
-			body: [{
-				displayed: true,
-				type:'plainText',
-				tabCount:0,
-				content:''
-			}],
+			body: [
+				{
+					displayed: true,
+					type:'plainText',
+					tabCount:0,
+					content:'This is a bit.'
+				},
+				{
+					displayed: true,
+					type:'plainText',
+					tabCount:0,
+					content:'This is another bit!'
+				},
+				{
+					displayed: true,
+					type:'plainText',
+					tabCount:0,
+					content:'Here\'s another bit...'
+				},
+				{
+					displayed: true,
+					type:'plainText',
+					tabCount:0,
+					content:'And one more for good measure. :)'
+				}
+			],
 			category:1,
-			list: true,
+			displayed:true,
+			list: true
 		}).done(function(object){
 			$scope.cells.push(object);
 			cellular = $scope.cells;
@@ -181,7 +249,6 @@ var app = angular.module('app', [
 				theContainer.className = 'yesLetsGo upUpAndAway startingUp';
 			}, 1000)
 		});
-		
 	});
 
 
@@ -193,7 +260,7 @@ var app = angular.module('app', [
 			&& ( !$(signInForm).hasClass('ng-pristine') )
 		){
 			cellular = $scope.cells = [];
-			$scope.startUpIndex = 1;
+			// $scope.startUpIndex = 1;
 
 			signingIn = true;
 			signupCount = 4;
@@ -222,7 +289,7 @@ var app = angular.module('app', [
 					cellular = $scope.cells = objects;
 					console.log(cellular)
 
-					$scope.startUpIndex = 1;
+					$scope.versionCheck();
 
 					theContainer.className = 'yesLetsGo';
 
@@ -248,9 +315,11 @@ var app = angular.module('app', [
 
 		hoodie.store.findAll()
 			.done(function (objects) {
-				$scope.startUpIndex = 1;
+				// $scope.startUpIndex = 1;
 				cellular = $scope.cells = objects//.splice(0, 1);
 				console.log(cellular)
+
+				$scope.versionCheck();
 
 				theContainer.className = 'yesLetsGo upUpAndAway modalClear';
 			});
@@ -267,13 +336,22 @@ var app = angular.module('app', [
 		cellular = $scope.cells = [];
 	});
 
+	$scope.sidebarActivator = function(side){
+		if (side){
+			if ($scope.sidebarStatus === 'open') $scope.sidebarStatus = 'closed';
+				else $scope.sidebarStatus = 'open';
+		}else $scope.sidebarStatus = 'closed';
+	};
 	
 	$scope.demo = function(){
-		theContainer.className = 'yesLetsGo upUpAndAway';
+		externalStartUpIndex = 1;
+		$scope.startUpIndex = 1;
+		
+		$('.cellFace.list').eq(0).parent().addClass('showingList');
+		$theFace = $('.showingList .cellFace');
+		$theFaceOrigPos = $theFace.offset();
 
-		setTimeout(function(){
-			theContainer.className = 'yesLetsGo upUpAndAway startingUp';
-		}, 5);
+		$scope.sidebarStatus = 'closed';
 	};
 
 	$scope.changePassword = function(e){
@@ -324,20 +402,129 @@ var app = angular.module('app', [
 	// STARTUP.JS
 
 	$scope.SUB_left = function(){
-		$scope.startUpIndex--;
+		if ($scope.startUpIndex === 0) {
+			externalStartUpIndex = 'off';
+			$scope.startUpIndex = 'off';
+		}
+
+		if ($scope.startUpIndex == 9){
+			externalStartUpIndex = 1;
+			$scope.startUpIndex = 1;
+			
+			$('.cellFace.list').eq(0).parent().addClass('showingList');
+			$theFace = $('.showingList .cellFace');
+			$theFaceOrigPos = $theFace.offset();
+
+			$scope.startUpOrient = '';
+			$scope.startUp_X = '50%';
+			$scope.startUp_Y = '50%';
+		}
 	};
 
 	$scope.SUB_right = function(){
-		if ($scope.startUpIndex >= 14){
-			theContainer.className = 'yesLetsGo upUpAndAway';
+		externalStartUpIndex++;
+		$scope.startUpIndex++;
+
+		console.log($scope.startUpIndex)
+
+		if ($scope.startUpIndex === 1){			
+			$('.cellFace.list').eq(0).parent().addClass('showingList')
+			$theFace = $('.showingList .cellFace')
+			$theFaceOrigPos = $theFace.offset()
+		}
+
+		if ($scope.startUpIndex === 3){
 			setTimeout(function(){
-				theContainer.className = 'yesLetsGo upUpAndAway modalClear';
-				$scope.startUpIndex = 1;
-			}, 500);
-		}else{
-			$scope.startUpIndex++;
+				$scope.startUp_Y = $theFace.offset().top + $theFace.height() - 10;
+			}, 500)
+		}
+
+		if ($scope.startUpIndex === 4){
+			if (
+				($theFaceOrigPos.left > 150)
+			){
+				$scope.startUpOrient = 'topRight';
+				$scope.startUp_X = $theFaceOrigPos.left - 260;
+				$scope.startUp_Y = $theFaceOrigPos.top + 210;
+			}
+
+			if (
+				($theFaceOrigPos.left < 150)
+			){
+				$scope.startUpOrient = 'topLeft';
+				$scope.startUp_X = $theFaceOrigPos.left + 210;
+				$scope.startUp_Y = $theFaceOrigPos.top + 210;
+			}
+		}
+
+		if ($scope.startUpIndex === 5){
+			if (
+				($theFace.offset().left > 150)
+			){
+				$scope.startUpOrient = 'topRight';
+				$scope.startUp_X = $theFace.offset().left - 260;
+				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+			}
+
+			if (
+				($theFace.offset().left < 150)
+			){
+				$scope.startUpOrient = 'topLeft';
+				$scope.startUp_X = $theFace.offset().left;
+				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+			}
+		}
+
+		if ($scope.startUpIndex === 6){
+			if (
+				($theFace.offset().left > 150)
+			){
+				$scope.startUpOrient = 'topRight';
+				$scope.startUp_X = $theFace.offset().left - 250;
+				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+			}
+
+			if (
+				($theFace.offset().left < 150)
+			){
+				$scope.startUpOrient = 'topLeft';
+				$scope.startUp_X = $theFace.offset().left;
+				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+			}
+		}
+
+		if (($scope.startUpIndex === 7) || ($scope.startUpIndex === 7)){
+			$('.cellFace.list').eq(0).parent().addClass('showingList')
+			$theFace = $('.cellFace.addCell')
+			if (
+				($theFace.offset().left > 150)
+			){
+				$scope.startUpOrient = 'topRight';
+				$scope.startUp_X = $theFace.offset().left - 250;
+				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+			}
+
+			if (
+				($theFace.offset().left < 150)
+			){
+				$scope.startUpOrient = 'topLeft';
+				$scope.startUp_X = $theFace.offset().left + 210;
+				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+			}
+		}
+
+		if ($scope.startUpIndex === 9){
+			$scope.startUpOrient = 'leftLeft';
+			$scope.startUp_X = 120;
+			$scope.startUp_Y = ($(window).height() - 200) / 2;
+		}
+
+		if ($scope.startUpIndex === 10){
+			externalStartUpIndex = 'off';
+			$scope.startUpIndex = 'off';
 		}
 	};
+
 
 
 
@@ -365,14 +552,17 @@ var app = angular.module('app', [
 				{ sizeX: 1, sizeY: 1, row: 2, col: 2 }
 			],
 			title: '',
-			body: [{
-				displayed: true,
-				type:'plainText',
-				tabCount:0,
-				content:''
-			}],
+			body: [
+				{
+					displayed: true,
+					type:'plainText',
+					tabCount:0,
+					content:''
+				}
+			],
 			category:1,
-			list: true
+			list: true,
+			displayed: true
 		}).done(function(object){
 			console.log($scope.cells)
 			$scope.cells.push(object)
@@ -380,6 +570,8 @@ var app = angular.module('app', [
 			console.log($scope.cells)
 
 			addFlag = object.id;
+
+			if ($scope.startUpIndex === 8) $scope.SUB_right();
 		})
 	}
 
@@ -389,8 +581,12 @@ var app = angular.module('app', [
 
 			var theLastKilledCell = JSON.parse(localStorage.getItem('lastRemovedCell'))
 			console.log(theLastKilledCell)
+
+			theLastKilledCell.displayed = true;
+
 			$scope.cells.push(theLastKilledCell);
 
+			if ($scope.startUpIndex === 7) $scope.SUB_right();
 		}
 
 		else if (victim === 'bit'){
@@ -415,17 +611,30 @@ var app = angular.module('app', [
 
 	$scope.removeCell = function(id) {
 		console.log(id)
-		hoodie.store.remove('cell', id).done(function(object){
-			console.log(object);
-			for (var i in $scope.cells){
-				if ($scope.cells[i].id === id){
-					localStorage.setItem('lastRemovedCell' , JSON.stringify(cellular[i]));
-					victim = 'cell';
-					$scope.cells.splice(i, 1);
-					cellular = $scope.cells;
-				}
+
+		for (var i in $scope.cells){
+			if ($scope.cells[i].id === id){
+				$scope.cells[i].displayed = false;
+
+				lazyUpdater(id)
 			}
-		});
+		}
+
+		// hoodie.store.remove('cell', id).done(function(object){
+		// 	console.log(object);
+		// 	for (var i in $scope.cells){
+		// 		if ($scope.cells[i].id === id){
+
+		// 			localStorage.setItem('lastRemovedCell' , JSON.stringify(cellular[i]));
+		// 			victim = 'cell';
+
+		// 			$scope.cells.splice(i, 1);
+		// 			cellular = $scope.cells;
+
+		// 			if ($scope.startUpIndex === 6) $scope.SUB_right();
+		// 		}
+		// 	}
+		// });
 	};
 
 	// existing doc updated
@@ -449,25 +658,31 @@ var app = angular.module('app', [
 				(!$scope.isFocused)
 			){
 				if ( !_.isEqual(cellular[i].dimensions, tehUpdated.dimensions) ){
-					cellular[i].dimensions = tehUpdated.dimensions
-					console.log(cellular[i].id + ' // DIMENSIONS UPDATED')
+					cellular[i].dimensions = tehUpdated.dimensions;
+					console.log(cellular[i].id + ' // DIMENSIONS UPDATED');
 				}
 				if ( !_.isEqual(cellular[i].body, tehUpdated.body) ){
-					cellular[i].body = tehUpdated.body
-					console.log(cellular[i].id + ' // BODY UPDATED')
+					cellular[i].body = tehUpdated.body;
+					console.log(cellular[i].id + ' // BODY UPDATED');
 				}
 				if ( cellular[i].title !== tehUpdated.title ){
-					cellular[i].title = tehUpdated.title
-					console.log(cellular[i].id + ' // TITLE UPDATED')
+					cellular[i].title = tehUpdated.title;
+					console.log(cellular[i].id + ' // TITLE UPDATED');
+				}
+				if ( cellular[i].displayed !== tehUpdated.displayed ){
+					cellular[i].displayed = tehUpdated.displayed;
+					console.log(cellular[i].id + ' // DISPLAYED UPDATED');
 				}
 				if ( cellular[i].category !== tehUpdated.category ){
-					cellular[i].category = tehUpdated.category
-					console.log(cellular[i].id + ' // CATEGORY UPDATED')
+					cellular[i].category = tehUpdated.category;
+					console.log(cellular[i].id + ' // CATEGORY UPDATED');
 				}
 			}else if (tehUpdated.id === addFlag){
 				addFlag = undefined;
 			}
 		}
+
+		if ($scope.areWeUpdating === true) window.location.reload(false); 
 
 	}, 500);
 
@@ -572,6 +787,8 @@ var app = angular.module('app', [
 		hoodie.store.update('cell', cell, {body : cellular[cellIndex].body} )
 		.done(function(updatedObject){
 			console.log(updatedObject)
+
+			addFlag = updatedObject.id;
 		})
 	}, 1000);
 
@@ -603,6 +820,8 @@ var app = angular.module('app', [
 				if (cellular[i].id == theCell) theCellIndex = i;
 			}
 	    	cellUpdater(theCell, theCellIndex);
+
+	    	if ($scope.startUpIndex === 1) $scope.SUB_right();
 	    }
 	};
 
@@ -636,6 +855,21 @@ var app = angular.module('app', [
 		victim = 'bit'
 
 		cellUpdater(theCell, theCellIndex);
+
+		if (cellular[theCellIndex].body.length === 0){
+			cellular[theCellIndex].body.push({
+				displayed: true,
+				type:'plainText',
+				tabCount:0,
+				content:''
+			})
+
+			setTimeout(function(){
+				$(that.target).parent().next('.textarea-container').find('textarea').focus();
+			}, 50);
+		}
+
+		if ($scope.startUpIndex === 2) $scope.SUB_right();
 	}
 
 	var map = [];
@@ -645,7 +879,9 @@ var app = angular.module('app', [
 
     	map[that.keyCode] = that.type == 'keydown';
 
-		var theCell = that.target.parentNode.parentNode.parentNode.getAttribute('data-cellid');
+		var theActualCell = that.target.parentNode.parentNode.parentNode
+		
+		var theCell = theActualCell.getAttribute('data-cellid');
 
     	var theCellIndex;
 
@@ -677,14 +913,21 @@ var app = angular.module('app', [
 		// 	analyzr(map)
 		// }
 
-		if (map[8] && (that.target.value == '')){ // DELETE WHEN EMPTY
-			that.preventDefault();
+		if (map[8]){ // DELETE
+			if (
+				(that.target.value == '') && 
+				(cellular[theCellIndex].body.length > 1) // make sure we're not deleting the last bit!
+			){ 
 
-			var theSentencedIndex = that.target.parentNode.getAttribute('data-index')
+				that.preventDefault();
 
-			$(that.target).parent().prev('.textarea-container').find('textarea').focus();
+				var theSentencedIndex = that.target.parentNode.getAttribute('data-index')
 
-			cellular[theCellIndex].body.splice(theSentencedIndex, 1);
+				$(that.target).parent().prev('.textarea-container').find('textarea').focus();
+
+				cellular[theCellIndex].body.splice(theSentencedIndex, 1);
+
+			}
 		}
 
     	else if (map[13]){ // ENTER KEY
@@ -698,7 +941,8 @@ var app = angular.module('app', [
 				displayed: true,
 				type:'plainText',
 				tabCount:0,
-				content:''
+				content:'',
+				bitID: randomizr()
 			};
 
 			cellular[theCellIndex].body.splice(theNewIndex, 0, theNewBit);
@@ -756,6 +1000,55 @@ var app = angular.module('app', [
 			}
 		}
 
+		// 17 91 38 LINE UP OSX
+		// 17 91 40 LINE DOWN OSX
+
+		// 17 16 38 LINE UP WINDOWS
+		// 17 16 40 LINE DOWN WINDOWS
+
+		else { // DO WE NEED TO EXPAND
+
+			var bottomBit = theActualCell
+				.children[2]
+				.children[
+					theActualCell
+					.children[2]
+					.children
+					.length - 1
+				]
+				.getBoundingClientRect()
+				.bottom
+
+			var parentHeight = theActualCell
+				.getBoundingClientRect()
+				.bottom;
+
+			console.log(bottomBit + ' /// ' + parentHeight)
+				
+			if (bottomBit > parentHeight){ // SWEET LET'S EXPAND
+
+				theActualCell.parentNode.classList.add('ui-resizable-resizing');
+
+				theActualCell.parentNode.style.height = 
+					theActualCell.clientHeight + 
+					200 + 
+					(
+						(
+							theActualCell.clientHeight / 
+							200
+						) * 10
+					);
+
+				cellular[theIndex].dimensions[columnCount].sizeY = theActualCell.parentNode.style.height /  GRIDSIZE
+
+				setTimeout(function(){
+					theActualCell.parentNode.classList.remove('ui-resizable-resizing')
+				},100)
+			}
+		}
+
+
+		// UPDATE THAT SHIT YO
 		cellUpdater(theCell, theCellIndex);
 	}
 
@@ -782,18 +1075,8 @@ var app = angular.module('app', [
 		}
 
 		lazyUpdater(theCell);
-	}
 
-	$scope.init = function(e){
-		console.log(e)
-	}
-
-	$scope.$on('$viewContentLoaded', function(e) {
-	    console.log(e)
-	});
-
-	$scope.aFunction = function(){
-		YEAH
+		if ($scope.startUpIndex === 3) $scope.SUB_right();
 	}
 })
 
@@ -886,6 +1169,10 @@ var app = angular.module('app', [
 	            		console.log('MOVED // ' + cellular[theIndex].id)
 
 	            		lazyUpdater(cellular[theIndex].id)
+
+						if (externalStartUpIndex === 5) setTimeout(function(){
+							$('.SUB_right').click();
+						}, 500);
             		}, 500);
 				}
             }).resizable({
@@ -899,6 +1186,8 @@ var app = angular.module('app', [
 	            		console.log('RESIZED // ' + cellular[theIndex].id)
 
 	            		lazyUpdater(cellular[theIndex].id)
+
+						if (externalStartUpIndex === 4) $('.SUB_right').click();
             		}, 500);
 				}
             });

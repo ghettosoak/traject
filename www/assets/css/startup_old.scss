@@ -1,0 +1,381 @@
+#startUp{
+	height:480px;
+	width:439px;
+	position: fixed;
+	top:50%;
+	left:50%;
+	margin:-240px 0 0 -219.5px;
+	z-index: 900;
+	
+	opacity: 0;
+	@include transition(all .5s ease-in-out);
+	@include transform(scale(1.5));
+
+	.startingUp &{
+		@include transform(scale(1));
+		opacity: 1;
+	}
+
+	.modalClear &, 
+	.viewingAbout &{
+		display:none
+	}
+
+	.startUpImage{
+		position: absolute;
+		top:0px;
+		left:0px;
+		width:100%;
+		height:285px;
+		background-image:url(../img/startup_field.png);
+		@include transition(all .5s ease-in-out);
+		background-repeat:no-repeat;
+
+		&:before{
+			width:459px;
+			height:305px;
+			top:-10px;
+			left:-10px;
+			position: absolute;
+			background-color:$bg;
+			content:'';
+			border:1px $light solid;
+			border-radius: 5px;
+			z-index: -1;
+		}
+
+		.shadow{
+			position: absolute;
+			height:100%;
+			width:100%;
+			opacity:0;
+			background-image:url(../img/startup_shadow.png);
+			@include transition(all .5s ease-in-out);
+			background-repeat:no-repeat;
+			background-size:100%;
+			background-position: center center;
+		}
+
+		.cursor{
+			opacity:0;
+			height:16px;
+			width:16px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin: -8px 0px 0px -8px;
+			background-image:url(../img/startup_cursors.png);
+			background-position: 0px -32px;
+			background-repeat:no-repeat;
+			@include transition((
+				top .5s ease-in-out,
+				left .5s ease-in-out,
+				opacity .2s ease-in-out
+			));
+		}
+
+		.doubleclick{
+			opacity:0;
+			height:104px;
+			width:104px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin: -52px 0px 0px -52px;
+			background-position:100%;
+			background-repeat:no-repeat;
+			@include transition(opacity .2s ease-in-out);
+		}
+	}
+
+	.startUpText{
+		overflow: hidden;
+		position: absolute;
+		top:305px;
+		left:0px;
+		height:115px;
+		width:100%;
+		z-index: 101;
+		border-top:1px $light solid;
+		border-bottom:1px $light solid;
+		.startUpCarousel{
+			position: absolute;
+			height:100%;
+			top:0px;		
+			width: $startupCount * 100%;
+			.startUpShow{
+				position: relative;
+				float:left;
+				height:100%;
+				width:(1 / $startupCount) * 100%;
+				display:table;
+				padding:0px 50px;
+				p{
+					text-align: center;
+					display:table-cell;
+					vertical-align: middle;
+					b{
+						font-weight: normal;
+						font-family: $type_bold;
+					}
+				}
+			}		
+		}
+	}
+
+
+	.startUpButton{
+		width:49%;
+		height:50px;
+		position: absolute;
+		bottom:0px;
+		border:1px $light solid;
+		background-color:$light;
+		text-transform: uppercase;
+		color:$bg;
+		text-align: center;
+		padding:0px;
+		cursor: pointer;
+		font-family: $type_bold;
+		font-size:16px;
+		border-radius:5px;
+		line-height: 50px;
+
+		&:hover{
+			background-color:$bg;
+			color:$light;
+			border:1px $light solid;
+		}
+
+		&:focus{
+			outline:0px;
+		}
+
+		&.SUB_left{
+			left:0px;
+		}
+		&.SUB_right {
+			right:0px;
+		}
+	}
+
+
+	&.startUp_0 .startUpCarousel{  left:-0 * 100%;}
+	&.startUp_1 .startUpCarousel{  left:-1 * 100%;}
+	&.startUp_2 .startUpCarousel{  left:-2 * 100%;}
+	&.startUp_3 .startUpCarousel{  left:-3 * 100%;}
+	&.startUp_4 .startUpCarousel{  left:-4 * 100%;}
+	&.startUp_5 .startUpCarousel{  left:-5 * 100%;}
+	&.startUp_6 .startUpCarousel{  left:-6 * 100%;}
+	&.startUp_7 .startUpCarousel{  left:-7 * 100%;}
+	&.startUp_8 .startUpCarousel{  left:-8 * 100%;}
+	&.startUp_9 .startUpCarousel{  left:-9 * 100%;}
+	&.startUp_10 .startUpCarousel{ left:-10 * 100%;}
+	&.startUp_11 .startUpCarousel{ left:-11 * 100%;}
+	&.startUp_12 .startUpCarousel{ left:-12 * 100%;}
+	&.startUp_13 .startUpCarousel{ left:-13 * 100%;}
+	&.startUp_14 .startUpCarousel{ left:-14 * 100%;}
+
+	
+	&.startUp_1,
+	&.startUp_2,
+	&.startUp_3,
+	&.startUp_4,
+	&.startUp_5,
+	&.startUp_6,
+	&.startUp_7,
+	&.startUp_8,
+	&.startUp_9,
+	&.startUp_10,
+	&.startUp_11,
+	&.startUp_12,
+	&.startUp_13,
+	&.startUp_14{
+		.SUB_left:before{
+			content:'PREVIOUS';
+
+		}
+		.SUB_right:before{
+			content:'NEXT';
+		}
+	}
+
+	&.startUp_0{
+		.startUpImage{
+			background-size: 580px;
+			background-position: -126px 0px;
+		}
+
+		.SUB_left:before{
+			content:'NOPE';
+		}
+		.SUB_right:before{
+			content:'SURE';
+		}
+	}
+
+	&.startUp_1{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -315px -194px;
+		}
+		.cursor{
+			opacity:1;
+		}
+
+		.SUB_left{
+			display:none;
+		}
+		
+		.SUB_right{
+			width:100%;
+			border-radius:5px 5px 5px 5px;
+			&:before{
+				content:'NEXT';
+			}
+		}
+	}
+
+	&.startUp_2{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -353px -50px;
+
+		}
+		.cursor{
+			opacity:1;
+			background-position: 0px 0px;
+		}
+	}
+
+	&.startUp_3{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -102px -196px;
+		}
+		.doubleclick{
+			background-image:url(../img/doubleclick.gif);
+			opacity: 1;
+		}
+	}
+
+	&.startUp_4{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -632px 61px;
+		}
+		.shadow{
+			opacity:1;
+		}
+	}
+
+	&.startUp_5{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -714px -25px;
+		}
+		.shadow{
+			opacity:1;
+		}
+	}
+
+	&.startUp_6{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -213px -132px;
+		}
+		.shadow{
+			opacity:1;
+		}
+	}
+
+	&.startUp_7{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -103px -293px;
+		}
+		.shadow{
+			opacity:1;
+		}
+	}
+
+	&.startUp_8{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -120px -167px;
+		}
+		.shadow{
+			opacity:1;
+		}
+	}
+
+	&.startUp_9{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -120px -167px;
+		}
+		.cursor{
+			opacity:1;
+			background-position: 0px -16px;
+		}
+	}
+
+	&.startUp_10{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -167px -167px;
+		}
+		.shadow{
+			opacity:1;
+		}
+	}
+
+	&.startUp_11{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -125px -171px;
+		}
+		.doubleclick{
+			opacity: 1;
+			background-image:url(../img/doubleclick.gif);
+		}
+	}
+
+	&.startUp_12{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: -31px 120px;
+		}
+		.shadow{
+			opacity: 1;
+		}
+	}
+
+	&.startUp_13{
+		.startUpImage{
+			background-size: 1037px;
+			background-position: 111px 5px;
+		}
+		.shadow{
+			opacity: 1;
+		}
+	}
+
+	&.startUp_14{
+		.startUpImage{
+			background-size: 580px;
+			background-position: -126px 0px;
+		}
+
+		.SUB_left:before{
+			content:'PREVIOUS';
+		}
+
+		.SUB_right:before{
+			content:'SWEET';
+		}
+	}
+}
+
+
+

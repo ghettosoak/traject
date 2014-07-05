@@ -49,66 +49,69 @@
 	<p class="homepageCopyright">&copy; 2014 MTO'BF</p>
 </div>
 
-<div id="startUp" class="startUp_{{startUpIndex}}" ng-class="">
+<div id="startUp"
+	ng-class="startUpOrient"
+	ng-style="{ 
+		'left' : startUp_X,
+		'top' : startUp_Y
+	}">
 	
-	<div class="startUpImage">
+	<!-- <div class="startUpImage">
 		<div class="shadow"></div>
 		<div class="cursor"></div>
 		<div class="doubleclick"></div>
-	</div>
+	</div> -->
 	
 	<div class="startUpText">
 		<div class="startUpCarousel">
-			<div class="startUpShow SUS_0 startUpCenter">
-				<p>Hi there!<br />It looks like you're new to Tra.ject.<br />Want a little intro?</p>
+			<div class="startUpShow SUS_0">
+				<p>Hi there! It looks like you're new to Tra.ject. Want a quick demo?</p>
 			</div>
-			<div class="startUpShow SUS_1"> 
-				<p>Everything is <b>resizable</b></p>
+
+			<div class="startUpShow SUS_1">
+				<p>This is a cell. It has a title and a bunch of bits. You can move bits around super quick by dragging it by its point. Try it!</p>
 			</div>
-			<div class="startUpShow SUS_2"> 
-				<p>Everything white is <b>draggable</b></p>
+
+			<div class="startUpShow SUS_2">
+				<p>Nice! You can either delete bits by double clicking the point, or the old fashioned way with your keyboard. Give it a shot, I don't mind. :)</p>
 			</div>
-			<div class="startUpShow SUS_3"> 
-				<p>Delete cells by <b>double clicking</b> on a cell's white bar</p>
+
+			<div class="startUpShow SUS_3">
+				<p>Not all cells are the same! Clicking on the dot will let you change a cells' category. See for yourself! </p>
 			</div>
-			<div class="startUpShow SUS_4"> 
-				<p>Add <b>new cells</b> here…</p>
+
+			<div class="startUpShow SUS_4">
+				<p>Awesome. You pick this up quick! Everything can be resized from its edge. Try it!</p>
 			</div>
-			<div class="startUpShow SUS_5"> 
-				<p>…and <b>undo</b> your last delete here</p>
+
+			<div class="startUpShow SUS_5">
+				<p>And you can move things around by grabbing onto the white parts. Try it!</p>
 			</div>
-			<div class="startUpShow SUS_6"> 
-				<p>All cells have <b>titles…</b></p>
+
+			<div class="startUpShow SUS_6">
+				<p>If you need to delete a cell, just double click on the white bar. Give it a shot!</p>
 			</div>
-			<div class="startUpShow SUS_7"> 
-				<p>…and <b>categories</b> (changeable here)...</p>
+
+			<div class="startUpShow SUS_7">
+				<p>Oh no! That was my favorite cell! Never you fear – you can undo your last delete here. Try it out!</p>
 			</div>
-			<div class="startUpShow SUS_8"> 
-				<p>…and all lists have <b>points</b></p>
+
+			<div class="startUpShow SUS_8">
+				<p>Or, what the hey – let's make a brand new cell!</p>
 			</div>
-			<div class="startUpShow SUS_9"> 
-				<p>All points are <b>also draggable</b></p>
+
+			<div class="startUpShow SUS_9">
+				<p>Administrative-type things are in the sidebar, including the way to get back to this little demo. If anything breaks or isn't like it should be, let me know! :) That's it!</p>
 			</div>
-			<div class="startUpShow SUS_10">
-				<p><b>Delete</b> points either by using your <b>keyboard…</b></p>
-			</div>
-			<div class="startUpShow SUS_11">
-				<p>…or double clicking the <b>point's anchor</b></p>
-			</div>
-			<div class="startUpShow SUS_12">
-				<p>Administrative-type things are in the <b>sidebar...</b></p>
-			</div>
-			<div class="startUpShow SUS_13">
-				<p>If something <b>(anything!)</b> breaks, I'd really like to know :)</p>
-			</div>
-			<div class="startUpShow SUS_14 startUpCenter"> 
-				<p>And that's it!</p>
-			</div>
+
 		</div>
 	</div>
 
-	<button type="button" class="startUpButton SUB_left" ng-click="SUB_left()"></button>
-	<button type="button" class="startUpButton SUB_right" ng-click="SUB_right()"></button>
+	<div class="startUpButtons">
+		<button type="button" class="startUpButton SUB_left" ng-click="SUB_left()"></button>
+		<button type="button" class="startUpButton SUB_right" ng-click="SUB_right()"></button>
+	</div>
+
 </div>
 
 <div class="aboutTraject">
@@ -137,8 +140,7 @@
 	</div>
 </div>
 
-<div class="sidebar"
-	ng-class="{ sidebarOpen : sidebarOpen === true }">
+<div class="sidebar sidebar-is-{{ sidebarStatus }}">
 	<div class="menu">
 		<li class="demo" ng-click="demo()"><span>Replay Demo</span></li>
 
@@ -171,23 +173,30 @@
 			<span>About</span></li>
 	</div>
 	<div class="side"
-		ng-click="sidebarOpen = (sidebarOpen !== true) ? true : false">
+		ng-click="sidebarActivator(true);">
 		<span></span>
 		<span></span>
 		<span></span>
 	</div>
 </div>
 
+<div class="weAreUpdating">
+	<div class="plshold">
+		<h1>Hold on a minute</h1>
+		<p>I have to update something real quick.</p>
+		<p>The page will reload when I'm done.</p>
+	</div>
+</div>
 
-
-<div class="grid"
-	ng-class="{ sidebarOpen : sidebarOpen === true }"
-	ng-click="sidebarOpen = false; changingPassword = false">
+<div class="grid sidebar-is-{{ sidebarStatus }}"
+	ng-click="sidebarActivator(false); changingPassword = false">
 	<ul>
 		<li class="cell" 
 			ng-repeat="item in cells | orderBy: ['row', 'col']" 
 			autonomy
-			index="{{$index}}">
+			ng-if="item.displayed"
+			data-index="{{$index}}">
+
 			<div class="cellFace gaze grab color00" 
 				ng-if="item.gaze" 
 				ng-style="{ 'background-image' : gaze }"
@@ -240,8 +249,11 @@
 				ng-class="{ 
 					color01 : item.category === 1, 
 					color02 : item.category === 2, 
-					color03 : item.category === 3  
+					color03 : item.category === 3
 				}">
+
+				<div class="startUpPointer"></div>
+
 				<div class="cellHead">
 					<div class="textarea-container">
 					  	<textarea 
@@ -253,10 +265,12 @@
 					  	<div class="sizer">{{item.title}}</div>
 					</div>
 				</div>
-				<div class="cellEdit" ui-sortable="textSort" ng-model="item.body">
+				<div class="cellEdit" 
+					ui-sortable="textSort" 
+					ng-model="item.body">
 					<div 
 						class="textarea-container indent{{bit.tabCount}}" 
-						ng-repeat="bit in item.body"
+						ng-repeat="bit in item.body track by bit.bitID"
 						data-index="{{$index}}" 
 						ng-class="{ grabbed : grabbing === true }">
 						<span 
@@ -287,6 +301,8 @@
 					</div>
 				</span>
 			</div>
+
+			<div class="cover"></div>
 		</li>
 	</ul>
 </div>
