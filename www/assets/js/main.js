@@ -1,6 +1,9 @@
 'use strict';
 
 var cellular; 
+var meta;
+var temp;
+var planetary;
 var retryUpdate;
 var columnCount = 1;
 var sterGrid;
@@ -30,9 +33,15 @@ var theContainer = document.getElementById('ng-app');
 
 var addFlag;
 
-var randomizr = function(){ 
-	return Math.floor(Math.random() * (1000000000 - 0 + 1)) + 0; 
-}
+function randomizr(){
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+    });
+    return uuid;
+};
 
 var hoodie  = new Hoodie();
 window.hoodie = hoodie;
@@ -42,13 +51,41 @@ var lazyUpdater = _.debounce(function(id){
 	for (var i in cellular){
 		if (cellular[i].id === id){
 			hoodie.store.update('cell', cellular[i].id, {dimensions : cellular[i].dimensions})
+				.done(function(object){
+					console.log(object);
+					console.log(id+' DIMENSIONS LAZILY UPDATED')
+
+					addFlag = object.id;
+				})
+
 			hoodie.store.update('cell', cellular[i].id, {title : cellular[i].title})
+				.done(function(object){
+					console.log(object);
+					console.log(id+' TITLE LAZILY UPDATED')
+
+					addFlag = object.id;
+				})
+
 			hoodie.store.update('cell', cellular[i].id, {category : cellular[i].category})
+				.done(function(object){
+					console.log(object);
+					console.log(id+' CATEGORY LAZILY UPDATED')
+
+					addFlag = object.id;
+				})
+
 			hoodie.store.update('cell', cellular[i].id, {displayed : cellular[i].displayed})
+				.done(function(object){
+					console.log(object);
+					console.log(id+' DISPLAYED LAZILY UPDATED')
+
+					addFlag = object.id;
+				})
+
 			hoodie.store.update('cell', cellular[i].id, {body : cellular[i].body})
 				.done(function(object){
 					console.log(object);
-					console.log(id+' LAZILY UPDATED')
+					console.log(id+' BODY LAZILY UPDATED')
 
 					addFlag = object.id;
 				})
@@ -56,6 +93,16 @@ var lazyUpdater = _.debounce(function(id){
 	}
 
 }, 1000);
+
+var metaUpdate = function(){
+	hoodie.store.update('meta', meta.id, {
+		celsius: meta.celsius,
+		twentyfour: meta.twentyfour
+	}).done(function(tehmeta){
+		console.log(tehmeta)
+		console.log('META UPDATED')
+	})
+}
 
 var analyzr = function(){
 	$.ajax({
@@ -86,6 +133,16 @@ var columnCounter = function(){
 	console.log('columnCount = '+columnCount);
 }
 
+var echo = function(thisOne){
+
+	var theID = thisOne.getAttribute('data-cellid')
+
+	for (var i in cellular){
+		if (cellular[i].id === theID){
+			console.log(cellular[i])
+		}
+	}
+}
 
 var app = angular.module('app', [
 	'ngCookies',
@@ -116,17 +173,36 @@ var app = angular.module('app', [
 	$scope.versionUpdater = function(){
 		console.log('WE\'RE UPDATING');
 
+		hoodie.store.add('meta',{
+			celsius: true,
+			twentyfour: true
+		})
+
 		for (var i in cellular){
 			cellular[i].displayed = true;
 
 			$scope.cells[i].displayed = true;
 
-			hoodie.store.update('cell', cellular[i].id, {displayed: true})
+			for (var b in cellular[i].body){
+				cellular[i].body[b].bitID = randomizr();
+			}
+
+			hoodie.store.update(
+				'cell', 
+				cellular[i].id,
+				{
+					displayed : true,
+					body : cellular[i].body
+				}
+			)
 
 			console.log('UPDATED ' + cellular[i].id);
-		}	
+		}
+
+		//the reload call is handled after we get confirmation that things are updated -- hence the areWeUpdating flag
 	}
 
+	$scope.$watch('meta', metaUpdate, true);
 
 	columnCounter();
 
@@ -135,25 +211,20 @@ var app = angular.module('app', [
 
 	$scope.startUpIndex = 'off';
 	externalStartUpIndex = 'off';
-	// $scope.startUpIndex = 0;
-	// externalStartUpIndex = 0;
 
 	$scope.isFocused = false;
+	$scope.thisIsFocused;
 
 	theContainer.className = 'modalClear';
 
 
 	// SIGN UP
 
-	// hoodie.account.signUp('m', 'f');
-
 	$scope.signUp = function(e){
 		if (
 			( $scope.threeOpen === true ) && 
 			( $(signUpForm.emailSignup).hasClass('ng-valid') )
 		){
-
-			// $scope.startUpIndex = 0;
 
 			signingUp = true;
 			signingIn = false;
@@ -283,7 +354,7 @@ var app = angular.module('app', [
 			localStorage.setItem('user' , returnEmail);
 			localStorage.setItem('pass' , returnPass);
 
-			hoodie.store.findAll()
+			hoodie.store.findAll('cell')
 				.done(function (objects) {
 					objects.splice(0, 1)
 					cellular = $scope.cells = objects;
@@ -301,6 +372,11 @@ var app = angular.module('app', [
 					}, 550)
 				});
 
+			hoodie.store.findAll('meta')
+				.done(function(metas){
+					meta = $scope.meta = metas[0];
+					console.log(meta);
+				})
 		}
 	});
 
@@ -316,13 +392,24 @@ var app = angular.module('app', [
 		hoodie.store.findAll()
 			.done(function (objects) {
 				// $scope.startUpIndex = 1;
-				cellular = $scope.cells = objects//.splice(0, 1);
+				cellular = $scope.cells = objects
 				console.log(cellular)
 
 				$scope.versionCheck();
 
 				theContainer.className = 'yesLetsGo upUpAndAway modalClear';
 			});
+
+		// hoodie.store.add('meta',{
+		// 	celsius: true,
+		// 	twentyfour: true
+		// })
+
+		hoodie.store.findAll('meta')
+			.done(function(metas){
+				meta = $scope.meta = metas[0];
+				console.log(meta);
+			})
 	}
 
 	$scope.logOut = function(e){
@@ -335,13 +422,6 @@ var app = angular.module('app', [
 		localStorage.removeItem('pass');
 		cellular = $scope.cells = [];
 	});
-
-	$scope.sidebarActivator = function(side){
-		if (side){
-			if ($scope.sidebarStatus === 'open') $scope.sidebarStatus = 'closed';
-				else $scope.sidebarStatus = 'open';
-		}else $scope.sidebarStatus = 'closed';
-	};
 	
 	$scope.demo = function(){
 		externalStartUpIndex = 1;
@@ -353,6 +433,16 @@ var app = angular.module('app', [
 
 		$scope.sidebarStatus = 'closed';
 	};
+
+	$scope.tempUnitsChange = function(){
+		$scope.meta.celsius = ($scope.meta.celsius !== true) ? true : false;
+		setWeather();
+	}
+
+	$scope.timeUnitsChange = function(){
+		$scope.meta.twentyfour = ($scope.meta.twentyfour !== true) ? true : false;
+		setCurrentTime();
+	}
 
 	$scope.changePassword = function(e){
 		var $that = $(e.target).parent()
@@ -401,6 +491,11 @@ var app = angular.module('app', [
 
 	// STARTUP.JS
 
+	$scope.startUpCloser = function(){
+		externalStartUpIndex = 'off';
+		$scope.startUpIndex = 'off';
+	}
+
 	$scope.SUB_left = function(){
 		if ($scope.startUpIndex === 0) {
 			externalStartUpIndex = 'off';
@@ -431,6 +526,7 @@ var app = angular.module('app', [
 			$('.cellFace.list').eq(0).parent().addClass('showingList')
 			$theFace = $('.showingList .cellFace')
 			$theFaceOrigPos = $theFace.offset()
+			$scope.sidebarStatus = 'closed';
 		}
 
 		if ($scope.startUpIndex === 3){
@@ -571,6 +667,15 @@ var app = angular.module('app', [
 
 			addFlag = object.id;
 
+			setTimeout(function(){
+				$('.grid').find('.list').each(function(){
+					var $that = $(this);
+					if ($that.data('cellid') === object.id){
+						$that.find('.title').focus();
+					}
+				});
+			}, 500);
+
 			if ($scope.startUpIndex === 8) $scope.SUB_right();
 		})
 	}
@@ -578,15 +683,16 @@ var app = angular.module('app', [
 	$scope.reviver = function(){
 
 		if (victim === 'cell'){
-
-			var theLastKilledCell = JSON.parse(localStorage.getItem('lastRemovedCell'))
+			var theLastKilledCell = localStorage.getItem('lastRemovedCell')
 			console.log(theLastKilledCell)
-
-			theLastKilledCell.displayed = true;
-
-			$scope.cells.push(theLastKilledCell);
-
 			if ($scope.startUpIndex === 7) $scope.SUB_right();
+
+			for (var i in $scope.cells){
+				if ($scope.cells[i].id === theLastKilledCell){
+					$scope.cells[i].displayed = true;
+					lazyUpdater(id)
+				}
+			}			
 		}
 
 		else if (victim === 'bit'){
@@ -610,13 +716,17 @@ var app = angular.module('app', [
 
 
 	$scope.removeCell = function(id) {
-		console.log(id)
+		console.log('KILLED ' + id)
+
+		localStorage.setItem('lastRemovedCell' , id);
+		victim = 'cell';
 
 		for (var i in $scope.cells){
 			if ($scope.cells[i].id === id){
 				$scope.cells[i].displayed = false;
 
 				lazyUpdater(id)
+				if ($scope.startUpIndex === 6) $scope.SUB_right();
 			}
 		}
 
@@ -625,13 +735,11 @@ var app = angular.module('app', [
 		// 	for (var i in $scope.cells){
 		// 		if ($scope.cells[i].id === id){
 
-		// 			localStorage.setItem('lastRemovedCell' , JSON.stringify(cellular[i]));
-		// 			victim = 'cell';
+					
 
 		// 			$scope.cells.splice(i, 1);
 		// 			cellular = $scope.cells;
 
-		// 			if ($scope.startUpIndex === 6) $scope.SUB_right();
 		// 		}
 		// 	}
 		// });
@@ -655,7 +763,8 @@ var app = angular.module('app', [
 			if (
 				(cellular[i].id === tehUpdated.id) &&
 				(tehUpdated.id !== addFlag) && 
-				(!$scope.isFocused)
+				(!$scope.isFocused) && 
+				(tehUpdated.id !== $scope.thisIsFocused)
 			){
 				if ( !_.isEqual(cellular[i].dimensions, tehUpdated.dimensions) ){
 					cellular[i].dimensions = tehUpdated.dimensions;
@@ -699,6 +808,7 @@ var app = angular.module('app', [
 	});
 
 	$scope.weAreFocused = function(e){
+		$scope.thisIsFocused = e.target.parentNode.parentNode.parentNode.getAttribute('data-cellid')
 		$scope.isFocused = true;
 	}
 
@@ -737,14 +847,32 @@ var app = angular.module('app', [
 
 	// WRISTWATCH.JS
 
+	var setWeather = function(){
+		if ($scope.meta.celsius === true){ //CELSIUS
+			$scope.temp = (temp - 273).toFixed(1);
+		}
+		else{ // FAHRENHEIT
+			$scope.temp = (((temp - 273.15) * 1.8) + 32.00).toFixed(1);
+		}
+
+		$scope.planetary = planetary;
+	}
+
 	var getWeather = function(){
 		navigator.geolocation.getCurrentPosition(function(coords){
 
-			$http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + coords.latitude + '&lon=' + coords.longitude)
+			console.log(coords)
+
+			$http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + coords.coords.latitude + '&lon=' + coords.coords.longitude)
 			.success(function(data) {
 				console.log(data)
-				$scope.temp = (data.main.temp - 273).toFixed(1);
-				
+
+				planetary = data.name + ', ' + data.sys.country;
+
+				temp = data.main.temp
+
+				setWeather();
+
 				var theEarth = moment();
 				var theSun = moment.utc(data.sys.sunrise).format()
 				var theMoon = moment.utc(data.sys.sunset).format()
@@ -760,16 +888,22 @@ var app = angular.module('app', [
 				console.log('Error: ' + data);
 			});
 		})
-
-		
 	}
 
 	$interval(getWeather, 600000);
 	getWeather();
 
-	$interval(function(){
-		$scope.time = moment(new Date()).format('H:mm:ss')
-	}, 1000);
+	var setCurrentTime = function(){
+		if ($scope.meta.twentyfour === true){ //24h
+			$scope.time = moment(new Date()).format('H:mm:ss')	
+		}
+		else{ //12h
+			$scope.time = moment(new Date()).format('h:mm:ss a')		
+		}		
+	}
+
+	$interval(setCurrentTime, 1000);
+	setCurrentTime();
 
 	$scope.today = function(){
 		return moment(new Date()).format('dddd')
@@ -826,11 +960,21 @@ var app = angular.module('app', [
 	};
 
 	$scope.cellTitle = function(e){
-		var theID = e.target.parentNode.parentNode.parentNode.getAttribute('data-cellid')
+		var that = e;
+
+		var theActualCell = that.target.parentNode.parentNode.parentNode
+
+		var theID = theActualCell.getAttribute('data-cellid')
+
+		if (that.keyCode === 13){
+			that.preventDefault();
+			$(theActualCell).find('.cellEdit textarea').first().focus();
+		}
+
 		lazyUpdater(theID);
 	};
 
-	$scope.bitKiller = function(e){
+	$scope.bitKiller = function(e, bit){
 		var that = e;
 
 		var theCell = that.target.parentNode.parentNode.parentNode.parentNode.getAttribute('data-cellid');
@@ -842,7 +986,8 @@ var app = angular.module('app', [
 			if (cellular[i].id == theCell) theCellIndex = i;
 		}
 
-		var theSentencedIndex = that.target.parentNode.parentNode.getAttribute('data-index')
+		// var theSentencedIndex = that.target.parentNode.parentNode.getAttribute('data-index')
+		var theSentencedIndex = cellular[theCellIndex].body.indexOf(bit);
 
 		$(that.target).parent().prev('.textarea-container').find('textarea').focus();
 
@@ -879,7 +1024,7 @@ var app = angular.module('app', [
 
     	map[that.keyCode] = that.type == 'keydown';
 
-		var theActualCell = that.target.parentNode.parentNode.parentNode
+		var theActualCell = that.target.parentNode.parentNode.parentNode.parentNode
 		
 		var theCell = theActualCell.getAttribute('data-cellid');
 
@@ -890,6 +1035,8 @@ var app = angular.module('app', [
 			if (cellular[i].id == theCell) theCellIndex = i;
 		}
 
+		var theBitIndex = cellular[theCellIndex].body.indexOf(bit);
+
 		// GET CARET
 		var currentCaret = $(that.target)[0].selectionStart;
 		var theValue = that.target.value;
@@ -897,45 +1044,26 @@ var app = angular.module('app', [
 		var $theSizer = $(that.target).siblings('.sizer')
 
 		$theSizer.html(
+			'<span class="delicate">'+
 			theValue.substring(0, currentCaret) + 
 			'<span class="hiddenCaret"></span>' + 
-			theValue.substring(currentCaret, theValue.length)
+			theValue.substring(currentCaret, theValue.length)+
+			'</span>'
 		)
-
-		// if (
-		// 	(map[8] && (that.target.value == '')) & ||
-		// 	(map[13]) ||
-		// 	(map[9]) ||
-		// 	(map[9] && map[16]) ||
-		// 	(map[38]) ||
-		// 	(map[40])
-		// ){
-		// 	analyzr(map)
-		// }
 
 		if (map[8]){ // DELETE
 			if (
 				(that.target.value == '') && 
 				(cellular[theCellIndex].body.length > 1) // make sure we're not deleting the last bit!
 			){ 
-
 				that.preventDefault();
-
-				var theSentencedIndex = that.target.parentNode.getAttribute('data-index')
-
-				$(that.target).parent().prev('.textarea-container').find('textarea').focus();
-
-				cellular[theCellIndex].body.splice(theSentencedIndex, 1);
-
+				$(that.target).parent().parent().prev('.textarea-container').find('textarea').focus();
+				cellular[theCellIndex].body.splice(theBitIndex, 1);
 			}
 		}
 
     	else if (map[13]){ // ENTER KEY
     		that.preventDefault();
-
-    		var theNewIndex = parseInt(that.target.parentNode.getAttribute('data-index')) + 1;
-
-    		console.log(cellular[theCellIndex].body.indexOf(bit))
 
 			var theNewBit = {
 				displayed: true,
@@ -945,27 +1073,33 @@ var app = angular.module('app', [
 				bitID: randomizr()
 			};
 
-			cellular[theCellIndex].body.splice(theNewIndex, 0, theNewBit);
+			cellular[theCellIndex].body.splice(theBitIndex + 1, 0, theNewBit);
 
 			setTimeout(function(){
-				$(that.target).parent().next('.textarea-container').find('textarea').focus();
+				$(that.target).parent().parent().next('.textarea-container').find('textarea').focus();
 			}, 50);
 		}
 
 		else if (map[9] && map[16]){ // SHIFT + TAB
 			that.preventDefault();
-
-			var theIndentingIndex = that.target.parentNode.getAttribute('data-index')
-			if (cellular[theCellIndex].body[theIndentingIndex].tabCount > 0)
-				cellular[theCellIndex].body[theIndentingIndex].tabCount --;
+			if (cellular[theCellIndex].body[theBitIndex].tabCount > 0)
+				cellular[theCellIndex].body[theBitIndex].tabCount --;
 		}
 
 		else if (map[9]){ // TAB
 			that.preventDefault();
+			if (cellular[theCellIndex].body[theBitIndex].tabCount < 2)
+				cellular[theCellIndex].body[theBitIndex].tabCount ++;
+		}
 
-			var theIndentingIndex = that.target.parentNode.getAttribute('data-index')
-			if (cellular[theCellIndex].body[theIndentingIndex].tabCount < 2)
-				cellular[theCellIndex].body[theIndentingIndex].tabCount ++;
+		else if (
+			(map[17] && map[91] && map[38]) || // MOVE LINE UP
+			(map[17] && map[16] && map[38])
+		){
+			var movingUp = cellular[theCellIndex].body.splice(theBitIndex, 1)[0];
+			cellular[theCellIndex].body.splice(theBitIndex - 1, 0, movingUp);
+			$(that.target).focus();
+		
 		}		
 
 		else if (map[38]){ // UP ARROW
@@ -973,23 +1107,30 @@ var app = angular.module('app', [
 			if ($theSizer.find('.hiddenCaret').position().top < 14){
 				that.preventDefault();
 
-				var $prevTA = $(that.target).parent().prev('.textarea-container').find('textarea');
+				var $prevTA = $(that.target).parent().parent().prev('.textarea-container').find('textarea');
 				
 				var prevTACount = $prevTA.val().length;
-
-				console.log(prevTACount-currentCaret);
 
 				$prevTA.focus()[0]
 				.setSelectionRange(10000, 10000);
 			}
+
+		}
+
+		else if (
+			(map[17] && map[91] && map[40]) || // MOVE LINE DOWN
+			(map[17] && map[16] && map[40])
+		){
+			var movingUp = cellular[theCellIndex].body.splice(theBitIndex, 1)[0];
+			cellular[theCellIndex].body.splice(theBitIndex + 1, 0, movingUp);
+			$(that.target).focus();
 		}
 
 		else if (map[40]){ // DOWN ARROW
-
 			if ($theSizer.find('.hiddenCaret').position().top > $theSizer.height() - 28){
 				that.preventDefault();
 
-				var $nextTA = $(that.target).parent().next('.textarea-container').find('textarea');
+				var $nextTA = $(that.target).parent().parent().next('.textarea-container').find('textarea');
 				
 				var nextTACount = $nextTA.val().length;
 
@@ -1000,11 +1141,53 @@ var app = angular.module('app', [
 			}
 		}
 
-		// 17 91 38 LINE UP OSX
-		// 17 91 40 LINE DOWN OSX
+		else if (
+			(map[17] && map[86]) || // PASTE
+			(map[91] && map[86])
+		){
+			setTimeout(function(){
 
-		// 17 16 38 LINE UP WINDOWS
-		// 17 16 40 LINE DOWN WINDOWS
+				var lines = that.target.value.split(/\r\n|\r|\n/g);
+
+				cellular[theCellIndex].body[theBitIndex].content = lines[0];
+
+				for (var l in lines){
+					// HTTP
+					if (
+						lines[l].indexOf("http://") === 0 ||
+						lines[l].indexOf("https://") === 0 
+					){
+						$.ajax({
+							type: "GET",
+							dataType:'JSONP',
+							data:{
+								URL: lines[l]
+							},
+							url: "http://re.ject.ch/tra/php/title.php"
+						}).done( function(theTitle){
+							cellular[theCellIndex].body[theBitIndex].content = _.unescape(theTitle.title);
+							cellular[theCellIndex].body[theBitIndex].link = lines[l];
+						})
+					}
+
+					if (l > 0){
+
+						var theNewBit = {
+							displayed: true,
+							type: 'plainText',
+							tabCount: 0,
+							content: lines[l],
+							bitID: randomizr()
+						};
+
+						cellular[theCellIndex].body.splice((theBitIndex + l), 0, theNewBit);
+						$theSizer.html(lines[0]);
+
+					}
+				}
+			}, 250)
+		}
+
 
 		else { // DO WE NEED TO EXPAND
 
@@ -1022,31 +1205,30 @@ var app = angular.module('app', [
 			var parentHeight = theActualCell
 				.getBoundingClientRect()
 				.bottom;
-
-			console.log(bottomBit + ' /// ' + parentHeight)
 				
 			if (bottomBit > parentHeight){ // SWEET LET'S EXPAND
 
+				for (var i in cellular[theCellIndex].dimensions) {
+					cellular[theCellIndex].dimensions[i].sizeY++;
+				}
+
 				theActualCell.parentNode.classList.add('ui-resizable-resizing');
 
-				theActualCell.parentNode.style.height = 
-					theActualCell.clientHeight + 
-					200 + 
-					(
-						(
-							theActualCell.clientHeight / 
-							200
-						) * 10
-					);
-
-				cellular[theIndex].dimensions[columnCount].sizeY = theActualCell.parentNode.style.height /  GRIDSIZE
+				theActualCell.parentNode.style.height = (cellular[theCellIndex].dimensions[columnCount].sizeY * GRIDSIZE) 
+					+ ((cellular[theCellIndex].dimensions[columnCount].sizeY - 1) * GUTTERSIZE);
 
 				setTimeout(function(){
 					theActualCell.parentNode.classList.remove('ui-resizable-resizing')
-				},100)
+
+					// make sure that the element isn't scrolled up!
+					theActualCell.scrollIntoView;
+
+					$scope.$parent.$root.packery.layout();
+
+					lazyUpdater(theCell);
+				},200)
 			}
 		}
-
 
 		// UPDATE THAT SHIT YO
 		cellUpdater(theCell, theCellIndex);
@@ -1150,6 +1332,9 @@ var app = angular.module('app', [
             theElement.style.height = cellular[theIndex].dimensions[columnCount].sizeY * GRIDSIZE;
             theElement.style.width = cellular[theIndex].dimensions[columnCount].sizeX * GRIDSIZE;
 
+            // console.log('CELL HEIGHT IS ' + cellular[theIndex].dimensions[columnCount].sizeY)
+            // console.log('FOR CELL ' + cellular[theIndex].id)
+
             $rootScope.packery.fit(
 		    	element[0], 
 		    	cellular[theIndex].dimensions[columnCount].col * (GRIDSIZE + GUTTERSIZE), 
@@ -1180,8 +1365,11 @@ var app = angular.module('app', [
             	stop: function(event, ui) {
             		setTimeout(function(){
             			var $theElement = $(theElement)
-	            		cellular[theIndex].dimensions[columnCount].sizeY = parseInt($theElement.css('height')) /  GRIDSIZE
-	            		cellular[theIndex].dimensions[columnCount].sizeX = parseInt($theElement.css('width')) /  GRIDSIZE
+
+            			for (var i in cellular[theIndex].dimensions){
+		            		cellular[theIndex].dimensions[i].sizeY = parseInt($theElement.css('height')) / GRIDSIZE;
+		            		cellular[theIndex].dimensions[i].sizeX = parseInt($theElement.css('width')) / GRIDSIZE;
+            			}
 
 	            		console.log('RESIZED // ' + cellular[theIndex].id)
 

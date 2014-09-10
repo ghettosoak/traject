@@ -11,7 +11,7 @@
 			"file": "www/assets/views/main.html",
 			"settings":
 			{
-				"buffer_size": 11750,
+				"buffer_size": 11903,
 				"line_ending": "Unix"
 			}
 		},
@@ -19,7 +19,7 @@
 			"file": "www/index.html",
 			"settings":
 			{
-				"buffer_size": 2311,
+				"buffer_size": 2286,
 				"line_ending": "Unix"
 			}
 		},
@@ -27,7 +27,7 @@
 			"file": "www/assets/js/main.js",
 			"settings":
 			{
-				"buffer_size": 24847,
+				"buffer_size": 34717,
 				"line_ending": "Unix"
 			}
 		}
@@ -104,7 +104,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11750,
+						"buffer_size": 11903,
 						"regions":
 						{
 						},
@@ -117,6 +117,7 @@
 						],
 						"settings":
 						{
+							"is_xml": false,
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -133,7 +134,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2311,
+						"buffer_size": 2286,
 						"regions":
 						{
 						},
@@ -146,6 +147,7 @@
 						],
 						"settings":
 						{
+							"is_xml": false,
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
@@ -168,7 +170,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24847,
+						"buffer_size": 34717,
 						"regions":
 						{
 						},

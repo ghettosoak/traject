@@ -107,6 +107,14 @@
 		</div>
 	</div>
 
+	<div class="startUpExit"
+		ng-click="startUpCloser()">
+		<div class="modalCloser">
+			<div class="crossbar1"></div>
+			<div class="crossbar2"></div>
+		</div>
+	</div>
+
 	<div class="startUpButtons">
 		<button type="button" class="startUpButton SUB_left" ng-click="SUB_left()"></button>
 		<button type="button" class="startUpButton SUB_right" ng-click="SUB_right()"></button>
@@ -119,38 +127,107 @@
 	<div class="text">
 		<p><b>Tra.ject</b> is a pet project of Mike Fischer.</p>
 		<p>It is set entirely in Univers: 39, 47 and 67.</p>
-		<p>It is built with <a href="https://angularjs.org/" target="_blank">Angular.js</a> and <a href="http://hood.ie/" target="_blank">Hoodie</a> for the front and back ends respectively.</p>
+		<p>It is built with <a href="https://angularjs.org/" target="_blank">Angular.js</a> and <a href="http://hood.ie/" target="_blank">Hoodie,</a> powering the front and back ends, respectively.</p>
 		<p>It uses <a href="http://packery.metafizzy.co/" target="_blank">Packery</a> to become both cellular and responsive, <a href="http://angular-ui.github.io/" target="_blank">Angular UI</a> to become sortable, and <a href="http://momentjs.com/" target="_blank">Moment.js</a> to keep time.</p>
 		<p>It gets images from the <a href="https://www.flickr.com/services/api/" target="_blank">Flickr API</a>, weather from <a href="http://openweathermap.org/" target="_blank">Open Weather Map,</a> and weather icons from <a href="http://erikflowers.github.io/weather-icons/" target="_blank">Eric Flowers.</a></p>
 		<p>Among other things, it is the product of social and creative frustration.</p>
 		<p>It is still very much in beta.</p>
-		<p>A mobile version Tra.ject is coming soon.</p>
+		<p>A mobile version of Tra.ject is coming soon.</p>
 		<p>&copy; 2014 Mike Fischer</p>
 	</div>
 </div>
 
 <div class="versioning">
 	<div class="text">
-		<h1>Version 1.0.4</h1>
-		<li>So, I've reached somewhat of a </li>
-		<h4>Known Issues</h4>
-		<li>Deleted cells sometimes have a hard time being recognized by the server. This is a hoodie issue.</li>
-		<li>Added cells are added to the current window, but will not add in other windows until reload. The new cells are still saved. This, again, is a hoodie issue.</li>
-		<p>Found something else? <a href="mailto:e@ject.ch?subject=something%27s%20broken&body=hi!%20thanks%20for%20taking%20the%20time%20to%20give%20feedback%20--%20every%20little%20bit%20helps.%20you%20can%20delete%20this%20little%20message%2C%20but%20please%20be%20as%20specific%20as%20possible%3A%20steps%20leading%20up%20to%20your%20problem%2C%20what%20you%27re%20trying%20to%20do%2C%20the%20current%20phase%20of%20the%20moon%3B%20literally%20everything%20helps%2C%20and%20nothing%20is%20too%20small.%20thanks%20again!">Let me know.</a></p>
+		<h1>Finally, v2.0!</h1>
+
+		<p>I've been busy with life and keeping myself sane, which has taken more time than expected from working on this. Still, I've found the occasional minute here and there to make the following changes. There are so many new things here, instead of trying to figure out how far this pushes me forward on v1, I'm just calling this v2:</p>
+
+		<h4>Bugs Fixed</h4>
+		<ul>
+			<li>bits shouldn't be overwritten anymore, thanks to a more robust, more thoughtful saving function</li>
+			<li>'cell death' bug fixed
+				<ul>
+					<li>when two identical bits existed, angular would shit a brick. it no longer does</li>
+				</ul>
+			</li>
+			<li>deleted cells now stay deleted</li>
+		</ul>
+
+		<h4>New Functional Things</h4>
+		<ul>
+			<li>celsius and fahrenheit temperatures for you silly americans</li>
+			<li>12- and 24-hour clock</li>
+			<li>a nicer empty field for new users</li>
+			<li>a nicer introduction sequence (seriously, go check it out now!)</li>
+			<li>omfg new keyboard shortcuts!
+				<ul>
+					<li>pressing enter in the title now jumps to the first bit of a cell</li>
+					<li>bits can be moved up and down, just like the lines in your favorite text editor (did I forget your text editor? <a href="mailto:e@ject.ch?subject=something%27s%20missing&body=hi!%20thanks%20for%20taking%20the%20time%20to%20give%20feedback%2C%20I%20really%20REALLY%20appreciate%20it.%20it%27s%20with%20your%20help%20that%20TRA.JECT%20will%20get%20better!%20feel%20free%20to%20delete%20this%20message%2C%20but%20please%20remember%20that%20no%20input%20is%20too%20small.%20thanks%20again!">let me know.</a>)</li>
+				</ul>
+			</li>
+
+			<li>omfg pasting!
+				<ul>
+					<li>paste in multi-lined content, and each line gets divvied up into its own bit</li>
+					<li>paste in a link, and the app will fetch the name of the page the link points to</li>
+				</ul>
+			</li>
+			<li>cells now expand when their content gets too big</li>
+			<li>cell sizes are now remembered across all screen sizes</li>
+			<li>quick update sequence to bring you and your data into the 24th 1/2 century – did you miss it?</li>
+			<li>hovering over the weather reveals wherever the app is pretty sure you are</li>
+		</ul>
+
+		<h4>New Aesthetic Things</h4>
+		<ul>
+			<li>the sidebar is a little more lovely</li>
+			<li>so is the password changer</li>
+			<li>grid now centers better on field</li>
+		</ul>
+
+		<h4>The Road Ahead (maybe)</h4>
+		<ul>
+			<li>v3 - it's time to make the switch to FireBase. I'd love to keep using hoodie, but it's proven too unstable for full fledged production. I'm gonna try to keep your data intact, but I make no guarantees. I'll keep you posted.</li>
+			<li>v4 - mobile / tablet version?</li>
+			<li>v5 - image integration?</li>
+			<li>v6 - calendar integration?</li>
+		</ul>
+
+		<p>Questions? Comments? How's my driving? Do you like Tra.ject? Do you hate Tra.ject? Got something else you wanna talk about? <a href="mailto:e@ject.ch?subject=hi!">Get in touch.</a></p>
 	</div>
 </div>
 
-<div class="sidebar sidebar-is-{{ sidebarStatus }}">
+<div 
+	class="sidebar sidebar-is-{{ sidebarStatus }}"
+	ng-mouseover="sidebarStatus = 'open'" 
+	ng-mouseleave="sidebarStatus = 'closed'">
 	<div class="menu">
 		<li class="demo" ng-click="demo()"><span>Replay Demo</span></li>
+
+		<li class="units-temp units-toggle"
+			ng-click="tempUnitsChange()"
+			ng-class="{ toggleLeft : meta.celsius === true }"
+			ng-model="meta.celsius">
+			<span>C</span>
+			<span>F</span>
+		</li>
+
+		<li class="units-time units-toggle"
+			ng-click="timeUnitsChange()"
+			ng-class="{ toggleLeft : meta.twentyfour === true }"
+			ng-model="meta.twentyfour">
+			<span>24h</span>
+			<span>12h</span>
+		</li>
 
 		<li class="password" 
 			ng-click="changingPassword = (changingPassword !== true) ? true : false"><span>Change Password</span></li>
 		<div class="passwordChanger active"
 			ng-class="{ changingPassword : changingPassword === true }">
 			<form name="passwordChange">
-				<input type="password" ng-model="oldPassword" name="oldPassword" class="oldPassword" placeholder="OLD PASSWORD">
-				<input type="password" ng-model="newPassword" name="newPassword" class="newPassword" placeholder="NEW PASSWORD">
+				<input type="password" ng-model="oldPassword" name="oldPassword" class="oldPassword" placeholder="YOUR OLD PASSWORD HERE">
+				<input type="password" ng-model="newPassword" name="newPassword" class="newPassword" placeholder="YOUR NEW PASSWORD HERE">
 			</form>
 			<p>thanks</p>
 			<button
@@ -172,8 +249,7 @@
 			ng-click="aboutOpener()">
 			<span>About</span></li>
 	</div>
-	<div class="side"
-		ng-click="sidebarActivator(true);">
+	<div class="side">
 		<span></span>
 		<span></span>
 		<span></span>
@@ -184,17 +260,17 @@
 	<div class="plshold">
 		<h1>Hold on a minute</h1>
 		<p>I have to update something real quick.</p>
-		<p>The page will reload when I'm done.</p>
+		<p>The app will reload when I'm done.</p>
 	</div>
 </div>
 
 <div class="grid sidebar-is-{{ sidebarStatus }}"
-	ng-click="sidebarActivator(false); changingPassword = false">
+	ng-click="changingPassword = false">
 	<ul>
 		<li class="cell" 
 			ng-repeat="item in cells | orderBy: ['row', 'col']" 
 			autonomy
-			ng-if="item.displayed"
+			ng-if="item.displayed === true"
 			data-index="{{$index}}">
 
 			<div class="cellFace gaze grab color00" 
@@ -209,7 +285,7 @@
 				data-cellid="{{item.id}}" >
 				<span class="status" ng-class="status"></span>
 
-				<p class="wx">
+				<p class="wx" title="{{planetary}}">
 					<span class="deg" ng-bind="temp"></span>
 					<span class="icon" ng-class="weather"></span>
 				</p>
@@ -268,27 +344,49 @@
 				<div class="cellEdit" 
 					ui-sortable="textSort" 
 					ng-model="item.body">
+
 					<div 
 						class="textarea-container indent{{bit.tabCount}}" 
 						ng-repeat="bit in item.body track by bit.bitID"
-						data-index="{{$index}}" 
-						ng-class="{ grabbed : grabbing === true }">
+						ng-class="{ 
+							grabbed : grabbing === true
+						}">
 						<span 
 							class="grabber" 
 							ng-mouseover="grabbing = true" 
 							ng-mouseleave="grabbing = false" 
-							ng-dblClick="bitKiller($event)">
+							ng-dblClick="bitKiller($event, bit)">
 							<span></span>
 						</span>
-					  	<textarea 
-						  	ng-model="bit.content" 
-						  	ng-keydown="areaText($event, bit)" 
-						  	ng-keyup="areaText($event, bit)"
-						  	ng-focus="weAreFocused($event)"
-						  	ng-blur="weAreNotFocused($event)">
-					  	</textarea>
-					  	<div class="sizer">{{bit.content}}</div>
+
+						<a 
+							ng-if="bit.link"
+							href="{{ bit.link }}"
+							target="_blank">
+
+						  	<textarea 
+							  	ng-model="bit.content" 
+							  	ng-keydown="areaText($event, bit)" 
+							  	ng-keyup="areaText($event, bit)"
+							  	ng-focus="weAreFocused($event)"
+							  	ng-blur="weAreNotFocused($event)">
+						  	</textarea>
+						  	<div class="sizer"><span class="delicate">{{bit.content}}</span></div>
+						</a>
+
+						<span ng-if="!bit.link">
+						  	<textarea 
+							  	ng-model="bit.content" 
+							  	ng-keydown="areaText($event, bit)" 
+							  	ng-keyup="areaText($event, bit)"
+							  	ng-focus="weAreFocused($event)"
+							  	ng-blur="weAreNotFocused($event)">
+						  	</textarea>
+						  	<div class="sizer">{{bit.content}}</div>
+						</span>
+
 					</div>
+
 				</div>
 				<span class="grab" ng-dblClick="removeCell(item.id)" ng-class="{ catSelecting : catSelectTray === true }">
 					<span class="catOpener" ng-click="catSelectTray = (catSelectTray !== true) ? true : false">

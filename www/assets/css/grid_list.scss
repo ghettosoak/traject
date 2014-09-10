@@ -23,10 +23,13 @@
 	  		white-space: normal;
 	  		@include transition( (padding-left .1s ease-in-out, background-color .2s ease-in-out) );
 	  		color: $active;
+	  		z-index: 1;
 	  	}
 
 	  	.sizer {
-	  		visibility: hidden;
+	  		// visibility: hidden;
+	  		opacity:0;
+	  		z-index: -1;
 	  		white-space: pre-wrap;
 	  		word-wrap: break-word;
 	  		overflow-wrap: break-word;
@@ -59,8 +62,8 @@
  			font-size:16px;
  			color:$active;
  			&:focus{
- 				outline:none;
-				}
+				outline:none;
+			}
 		}
 	}
 
@@ -75,34 +78,52 @@
 		color:$active;
 		text-align: left;
 
-		textarea, .sizer {
+		textarea, .sizer, .linker {
 			min-height: 17px;
 			font-size: 14px;
 			line-height: 17px;
-			font-family:$type_list
+			font-family:$type_list;
+			padding: 0px 0px 0px 20px;
 		}
 
-		.indent0{
-			.grabber{left:0px;}
-			textarea{padding: 0px 0px 0px 20px;}
-			.sizer{padding-left: 20px;}
-			&.grabbed textarea{padding: 0px 0px 0px 25px;}
-		}
 		.indent1{
 			.grabber{left:10px;}
-			textarea{padding: 0px 0px 0px 30px;}
+			textarea, .linker{padding: 0px 0px 0px 30px;}
 			.sizer{padding-left: 30px;}
-			&.grabbed textarea{padding: 0px 0px 0px 35px;}
+			&.grabbed textarea,
+			&.grabbed .linker{padding: 0px 0px 0px 35px;}
 		}
 		.indent2{
 			.grabber{left:20px;}
-			textarea{padding: 0px 0px 0px 40px;}
+			textarea, .linker{padding: 0px 0px 0px 40px;}
 			.sizer{padding-left: 40px;}
-			&.grabbed textarea{padding: 0px 0px 0px 45px;}
+			&.grabbed textarea,
+			&.grabbed .linker{padding: 0px 0px 0px 45px;}
 		}
 
 		.sizer{
 			padding-left: 20px;
+		}
+
+		a{
+			textarea{
+				cursor: pointer;
+				text-decoration: underline;
+				opacity: 0;
+				&:focus{
+					opacity: 1;
+					&:focus + .sizer{
+						opacity: 0;
+					}
+				}
+			}
+
+			.sizer{
+				opacity: 1;
+				.delicate{
+					border-bottom:1px $light dotted;
+				}
+			}
 		}
 
 		.grabber{
@@ -110,7 +131,8 @@
 			width:30px;
 			height:25px;
 			cursor: row-resize;;
-			z-index: 1;
+			z-index: 2;
+			left:0px;
 
 			@include transition(left .1s ease-in-out);
 
@@ -128,6 +150,8 @@
 
 		.grabbed{
 
+			textarea, .linker{padding: 0px 0px 0px 25px;}
+
 			.grabber span{
 				width:10px;
 				height:10px;
@@ -138,6 +162,15 @@
 
 			.sizer{
 				padding-left:25px;
+			}
+		}
+
+		.linked{
+			textarea, .sizer{
+				display:none;
+			}
+			.linker{
+				display:block; 
 			}
 		}
 	}

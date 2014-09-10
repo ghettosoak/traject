@@ -74,6 +74,16 @@
 		}
 	}
 
+	.startUpExit{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		height: 50px;
+		width: 50px;
+		margin: -90% 0 0 -20%;
+		@include transform(rotate(45deg));
+	}
+
 	.startUpButtons{
 		position: absolute;
 		top:0px;
@@ -126,6 +136,10 @@
 	&.topLeft{
 		@include transform(scale(1) rotate(-180deg));
 
+		.startUpExit{
+			margin: -70% 0 0 31%;
+		}
+
 		.startUpText{
 			@include transform(rotate(180deg));
 		}
@@ -133,6 +147,10 @@
 
 	&.topRight{
 		@include transform(scale(1) rotate(-90deg));
+
+		.startUpExit{
+			margin:-70% 0 0 31%;
+		}
 
 		.startUpText{
 			@include transform(rotate(90deg));
@@ -142,6 +160,10 @@
 	&.rightRight{
 		@include transform(scale(1) rotate(-45deg));
 
+		.startUpExit{
+			margin: -90% 0 0 -20%;
+		}
+
 		.startUpText{
 			@include transform(rotate(45deg));
 		}
@@ -150,6 +172,10 @@
 	&.leftLeft{
 		@include transform(scale(1) rotate(-225deg));
 
+		.startUpExit{
+			margin: -20% 0 0 -90%;
+		}
+
 		.startUpText{
 			@include transform(rotate(225deg));
 		}
@@ -157,6 +183,21 @@
 
 	&.centerCenter{
 		margin:-100px 0 0 -100px;
+	}
+}
+
+.startUp_0,
+.startUp_1,
+.startUp_2,
+.startUp_3,
+.startUp_4,
+.startUp_5,
+.startUp_6,
+.startUp_7,
+.startUp_8,
+.startUp_9{
+	.grid{
+		height:100%;
 	}
 }
 

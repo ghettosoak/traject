@@ -8,6 +8,7 @@
 	z-index: 500;
 	border-right:1px $light solid;
 	opacity:0;
+	overflow: hidden;
 
 	@include transition(left .2s ease-in-out);
 
@@ -20,6 +21,7 @@
 		left:0px;
 		.menu{
 			opacity:1;
+			// left:0px;
 		}
 	}
 
@@ -28,9 +30,10 @@
 		height:100%;
 		position: absolute;
 		top:0px;
+		// left:230px;
 		left:0px;
 		opacity:0;
-		@include transition(opacity .2s ease-in-out);
+		@include transition(all .2s ease-in-out);
 		li{
 			color:$bg;
 			list-style: none;
@@ -65,6 +68,59 @@
 
 		form{
 			margin:0px;
+		}
+
+		.units-toggle{
+			position: relative;
+			padding-right:50px;
+
+			&:before,
+			&:after{
+				content:'';
+				position: absolute;
+				top:50%;
+				left:50%;
+				border-radius: 50px;
+			}
+
+			&:before{
+				height:30px;
+				width:100px;
+				margin:-15px 0 0 -70px;
+				border: 1px solid $bg;
+			}
+
+			&:after{
+				height:26px;
+				width:26px;
+				margin:-13px 0 0 2px;
+				background-color: $bg;
+				@include transition(margin-left .2s ease-in-out);
+			}
+
+			&:hover:before{
+				border: 1px solid $light;
+			}
+
+			&:hover:after{
+				background-color: $light;
+			}
+			
+
+			&.toggleLeft:after{
+				margin-left: -68px;
+			}
+
+
+
+
+			span:nth-child(2){
+				text-align: right;
+			}
+		}
+
+		.units-temp span:after{
+			content: "\00b0";
 		}
 
 		.passwordChanger,
@@ -107,17 +163,18 @@
 			position:relative;
 			float:left;
 			width:100%;
-			background-color:$bg;
-			color:$light;
+			background-color:$light;
+			color:$bg;
+			border-top:1px solid $bg;
+			border-right:1px solid $bg;
+			border-left:1px solid $bg;
 			padding: 12px;
 			font-size: 16px;
 		}
 
 		.oldPassword{ 
 			border-radius:5px 5px 0px 0px;
-			border-bottom:1px $light solid;
 		}
-		.newPassword{  }
 
 		.passwordChanger input{
 			text-align: center;
@@ -149,7 +206,6 @@
 		width:50px;
 		left:200px;
 		top:0px;
-		cursor: pointer;
 		z-index: 100;
 
 		span{

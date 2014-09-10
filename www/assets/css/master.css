@@ -104,54 +104,55 @@ input, textarea {
     transform: scale(1); }
   .modalClear .modalBG {
     display: none; }
-  .modalBG .modalCloser {
-    height: 50px;
-    width: 50px;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background-color: #f2efdc;
+
+.modalCloser {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #f2efdc;
+  border-radius: 50px;
+  cursor: pointer; }
+  .modalCloser .crossbar1,
+  .modalCloser .crossbar2 {
+    position: absolute;
+    height: 30px;
+    width: 1px;
+    background-color: #024959;
+    top: 50%;
+    left: 50%;
+    margin: -15px 0px 0px 0px; }
+  .modalCloser .crossbar1 {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg); }
+  .modalCloser .crossbar2 {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg); }
+  .modalCloser:before {
+    content: '';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border: 1px #f2efdc solid;
     border-radius: 50px;
-    cursor: pointer; }
-    .modalBG .modalCloser .crossbar1,
-    .modalBG .modalCloser .crossbar2 {
-      position: absolute;
-      height: 30px;
-      width: 1px;
-      background-color: #024959;
-      top: 50%;
-      left: 50%;
-      margin: -15px 0px 0px 0px; }
-    .modalBG .modalCloser .crossbar1 {
-      -webkit-transform: rotate(45deg);
-      -moz-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      -o-transform: rotate(45deg);
-      transform: rotate(45deg); }
-    .modalBG .modalCloser .crossbar2 {
-      -webkit-transform: rotate(-45deg);
-      -moz-transform: rotate(-45deg);
-      -ms-transform: rotate(-45deg);
-      -o-transform: rotate(-45deg);
-      transform: rotate(-45deg); }
-    .modalBG .modalCloser:before {
-      content: '';
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      border: 1px #f2efdc solid;
-      border-radius: 50px;
-      -webkit-transition: all 0.1s ease-in-out;
-      -moz-transition: all 0.1s ease-in-out;
-      -o-transition: all 0.1s ease-in-out;
-      transition: all 0.1s ease-in-out; }
-    .modalBG .modalCloser:hover:before {
-      height: 120%;
-      width: 120%;
-      top: -10%;
-      left: -10%; }
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out; }
+  .modalCloser:hover:before {
+    height: 120%;
+    width: 120%;
+    top: -10%;
+    left: -10%; }
 
 button.primary {
   position: absolute;
@@ -215,14 +216,14 @@ button.secondary {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background-color: #f2efdc;
+  background-color: #024959;
   border-top: 1px #024959 solid;
   border-right: 1px #024959 solid;
   border-bottom: 1px #024959 solid;
   border-left: 1px #024959 solid;
   border-radius: 0px 0px 5px 5px;
   cursor: pointer;
-  color: #024959;
+  color: #f2efdc;
   font-family: u47;
   font-size: 14px;
   text-transform: uppercase; }
@@ -439,6 +440,18 @@ button.secondary {
           #startUp .startUpText .startUpCarousel .startUpShow p b {
             font-weight: normal;
             font-family: u67; }
+  #startUp .startUpExit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 50px;
+    width: 50px;
+    margin: -90% 0 0 -20%;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg); }
   #startUp .startUpButtons {
     position: absolute;
     top: 0px;
@@ -484,6 +497,8 @@ button.secondary {
     -ms-transform: scale(1) rotate(-180deg);
     -o-transform: scale(1) rotate(-180deg);
     transform: scale(1) rotate(-180deg); }
+    #startUp.topLeft .startUpExit {
+      margin: -70% 0 0 31%; }
     #startUp.topLeft .startUpText {
       -webkit-transform: rotate(180deg);
       -moz-transform: rotate(180deg);
@@ -496,6 +511,8 @@ button.secondary {
     -ms-transform: scale(1) rotate(-90deg);
     -o-transform: scale(1) rotate(-90deg);
     transform: scale(1) rotate(-90deg); }
+    #startUp.topRight .startUpExit {
+      margin: -70% 0 0 31%; }
     #startUp.topRight .startUpText {
       -webkit-transform: rotate(90deg);
       -moz-transform: rotate(90deg);
@@ -508,6 +525,8 @@ button.secondary {
     -ms-transform: scale(1) rotate(-45deg);
     -o-transform: scale(1) rotate(-45deg);
     transform: scale(1) rotate(-45deg); }
+    #startUp.rightRight .startUpExit {
+      margin: -90% 0 0 -20%; }
     #startUp.rightRight .startUpText {
       -webkit-transform: rotate(45deg);
       -moz-transform: rotate(45deg);
@@ -520,6 +539,8 @@ button.secondary {
     -ms-transform: scale(1) rotate(-225deg);
     -o-transform: scale(1) rotate(-225deg);
     transform: scale(1) rotate(-225deg); }
+    #startUp.leftLeft .startUpExit {
+      margin: -20% 0 0 -90%; }
     #startUp.leftLeft .startUpText {
       -webkit-transform: rotate(225deg);
       -moz-transform: rotate(225deg);
@@ -528,6 +549,18 @@ button.secondary {
       transform: rotate(225deg); }
   #startUp.centerCenter {
     margin: -100px 0 0 -100px; }
+
+.startUp_0 .grid,
+.startUp_1 .grid,
+.startUp_2 .grid,
+.startUp_3 .grid,
+.startUp_4 .grid,
+.startUp_5 .grid,
+.startUp_6 .grid,
+.startUp_7 .grid,
+.startUp_8 .grid,
+.startUp_9 .grid {
+  height: 100%; }
 
 .startUp_0 .grid .cell .cover,
 .startUp_1 .grid .cell .cover,
@@ -695,13 +728,8 @@ button.secondary {
 
 .aboutTraject,
 .versioning {
-  height: 670px;
-  width: 500px;
-  margin: -335px 0 0 -250px;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  padding: 20px;
+  padding: 10px 15px 20px;
   z-index: 900;
   opacity: 0;
   -webkit-transition: all 0.5s ease-in-out;
@@ -723,29 +751,50 @@ button.secondary {
     float: left;
     top: 0px;
     left: 0px;
-    height: 300px;
+    height: 315px;
     width: 100%;
     background-image: url(../img/logo.png);
     background-size: 300px 300px;
-    background-position: center center;
+    background-position: top center;
     background-repeat: no-repeat;
     border-bottom: 1px #f2efdc solid; }
   .aboutTraject .text,
   .versioning .text {
     width: 100%;
     position: relative;
-    margin-top: 10px;
     float: left; }
     .aboutTraject .text h1,
     .versioning .text h1 {
       padding-bottom: 10px;
       border-bottom: 1px #f2efdc solid;
-      margin-bottom: 10px; }
-    .aboutTraject .text li,
-    .versioning .text li {
-      text-indent: -13px;
-      margin-left: 13px;
-      margin-bottom: 10px; }
+      margin: 0 0 10px; }
+    .aboutTraject .text h4,
+    .versioning .text h4 {
+      margin: 5px 0; }
+    .aboutTraject .text ul,
+    .versioning .text ul {
+      padding-left: 0px;
+      margin: 5px 0 10px; }
+      .aboutTraject .text ul li ul,
+      .versioning .text ul li ul {
+        margin: 0;
+        padding-left: 20px;
+        list-style-type: disc; }
+
+.aboutTraject {
+  height: 720px;
+  width: 500px;
+  margin: -360px 0 0 -250px;
+  top: 50%;
+  left: 50%; }
+
+.versioning {
+  height: 100%;
+  overflow: scroll;
+  width: 500px;
+  top: 0px;
+  left: 50%;
+  margin-left: -250px; }
 
 .viewingAbout .aboutTraject,
 .viewingVersion .versioning {
@@ -766,6 +815,7 @@ button.secondary {
   z-index: 500;
   border-right: 1px #f2efdc solid;
   opacity: 0;
+  overflow: hidden;
   -webkit-transition: left 0.2s ease-in-out;
   -moz-transition: left 0.2s ease-in-out;
   -o-transition: left 0.2s ease-in-out;
@@ -784,10 +834,10 @@ button.secondary {
     top: 0px;
     left: 0px;
     opacity: 0;
-    -webkit-transition: opacity 0.2s ease-in-out;
-    -moz-transition: opacity 0.2s ease-in-out;
-    -o-transition: opacity 0.2s ease-in-out;
-    transition: opacity 0.2s ease-in-out; }
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out; }
     .sidebar .menu li {
       color: #024959;
       list-style: none;
@@ -813,6 +863,39 @@ button.secondary {
           border-bottom: 0px; }
     .sidebar .menu form {
       margin: 0px; }
+    .sidebar .menu .units-toggle {
+      position: relative;
+      padding-right: 50px; }
+      .sidebar .menu .units-toggle:before, .sidebar .menu .units-toggle:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50px; }
+      .sidebar .menu .units-toggle:before {
+        height: 30px;
+        width: 100px;
+        margin: -15px 0 0 -70px;
+        border: 1px solid #024959; }
+      .sidebar .menu .units-toggle:after {
+        height: 26px;
+        width: 26px;
+        margin: -13px 0 0 2px;
+        background-color: #024959;
+        -webkit-transition: margin-left 0.2s ease-in-out;
+        -moz-transition: margin-left 0.2s ease-in-out;
+        -o-transition: margin-left 0.2s ease-in-out;
+        transition: margin-left 0.2s ease-in-out; }
+      .sidebar .menu .units-toggle:hover:before {
+        border: 1px solid #f2efdc; }
+      .sidebar .menu .units-toggle:hover:after {
+        background-color: #f2efdc; }
+      .sidebar .menu .units-toggle.toggleLeft:after {
+        margin-left: -68px; }
+      .sidebar .menu .units-toggle span:nth-child(2) {
+        text-align: right; }
+    .sidebar .menu .units-temp span:after {
+      content: "\00b0"; }
     .sidebar .menu .passwordChanger,
     .sidebar .menu .feedbackForm {
       position: relative;
@@ -851,13 +934,15 @@ button.secondary {
       position: relative;
       float: left;
       width: 100%;
-      background-color: #024959;
-      color: #f2efdc;
+      background-color: #f2efdc;
+      color: #024959;
+      border-top: 1px solid #024959;
+      border-right: 1px solid #024959;
+      border-left: 1px solid #024959;
       padding: 12px;
       font-size: 16px; }
     .sidebar .menu .oldPassword {
-      border-radius: 5px 5px 0px 0px;
-      border-bottom: 1px #f2efdc solid; }
+      border-radius: 5px 5px 0px 0px; }
     .sidebar .menu .passwordChanger input {
       text-align: center; }
     .sidebar .menu .feedbackForm textarea {
@@ -879,7 +964,6 @@ button.secondary {
     width: 50px;
     left: 200px;
     top: 0px;
-    cursor: pointer;
     z-index: 100; }
     .sidebar .side span {
       height: 1px;
@@ -902,7 +986,6 @@ button.secondary {
   position: absolute;
   left: 0px;
   width: 100%;
-  height: 100%;
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -o-transition: all 0.2s ease-in-out;
@@ -921,7 +1004,7 @@ button.secondary {
     opacity: 1;
     display: block; }
   .grid.sidebar-is-open {
-    left: 250px; }
+    left: 200px; }
   .grid ul {
     padding: 0px;
     margin: 0px auto;
@@ -1310,9 +1393,11 @@ button.secondary {
         -moz-transition: padding-left 0.1s ease-in-out, background-color 0.2s ease-in-out;
         -o-transition: padding-left 0.1s ease-in-out, background-color 0.2s ease-in-out;
         transition: padding-left 0.1s ease-in-out, background-color 0.2s ease-in-out;
-        color: #f2efdc; }
+        color: #f2efdc;
+        z-index: 1; }
       .grid .cell .list .textarea-container .sizer {
-        visibility: hidden;
+        opacity: 0;
+        z-index: -1;
         white-space: pre-wrap;
         word-wrap: break-word;
         overflow-wrap: break-word; }
@@ -1349,43 +1434,49 @@ button.secondary {
       border-radius: 0px 0px 5px 0px;
       color: #f2efdc;
       text-align: left; }
-      .grid .cell .list .cellEdit textarea, .grid .cell .list .cellEdit .sizer {
+      .grid .cell .list .cellEdit textarea, .grid .cell .list .cellEdit .sizer, .grid .cell .list .cellEdit .linker {
         min-height: 17px;
         font-size: 14px;
         line-height: 17px;
-        font-family: u47; }
-      .grid .cell .list .cellEdit .indent0 .grabber {
-        left: 0px; }
-      .grid .cell .list .cellEdit .indent0 textarea {
+        font-family: u47;
         padding: 0px 0px 0px 20px; }
-      .grid .cell .list .cellEdit .indent0 .sizer {
-        padding-left: 20px; }
-      .grid .cell .list .cellEdit .indent0.grabbed textarea {
-        padding: 0px 0px 0px 25px; }
       .grid .cell .list .cellEdit .indent1 .grabber {
         left: 10px; }
-      .grid .cell .list .cellEdit .indent1 textarea {
+      .grid .cell .list .cellEdit .indent1 textarea, .grid .cell .list .cellEdit .indent1 .linker {
         padding: 0px 0px 0px 30px; }
       .grid .cell .list .cellEdit .indent1 .sizer {
         padding-left: 30px; }
-      .grid .cell .list .cellEdit .indent1.grabbed textarea {
+      .grid .cell .list .cellEdit .indent1.grabbed textarea, .grid .cell .list .cellEdit .indent1.grabbed .linker {
         padding: 0px 0px 0px 35px; }
       .grid .cell .list .cellEdit .indent2 .grabber {
         left: 20px; }
-      .grid .cell .list .cellEdit .indent2 textarea {
+      .grid .cell .list .cellEdit .indent2 textarea, .grid .cell .list .cellEdit .indent2 .linker {
         padding: 0px 0px 0px 40px; }
       .grid .cell .list .cellEdit .indent2 .sizer {
         padding-left: 40px; }
-      .grid .cell .list .cellEdit .indent2.grabbed textarea {
+      .grid .cell .list .cellEdit .indent2.grabbed textarea, .grid .cell .list .cellEdit .indent2.grabbed .linker {
         padding: 0px 0px 0px 45px; }
       .grid .cell .list .cellEdit .sizer {
         padding-left: 20px; }
+      .grid .cell .list .cellEdit a textarea {
+        cursor: pointer;
+        text-decoration: underline;
+        opacity: 0; }
+        .grid .cell .list .cellEdit a textarea:focus {
+          opacity: 1; }
+          .grid .cell .list .cellEdit a textarea:focus:focus + .sizer {
+            opacity: 0; }
+      .grid .cell .list .cellEdit a .sizer {
+        opacity: 1; }
+        .grid .cell .list .cellEdit a .sizer .delicate {
+          border-bottom: 1px #f2efdc dotted; }
       .grid .cell .list .cellEdit .grabber {
         position: absolute;
         width: 30px;
         height: 25px;
         cursor: row-resize;
-        z-index: 1;
+        z-index: 2;
+        left: 0px;
         -webkit-transition: left 0.1s ease-in-out;
         -moz-transition: left 0.1s ease-in-out;
         -o-transition: left 0.1s ease-in-out;
@@ -1402,6 +1493,8 @@ button.secondary {
           -moz-transition: all 0.1s ease-in-out;
           -o-transition: all 0.1s ease-in-out;
           transition: all 0.1s ease-in-out; }
+      .grid .cell .list .cellEdit .grabbed textarea, .grid .cell .list .cellEdit .grabbed .linker {
+        padding: 0px 0px 0px 25px; }
       .grid .cell .list .cellEdit .grabbed .grabber span {
         width: 10px;
         height: 10px;
@@ -1410,6 +1503,10 @@ button.secondary {
         border-radius: 50px; }
       .grid .cell .list .cellEdit .grabbed .sizer {
         padding-left: 25px; }
+      .grid .cell .list .cellEdit .linked textarea, .grid .cell .list .cellEdit .linked .sizer {
+        display: none; }
+      .grid .cell .list .cellEdit .linked .linker {
+        display: block; }
     .grid .cell .list .grab {
       position: absolute;
       width: 15px;
