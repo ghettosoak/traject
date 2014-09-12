@@ -451,7 +451,8 @@ button.secondary {
     -moz-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     -o-transform: rotate(45deg);
-    transform: rotate(45deg); }
+    transform: rotate(45deg);
+    z-index: 100; }
   #startUp .startUpButtons {
     position: absolute;
     top: 0px;
@@ -498,7 +499,12 @@ button.secondary {
     -o-transform: scale(1) rotate(-180deg);
     transform: scale(1) rotate(-180deg); }
     #startUp.topLeft .startUpExit {
-      margin: -70% 0 0 31%; }
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+      margin: 30% 0 0 -70%; }
     #startUp.topLeft .startUpText {
       -webkit-transform: rotate(180deg);
       -moz-transform: rotate(180deg);
@@ -512,7 +518,12 @@ button.secondary {
     -o-transform: scale(1) rotate(-90deg);
     transform: scale(1) rotate(-90deg); }
     #startUp.topRight .startUpExit {
-      margin: -70% 0 0 31%; }
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+      margin: -70% 0 0 30%; }
     #startUp.topRight .startUpText {
       -webkit-transform: rotate(90deg);
       -moz-transform: rotate(90deg);
@@ -540,7 +551,7 @@ button.secondary {
     -o-transform: scale(1) rotate(-225deg);
     transform: scale(1) rotate(-225deg); }
     #startUp.leftLeft .startUpExit {
-      margin: -20% 0 0 -90%; }
+      margin: -90% 0 0 -20%; }
     #startUp.leftLeft .startUpText {
       -webkit-transform: rotate(225deg);
       -moz-transform: rotate(225deg);
@@ -549,6 +560,9 @@ button.secondary {
       transform: rotate(225deg); }
   #startUp.centerCenter {
     margin: -100px 0 0 -100px; }
+
+.showingList {
+  z-index: 100000; }
 
 .startUp_0 .grid,
 .startUp_1 .grid,
@@ -601,11 +615,9 @@ button.secondary {
   border-radius: 200px 200px 0px 200px; }
 
 .startUp_1 #startUp .startUpButton,
-.startUp_2 #startUp .startUpButton,
 .startUp_3 #startUp .startUpButton,
 .startUp_4 #startUp .startUpButton,
 .startUp_5 #startUp .startUpButton,
-.startUp_6 #startUp .startUpButton,
 .startUp_7 #startUp .startUpButton,
 .startUp_8 #startUp .startUpButton {
   display: none; }
@@ -643,6 +655,8 @@ button.secondary {
   -ms-transform: scale(1);
   -o-transform: scale(1);
   transform: scale(1); }
+  .startUp_0 #startUp .startUpExit {
+    opacity: 0; }
 
 .startUp_1 .grid .cell.showingList,
 .startUp_2 .grid .cell.showingList {
@@ -663,6 +677,17 @@ button.secondary {
     -o-transform: rotate(45deg);
     transform: rotate(45deg); }
 
+.startUp_2 .startUpButtons {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg); }
+  .startUp_2 .startUpButtons .SUB_left {
+    display: none; }
+  .startUp_2 .startUpButtons .SUB_right:before {
+    content: 'NO THANKS'; }
+
 .startUp_3 .grid .cell.showingList {
   margin: -250px 0 0 75px; }
 .startUp_3 #startUp {
@@ -679,6 +704,24 @@ button.secondary {
     -o-transform: rotate(45deg);
     transform: rotate(45deg); }
 
+.startUp_6 .startUpButtons .SUB_left {
+  display: none; }
+.startUp_6 .startUpButtons .SUB_right:before {
+  content: 'NO THANKS'; }
+.startUp_6 .topRight .startUpButtons {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg); }
+.startUp_6 .topLeft .startUpButtons {
+  top: -60px;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg); }
+
 .startUp_7 .grid .cell .addCell ~ .cover,
 .startUp_8 .grid .cell .addCell ~ .cover {
   top: 100%;
@@ -691,6 +734,8 @@ button.secondary {
   -o-transform: rotate(-135deg);
   transform: rotate(-135deg);
   transform-origin: 130px 115px; }
+.startUp_9 .startUpExit {
+  opacity: 0; }
 .startUp_9 .SUB_left:before {
   content: 'AGAIN, PLEASE'; }
 .startUp_9 .SUB_right:before {
@@ -960,7 +1005,7 @@ button.secondary {
       border-top: 1px #024959 solid; }
   .sidebar .side {
     position: absolute;
-    height: 100%;
+    height: 40px;
     width: 50px;
     left: 200px;
     top: 0px;
@@ -1007,7 +1052,7 @@ button.secondary {
     left: 200px; }
   .grid ul {
     padding: 0px;
-    margin: 0px auto;
+    margin: 0px auto 10px;
     position: absolute !important;
     left: 50%;
     width: 100%; }

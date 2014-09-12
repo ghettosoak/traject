@@ -424,8 +424,10 @@ var app = angular.module('app', [
 	});
 	
 	$scope.demo = function(){
-		externalStartUpIndex = 1;
-		$scope.startUpIndex = 1;
+		externalStartUpIndex = 0;
+		$scope.startUpIndex = 0;
+
+		$scope.SUB_right(false);
 		
 		$('.cellFace.list').eq(0).parent().addClass('showingList');
 		$theFace = $('.showingList .cellFace');
@@ -516,7 +518,7 @@ var app = angular.module('app', [
 		}
 	};
 
-	$scope.SUB_right = function(){
+	$scope.SUB_right = function(jump){
 		externalStartUpIndex++;
 		$scope.startUpIndex++;
 
@@ -527,6 +529,9 @@ var app = angular.module('app', [
 			$theFace = $('.showingList .cellFace')
 			$theFaceOrigPos = $theFace.offset()
 			$scope.sidebarStatus = 'closed';
+
+			$scope.startUp_X = '50%';
+			$scope.startUp_Y = '50%';
 		}
 
 		if ($scope.startUpIndex === 3){
@@ -540,8 +545,8 @@ var app = angular.module('app', [
 				($theFaceOrigPos.left > 150)
 			){
 				$scope.startUpOrient = 'topRight';
-				$scope.startUp_X = $theFaceOrigPos.left - 260;
-				$scope.startUp_Y = $theFaceOrigPos.top + 210;
+				$scope.startUp_X = $theFaceOrigPos.left - 250;
+				$scope.startUp_Y = $theFaceOrigPos.top + $theFace.height() + 10;
 			}
 
 			if (
@@ -549,7 +554,7 @@ var app = angular.module('app', [
 			){
 				$scope.startUpOrient = 'topLeft';
 				$scope.startUp_X = $theFaceOrigPos.left + 210;
-				$scope.startUp_Y = $theFaceOrigPos.top + 210;
+				$scope.startUp_Y = $theFaceOrigPos.top + $theFace.height() + 10;
 			}
 		}
 
@@ -589,24 +594,30 @@ var app = angular.module('app', [
 			}
 		}
 
-		if (($scope.startUpIndex === 7) || ($scope.startUpIndex === 7)){
+		if (($scope.startUpIndex === 7) || ($scope.startUpIndex === 8)){
 			$('.cellFace.list').eq(0).parent().addClass('showingList')
 			$theFace = $('.cellFace.addCell')
-			if (
-				($theFace.offset().left > 150)
-			){
-				$scope.startUpOrient = 'topRight';
-				$scope.startUp_X = $theFace.offset().left - 250;
-				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
-			}
+			setTimeout(function(){
+				if (
+					($theFace.offset().left > 150)
+				){
+					$scope.startUpOrient = 'topRight';
+					$scope.startUp_X = $theFace.offset().left - 250;
+					$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+				}
 
-			if (
-				($theFace.offset().left < 150)
-			){
-				$scope.startUpOrient = 'topLeft';
-				$scope.startUp_X = $theFace.offset().left + 210;
-				$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
-			}
+				if (
+					($theFace.offset().left < 150)
+				){
+					$scope.startUpOrient = 'topLeft';
+					$scope.startUp_X = $theFace.offset().left + 210;
+					$scope.startUp_Y = $theFace.offset().top + $theFace.height() + 10;
+				}
+			}, 500);
+
+			if (jump === true){ 
+				console.log('OU FUCK')
+				$scope.SUB_right(false); }
 		}
 
 		if ($scope.startUpIndex === 9){
@@ -676,7 +687,7 @@ var app = angular.module('app', [
 				});
 			}, 500);
 
-			if ($scope.startUpIndex === 8) $scope.SUB_right();
+			if ($scope.startUpIndex === 8) $scope.SUB_right(false);
 		})
 	}
 
@@ -685,7 +696,7 @@ var app = angular.module('app', [
 		if (victim === 'cell'){
 			var theLastKilledCell = localStorage.getItem('lastRemovedCell')
 			console.log(theLastKilledCell)
-			if ($scope.startUpIndex === 7) $scope.SUB_right();
+			if ($scope.startUpIndex === 7) $scope.SUB_right(false);
 
 			for (var i in $scope.cells){
 				if ($scope.cells[i].id === theLastKilledCell){
@@ -726,7 +737,7 @@ var app = angular.module('app', [
 				$scope.cells[i].displayed = false;
 
 				lazyUpdater(id)
-				if ($scope.startUpIndex === 6) $scope.SUB_right();
+				if ($scope.startUpIndex === 6) $scope.SUB_right(false);
 			}
 		}
 
@@ -955,7 +966,7 @@ var app = angular.module('app', [
 			}
 	    	cellUpdater(theCell, theCellIndex);
 
-	    	if ($scope.startUpIndex === 1) $scope.SUB_right();
+	    	if ($scope.startUpIndex === 1) $scope.SUB_right(false);
 	    }
 	};
 
@@ -1014,7 +1025,7 @@ var app = angular.module('app', [
 			}, 50);
 		}
 
-		if ($scope.startUpIndex === 2) $scope.SUB_right();
+		if ($scope.startUpIndex === 2) $scope.SUB_right(false);
 	}
 
 	var map = [];
@@ -1167,6 +1178,22 @@ var app = angular.module('app', [
 						}).done( function(theTitle){
 							cellular[theCellIndex].body[theBitIndex].content = _.unescape(theTitle.title);
 							cellular[theCellIndex].body[theBitIndex].link = lines[l];
+
+
+							var theNewBit = {
+								displayed: true,
+								type:'plainText',
+								tabCount:0,
+								content:'',
+								bitID: randomizr()
+							};
+
+							cellular[theCellIndex].body.splice(theBitIndex + 1, 0, theNewBit);
+
+							setTimeout(function(){
+								$(that.target).parent().parent().next('.textarea-container').find('textarea').focus();
+							}, 50);
+							
 						})
 					}
 
@@ -1210,12 +1237,16 @@ var app = angular.module('app', [
 
 				for (var i in cellular[theCellIndex].dimensions) {
 					cellular[theCellIndex].dimensions[i].sizeY++;
+
+					var addition = (cellular[theCellIndex].dimensions[i].sizeY - 1) * .05;
+
+					cellular[theCellIndex].dimensions[i].sizeY = parseInt(cellular[theCellIndex].dimensions[i].sizeY) + addition;
 				}
 
 				theActualCell.parentNode.classList.add('ui-resizable-resizing');
 
 				theActualCell.parentNode.style.height = (cellular[theCellIndex].dimensions[columnCount].sizeY * GRIDSIZE) 
-					+ ((cellular[theCellIndex].dimensions[columnCount].sizeY - 1) * GUTTERSIZE);
+					// + ((cellular[theCellIndex].dimensions[columnCount].sizeY - 1) * GUTTERSIZE);
 
 				setTimeout(function(){
 					theActualCell.parentNode.classList.remove('ui-resizable-resizing')
@@ -1258,7 +1289,7 @@ var app = angular.module('app', [
 
 		lazyUpdater(theCell);
 
-		if ($scope.startUpIndex === 3) $scope.SUB_right();
+		if ($scope.startUpIndex === 3) $scope.SUB_right(false);
 	}
 })
 
@@ -1332,8 +1363,8 @@ var app = angular.module('app', [
             theElement.style.height = cellular[theIndex].dimensions[columnCount].sizeY * GRIDSIZE;
             theElement.style.width = cellular[theIndex].dimensions[columnCount].sizeX * GRIDSIZE;
 
-            // console.log('CELL HEIGHT IS ' + cellular[theIndex].dimensions[columnCount].sizeY)
-            // console.log('FOR CELL ' + cellular[theIndex].id)
+            console.log('CELL HEIGHT IS ' + cellular[theIndex].dimensions[columnCount].sizeY)
+            console.log('FOR CELL ' + cellular[theIndex].id)
 
             $rootScope.packery.fit(
 		    	element[0], 
@@ -1356,7 +1387,7 @@ var app = angular.module('app', [
 	            		lazyUpdater(cellular[theIndex].id)
 
 						if (externalStartUpIndex === 5) setTimeout(function(){
-							$('.SUB_right').click();
+							scope.$parent.$parent.$parent.$parent.SUB_right();
 						}, 500);
             		}, 500);
 				}
@@ -1372,6 +1403,7 @@ var app = angular.module('app', [
             			}
 
 	            		console.log('RESIZED // ' + cellular[theIndex].id)
+	            		console.log(scope)
 
 	            		lazyUpdater(cellular[theIndex].id)
 

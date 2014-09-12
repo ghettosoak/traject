@@ -82,6 +82,7 @@
 		width: 50px;
 		margin: -90% 0 0 -20%;
 		@include transform(rotate(45deg));
+		z-index: 100;
 	}
 
 	.startUpButtons{
@@ -137,7 +138,8 @@
 		@include transform(scale(1) rotate(-180deg));
 
 		.startUpExit{
-			margin: -70% 0 0 31%;
+			@include transform(rotate(0deg));
+			margin: 30% 0 0 -70%;
 		}
 
 		.startUpText{
@@ -149,7 +151,8 @@
 		@include transform(scale(1) rotate(-90deg));
 
 		.startUpExit{
-			margin:-70% 0 0 31%;
+			@include transform(rotate(0deg));
+			margin:-70% 0 0 30%;
 		}
 
 		.startUpText{
@@ -173,7 +176,7 @@
 		@include transform(scale(1) rotate(-225deg));
 
 		.startUpExit{
-			margin: -20% 0 0 -90%;
+			margin: -90% 0 0 -20%;
 		}
 
 		.startUpText{
@@ -184,6 +187,10 @@
 	&.centerCenter{
 		margin:-100px 0 0 -100px;
 	}
+}
+
+.showingList{
+	z-index: 100000;
 }
 
 .startUp_0,
@@ -240,11 +247,9 @@
 }
 
 .startUp_1,
-.startUp_2,
 .startUp_3,
 .startUp_4,
 .startUp_5,
-.startUp_6,
 .startUp_7,
 .startUp_8{
 	#startUp .startUpButton{
@@ -288,6 +293,10 @@
 	#startUp{
 		margin:-125px 0 0 -100px;
 		@include transform(scale(1));
+
+		.startUpExit{
+			opacity: 0;
+		}
 	}
 }
 
@@ -307,6 +316,15 @@
 	}
 }
 
+.startUp_2{
+	.startUpButtons{
+		@include transform(rotate(45deg));
+
+		.SUB_left{display:none;}
+		.SUB_right:before{content:'NO THANKS';}
+	}
+}
+
 .startUp_3{
 	.grid .cell.showingList{
 		margin: -250px 0 0 75px;
@@ -322,6 +340,20 @@
 	}
 }
 
+.startUp_6{
+	.startUpButtons{
+		.SUB_left{display:none;}
+		.SUB_right:before{content:'NO THANKS';}
+	}
+	.topRight .startUpButtons{
+		@include transform(rotate(90deg));
+	}
+	.topLeft .startUpButtons{
+		top: -60px;
+		@include transform(rotate(180deg));
+	}
+}
+
 .startUp_7,
 .startUp_8{
 	.grid .cell .addCell ~ .cover{
@@ -334,6 +366,10 @@
 	#startUp .startUpButtons{
 		@include transform(rotate(-135deg));
 		transform-origin: 130px 115px;
+	}
+
+	.startUpExit{
+		opacity: 0;
 	}
 
 	.SUB_left:before{content:'AGAIN, PLEASE';}
