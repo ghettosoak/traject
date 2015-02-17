@@ -1,35 +1,50 @@
 .aboutTraject, 
 .versioning{
 	position: fixed;
-	padding: 10px 15px 20px;
+	padding: 10px 15px 20px 100px;
 	z-index: 900;
 	opacity:0;
 	@include transition(all .5s ease-in-out);
 	@include transform(scale(1.5));	
+
+	@include desktop(){
+		padding: 10px 15px 20px;
+	}
 
 	.modalClear &,
 	.startingUp &{
 		display:none
 	}
 
+	.modalCloser{
+		@include desktop(){
+			display:none;
+		}
+	}
+
 	.logo{
 		position: relative;
-		float:left;
+		// float:left;
 		top:0px;
 		left:0px;
-		height:315px;
 		width:100%;
+		height:115px;
+		background-size: 100px 100px;
 		background-image: url(../img/logo.png);
-		background-size: 300px 300px;
 		background-position: top center;
 		background-repeat:no-repeat;
 		border-bottom:1px $light solid;
+
+		@include desktop(){
+			height:315px;
+			background-size: 300px 300px;
+		}
 	}
 
 	.text{
 		width:100%;
 		position: relative;
-		float:left;
+		// float:left;
 
 		h1{
 			padding-bottom: 10px;
@@ -57,20 +72,44 @@
 }
 
 .aboutTraject{
-	height:720px;
-	width:500px;
-	margin:-360px 0 0 -250px;
-	top: 50%;
-	left: 50%;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	overflow: scroll;
+
+	@include desktop(){
+		height:720px;
+		width:500px;
+		margin:-360px 0 0 -250px;
+		top: 50%;
+		left: 50%;
+		overflow: none;
+	}
 }
 
 .versioning{
 	height:100%;
 	overflow: scroll;
-	width:500px;
 	top:0px;
-	left:50%;
-	margin-left:-250px;
+	width: 100%;
+	left: 0;
+
+	@include desktop(){
+		width:500px;
+		left:50%;
+		margin-left:-250px;	
+	}
+}
+
+.viewingAbout,
+.viewingVersion{
+	overflow-y:hidden;
+}
+
+.viewingAbout .versioning,
+.viewingVersion .aboutTraject{
+	display: none;
 }
 
 .viewingAbout .aboutTraject, 

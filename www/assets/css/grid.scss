@@ -2,13 +2,17 @@
 	margin:auto;
 	opacity:0;
 	z-index: 0;
-	padding-left:60px;
+	padding-left:0px;
 	position: absolute;
 	left:0px;
 	width:100%;
-	// height:100%;
+	padding:60px 10px 0;
 	@include transition(all .2s ease-in-out);
 	@include transform(scale(.5));
+
+	@include desktop(){
+		padding: 0 0 0 60px;
+	}
 
 	.yesLetsGo &{
 		@include transform(scale(1));
@@ -17,36 +21,63 @@
 	}
 
 	&.sidebar-is-open{
-		left:200px;
+		left:250px;
+
+		@include desktop(){
+			left:200px;
+		}
 	}
 
 	ul{
-	 	padding:0px;
+	 	padding:0;
 	 	margin:0px auto 10px;
-	 	position: absolute !important;
-	 	left:50%;
+	 	position: relative;
+	 	left:0;
 	 	width:100%;
 
-	 	@media screen and (min-width: (1 * 210px) + 60) { width: (1 * 210px); margin-left:-((1 * 210px) / 2) + 30; }
-	 	@media screen and (min-width: (2 * 210px) + 60) { width: (2 * 210px); margin-left:-((2 * 210px) / 2) + 30; }
-	 	@media screen and (min-width: (3 * 210px) + 60) { width: (3 * 210px); margin-left:-((3 * 210px) / 2) + 30; }
-	 	@media screen and (min-width: (4 * 210px) + 60) { width: (4 * 210px); margin-left:-((4 * 210px) / 2) + 30; }
-	 	@media screen and (min-width: (5 * 210px) + 60) { width: (5 * 210px); margin-left:-((5 * 210px) / 2) + 30; }
-	 	@media screen and (min-width: (6 * 210px) + 60) { width: (6 * 210px); margin-left:-((6 * 210px) / 2) + 30; }
-	 	@media screen and (min-width: (7 * 210px) + 60) { width: (7 * 210px); margin-left:-((7 * 210px) / 2) + 30; }
-	 	@media screen and (min-width: (8 * 210px) + 60) { width: (8 * 210px); margin-left:-((8 * 210px) / 2) + 30; }
+	 	@include desktop(){
+	 		left:50%;
+	 		position: absolute;
+	 	}
+
+	 	// @media screen and (min-width: (1 * 210px) + 60) { width: (1 * 210px); margin-left:-((1 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (2 * 210px) + 60) { width: (2 * 210px); margin-left:-((2 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (3 * 210px) + 60) { width: (3 * 210px); margin-left:-((3 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (4 * 210px) + 60) { width: (4 * 210px); margin-left:-((4 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (5 * 210px) + 60) { width: (5 * 210px); margin-left:-((5 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (6 * 210px) + 60) { width: (6 * 210px); margin-left:-((6 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (7 * 210px) + 60) { width: (7 * 210px); margin-left:-((7 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (8 * 210px) + 60) { width: (8 * 210px); margin-left:-((8 * 210px) / 2) + 30; }
+
+	 	// @media screen and (min-width: (1 * 210px) + 60) { width: (1 * 210px); margin-left:-((1 * 210px) / 2) + 30; }
+	 	// @media screen and (min-width: (2 * 210px) + 60) { width: (2 * 210px); margin-left:-((2 * 210px) / 2) + 30; }
+	 	@media screen and (min-width: 768px ) { 		   width: (3 * 210px); margin-left:-((3 * 210px) / 2); }
+	 	@media screen and (min-width: (4 * 210px) + 60 ) { width: (4 * 210px); margin-left:-((4 * 210px) / 2); }
+	 	@media screen and (min-width: (5 * 210px) + 60 ) { width: (5 * 210px); margin-left:-((5 * 210px) / 2); }
+	 	@media screen and (min-width: (6 * 210px) + 60 ) { width: (6 * 210px); margin-left:-((6 * 210px) / 2); }
+	 	@media screen and (min-width: (7 * 210px) + 60 ) { width: (7 * 210px); margin-left:-((7 * 210px) / 2); }
+	 	@media screen and (min-width: (8 * 210px) + 60 ) { width: (8 * 210px); margin-left:-((8 * 210px) / 2); }
 	}
 
 	.cell{
  		list-style: none;
- 		margin:0px;
+ 		margin: 0 0 10px;
  		border-radius: 5px;
  		overflow: hidden;
  		height:200px;
- 		width:200px;
  		@include transition(-webkit-box-shadow .4s ease-in-out);
  		@include transition(-moz-box-shadow .4s ease-in-out);
  		@include transition(box-shadow .4s ease-in-out);
+
+ 		@include mobile(){
+ 			width: 100% !important;
+ 		}
+
+ 		@include desktop(){
+ 			width:200px;
+ 			padding: 0;
+ 			margin:0;
+ 		}
 
  		.gaze,
  		.wristwatch,
@@ -54,7 +85,7 @@
  		.list{
  			height:100%;
  			width:100%;
- 			position: absolute;
+ 			position: relative;
  			top:0px;
  			left:0px;
 		}
@@ -78,6 +109,10 @@
 			box-shadow:         0px 3px 8px 0px rgba(50, 50, 50, 0.6);
 		}
  	}
+
+ 	.cellPlaceholder{
+ 		height: 40px;
+ 	}
  	
  	.cell .cover{
  		height:100%;
@@ -90,31 +125,12 @@
  		z-index: 1000;
  		@include transition(opacity .5s ease-in-out);
  	}
-
- 	.cell .gaze{
- 		background-size:cover;
- 		background-position: center center;
- 		border:4px $light solid;
-
- 		.logo{
- 			position: absolute;
- 			height: 120px;
- 			width: 120px;
- 			top: 50%;
- 			left: 50%;
- 			margin: -60px 0px 0px -60px;
- 			background-image: url(../img/logo.png);
- 			background-size: 100px 100px;
- 			background-position: center center;
- 			background-color: rgba(0,0,0,.5);
- 			border-radius: 110px;
- 			background-repeat: no-repeat;
- 		}
- 	}
-
- 	@import 'grid_wristwatch';
-
-	@import 'grid_addCell';
-
-	@import 'grid_list';
 }
+
+@import 'grid_gaze';
+
+@import 'grid_wristwatch';
+
+@import 'grid_addCell';
+
+@import 'grid_list';

@@ -1,0 +1,131 @@
+<div class="cellFace gaze grab color00" 
+	ng-if="item.gaze" 
+	ng-style="{ 'background-image' : gaze }"
+	data-cellid="{{item.id}}" >
+	<div class="logo"></div>
+</div>
+
+<div class="cellFace wristWatch grab color00" 
+	ng-if="item.wristwatch"
+	data-cellid="{{item.id}}" >
+
+	<p class="wx" title="{{planetary}}">
+		<span class="deg" ng-bind="temp"></span>
+		<span class="icon" ng-class="weather"></span>
+	</p>
+
+	<h1 class="time" ng-bind="time"></h1>
+
+	<p class="date">
+		<span class="today" ng-bind="today"></span>
+		<span ng-bind="date"></span>
+	</p>
+</div>
+
+<div class="cellFace addCell grab color00" 
+	ng-if="item.addcell" 
+	data-cellid="{{item.id}}"
+	ng-class="{ pushPull : pushingPulling === true }"
+	ng-mouseover="pushingPulling = true" 
+	ng-mouseleave="pushingPulling = false" 
+	>
+	<div class="add"
+		ng-click="addCell()">
+		<span class="vert"></span>
+		<span class="horiz"></span>
+	</div>
+	
+
+	<div class="undo"
+		ng-click="reviver()">
+		<span class="whoops"></span>
+	</div>
+</div>
+
+<div class="cellFace list" 
+	ng-if="item.list" 
+	data-cellid="{{item.id}}" 
+	ng-click="cellEditBody($event)" 
+	ng-class="{ 
+		color01 : item.category === 1, 
+		color02 : item.category === 2, 
+		color03 : item.category === 3
+	}">
+
+	<div class="startUpPointer"></div>
+
+	<div class="cellHead">
+		<div class="textarea-container">
+		  	<textarea 
+		  	ng-model="item.title" 
+		  	class="title" 
+		  	ng-keydown="cellTitle($event)"
+		  	ng-focus="weAreFocused($event)"
+		  	ng-blur="weAreNotFocused($event)"></textarea>
+		  	<div class="sizer">{{item.title}}</div>
+		</div>
+	</div>
+	<div class="cellEdit" 
+		ui-sortable="textSort" 
+		ng-model="item.body">
+
+		<div 
+			class="textarea-container indent{{bit.tabCount}}" 
+			ng-repeat="bit in item.body track by bit.bitID"
+			ng-class="{ 
+				grabbed : grabbing === true
+			}"
+			ng-swipe-right="bitKiller($event, bit)">
+			<span 
+				class="grabber" 
+				ng-mouseover="grabbing = true" 
+				ng-mouseleave="grabbing = false" 
+				ng-dblClick="bitKiller($event, bit)">
+				<span></span>
+			</span>
+
+			<a 
+				ng-if="bit.link"
+				href="{{ bit.link }}"
+				target="_blank">
+
+			  	<textarea 
+				  	ng-model="bit.content" 
+				  	ng-keydown="areaText($event, bit)" 
+				  	ng-keyup="areaText($event, bit)"
+				  	ng-focus="weAreFocused($event)"
+				  	ng-blur="weAreNotFocused($event)"
+				  	data-bitid="{{bit.bitID}}">
+			  	</textarea>
+			  	<div class="sizer"><span class="delicate">{{bit.content}}</span></div>
+			</a>
+
+			<span ng-if="!bit.link">
+			  	<textarea 
+				  	ng-model="bit.content" 
+				  	ng-keydown="areaText($event, bit)" 
+				  	ng-keyup="areaText($event, bit)"
+				  	ng-focus="weAreFocused($event)"
+				  	ng-blur="weAreNotFocused($event)"
+				  	ng-dblClick="curiosity($event, bit.content)"
+				  	data-bitid="{{bit.bitID}}">
+			  	</textarea>
+			  	<div class="sizer">{{bit.content}}</div>
+			</span>
+
+		</div>
+
+	</div>
+	<span class="grab" ng-dblClick="removeCell(item.id)" ng-class="{ catSelecting : catSelectTray === true }">
+		<span class="catOpener" ng-click="catSelectTray = (catSelectTray !== true) ? true : false">
+			<span></span>
+		</span>
+		<div class="catSelect">
+			<span class="cat01" ng-click="catSelector($event, 1); catSelectTray = false;"></span>
+			<span class="cat02" ng-click="catSelector($event, 2); catSelectTray = false;"></span>
+			<span class="cat03" ng-click="catSelector($event, 3); catSelectTray = false;"></span>
+		</div>
+	</span>
+</div>
+
+<div class="cover"></div>

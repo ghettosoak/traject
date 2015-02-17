@@ -1,7 +1,13 @@
 .cell .addCell{
-	border-radius: 1000px;
 	overflow: hidden;
 	cursor:pointer;
+	position: absolute;
+	height:100%;
+	border-radius: 1000px;
+	top:0;
+
+	@include desktop(){
+	}
 
 	.add{
 		height:100%;

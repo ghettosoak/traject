@@ -15,10 +15,13 @@
 		</div>
 		<div class="three"
 			ng-click="$parent.threeOpen = true; $parent.fourOpen = false;"
-			ng-class="{active : $parent.threeOpen === true}">
+			ng-class="{
+				active : $parent.threeOpen === true,
+				inactive : $parent.fourOpen === true
+			}">
 			<form name="signUpForm">
 				<div class="input">
-					<p class="error">Please try again.</p>
+					<!-- <p class="error">Please try again.</p> -->
 					<input type="email" ng-model="signupEmail" name="emailSignup" placeholder="email address">
 					<input type="password" ng-model="signupPassword" name="passwordSignup" placeholder="password">
 					<p class="disclaimer">I will never sell your email. Ever.</p>
@@ -26,27 +29,34 @@
 				<button
 					type="submit"
 					class="primary"
-					ng-click="signUp()">sign up</button>
+					ng-click="signUp()">
+					sign up
+				</button>
 			</form>
 		</div>
 		<div class="four"
 			ng-click="$parent.fourOpen = true; $parent.threeOpen = false"
-			ng-class="{active : $parent.fourOpen === true}">
+			ng-class="{
+				active : $parent.fourOpen === true,
+				inactive : $parent.threeOpen === true
+			}">
 			<form name="signInForm">
 				<div class="input">
-					<p class="error">Please try again.</p>
+					<!-- <p class="error">Please try again.</p> -->
 					<input type="email" ng-model="signinEmail" name="emailSignin" placeholder="email address">
 					<input type="password" ng-model="signinPassword" name="passwordSignin" placeholder="password">
 				</div>
 					<button
 						type="submit"
 						class="primary"
-						ng-click="signIn()">sign in</button>
+						ng-click="signIn()">
+						sign in
+					</button>
 			</form>
 		</div>
 	</div>
 
-	<p class="homepageCopyright">&copy; 2014 MTO'BF</p>
+	<p class="homepageCopyright">&copy; 2015 MTO'BF</p>
 </div>
 
 <div id="startUp"
@@ -55,13 +65,12 @@
 		'left' : startUp_X,
 		'top' : startUp_Y
 	}">
-	
 	<!-- <div class="startUpImage">
 		<div class="shadow"></div>
 		<div class="cursor"></div>
 		<div class="doubleclick"></div>
 	</div> -->
-	
+
 	<div class="startUpText">
 		<div class="startUpCarousel">
 			<div class="startUpShow SUS_0">
@@ -119,89 +128,22 @@
 		<button type="button" class="startUpButton SUB_left" ng-click="SUB_left()"></button>
 		<button type="button" class="startUpButton SUB_right" ng-click="SUB_right(true)"></button>
 	</div>
-
 </div>
 
-<div class="aboutTraject">
-	<div class="logo"></div>
-	<div class="text">
-		<p><b>Tra.ject</b> is a pet project of Mike Fischer.</p>
-		<p>It is set entirely in Univers: 39, 47 and 67.</p>
-		<p>It is built with <a href="https://angularjs.org/" target="_blank">Angular.js</a> and <a href="http://hood.ie/" target="_blank">Hoodie,</a> powering the front and back ends, respectively.</p>
-		<p>It uses <a href="http://packery.metafizzy.co/" target="_blank">Packery</a> to become both cellular and responsive, <a href="http://angular-ui.github.io/" target="_blank">Angular UI</a> to become sortable, and <a href="http://momentjs.com/" target="_blank">Moment.js</a> to keep time.</p>
-		<p>It gets images from the <a href="https://www.flickr.com/services/api/" target="_blank">Flickr API</a>, weather from <a href="http://openweathermap.org/" target="_blank">Open Weather Map,</a> and weather icons from <a href="http://erikflowers.github.io/weather-icons/" target="_blank">Eric Flowers.</a></p>
-		<p>Among other things, it is the product of social and creative frustration.</p>
-		<p>It is still very much in beta.</p>
-		<p>A mobile version of Tra.ject is coming soon.</p>
-		<p>&copy; 2014 Mike Fischer</p>
-	</div>
+<div class="aboutTraject"
+	ng-include src="'assets/views/about.html'">
+	
 </div>
 
-<div class="versioning">
-	<div class="text">
-		<h1>Finally, v2.0!</h1>
-
-		<p>I've been busy with life and keeping myself sane, which has taken more time than expected from working on this. Still, I've found the occasional minute here and there to make the following changes. There are so many new things here, instead of trying to figure out how far this pushes me forward on v1, I'm just calling this v2:</p>
-
-		<h4>Bugs Fixed</h4>
-		<ul>
-			<li>bits shouldn't be overwritten anymore, thanks to a more robust, more thoughtful saving function</li>
-			<li>'cell death' bug fixed
-				<ul>
-					<li>when two identical bits existed, angular would shit a brick. it no longer does</li>
-				</ul>
-			</li>
-			<li>deleted cells now stay deleted</li>
-		</ul>
-
-		<h4>New Functional Things</h4>
-		<ul>
-			<li>celsius and fahrenheit temperatures for you silly americans</li>
-			<li>12- and 24-hour clock</li>
-			<li>a nicer empty field for new users</li>
-			<li>a nicer introduction sequence (seriously, go check it out now!)</li>
-			<li>omfg new keyboard shortcuts!
-				<ul>
-					<li>pressing enter in the title now jumps to the first bit of a cell</li>
-					<li>bits can be moved up and down, just like the lines in your favorite text editor (did I forget your text editor? <a href="mailto:e@ject.ch?subject=something%27s%20missing&body=hi!%20thanks%20for%20taking%20the%20time%20to%20give%20feedback%2C%20I%20really%20REALLY%20appreciate%20it.%20it%27s%20with%20your%20help%20that%20TRA.JECT%20will%20get%20better!%20feel%20free%20to%20delete%20this%20message%2C%20but%20please%20remember%20that%20no%20input%20is%20too%20small.%20thanks%20again!">let me know.</a>)</li>
-				</ul>
-			</li>
-
-			<li>omfg pasting!
-				<ul>
-					<li>paste in multi-lined content, and each line gets divvied up into its own bit</li>
-					<li>paste in a link, and the app will fetch the name of the page the link points to</li>
-				</ul>
-			</li>
-			<li>cells now expand when their content gets too big</li>
-			<li>cell sizes are now remembered across all screen sizes</li>
-			<li>quick update sequence to bring you and your data into the 24th 1/2 century – did you miss it?</li>
-			<li>hovering over the weather reveals wherever the app is pretty sure you are</li>
-		</ul>
-
-		<h4>New Aesthetic Things</h4>
-		<ul>
-			<li>the sidebar is a little more lovely</li>
-			<li>so is the password changer</li>
-			<li>grid now centers better on field</li>
-		</ul>
-
-		<h4>The Road Ahead (maybe)</h4>
-		<ul>
-			<li>v3 - it's time to make the switch to FireBase. I'd love to keep using hoodie, but it's proven too unstable for full fledged production. I'm gonna try to keep your data intact, but I make no guarantees. I'll keep you posted. <br /><br />Also, once we're on Firebase, I'll be 'going public' with this, so with a little luck you'll be seeing more updates with greater frequency.</li>
-			<li>v4 - mobile / tablet version?</li>
-			<li>v5 - image integration?</li>
-			<li>v6 - calendar integration?</li>
-		</ul>
-
-		<p>Questions? Comments? How's my driving? Do you like Tra.ject? Do you hate Tra.ject? Got something else you wanna talk about? <a href="mailto:e@ject.ch?subject=hi!">Get in touch.</a></p>
-	</div>
+<div class="versioning"
+	ng-include src="'assets/views/version.html'">	
 </div>
 
-<div 
+<div
 	class="sidebar sidebar-is-{{ sidebarStatus }}"
 	ng-mouseover="sidebarStatus = 'open'" 
-	ng-mouseleave="sidebarStatus = 'closed'">
+	ng-mouseleave="sidebarStatus = 'closed'"
+	>
 	<div class="menu">
 		<li class="demo" ng-click="demo()"><span>Replay Demo</span></li>
 
@@ -264,143 +206,68 @@
 	</div>
 </div>
 
+<div class="mobile_header"
+	ng-class="{ sidebarOpen : sidebarStatus === 'open' }">
+	<div class="menu"
+		ng-click="sidebarStatus = (sidebarStatus !== 'open') ? 'open' : 'closed'">
+		<span></span>
+		<span></span>
+		<span></span>	
+	</div>
+	<div class="undo"
+		ng-click="reviver()">
+		<span class="whoops"></span>
+	</div>
+	<div class="add"
+		ng-click="addCell()">
+
+		<span class="vert"></span>
+		<span class="horiz"></span>
+	</div>
+</div>
+
 <div class="grid sidebar-is-{{ sidebarStatus }}"
 	ng-click="changingPassword = false">
-	<ul>
+	<ul
+		ng-if="columnCount !== 1">
+
 		<li class="cell" 
 			ng-repeat="item in cells | orderBy: ['row', 'col']" 
+			ng-class="{ 
+				parent_addCell : item.addcell === true,
+				parent_wristWatch : item.wristwatch === true,
+				parent_gaze : item.gaze === true,
+				parent_list : item.list === true 
+			}"
 			autonomy
 			ng-if="item.displayed === true"
-			data-index="{{$index}}">
-
-			<div class="cellFace gaze grab color00" 
-				ng-if="item.gaze" 
-				ng-style="{ 'background-image' : gaze }"
-				data-cellid="{{item.id}}" >
-				<div class="logo"></div>
-			</div>
-
-			<div class="cellFace wristWatch grab color00" 
-				ng-if="item.wristwatch"
-				data-cellid="{{item.id}}" >
-				<span class="status" ng-class="status"></span>
-
-				<p class="wx" title="{{planetary}}">
-					<span class="deg" ng-bind="temp"></span>
-					<span class="icon" ng-class="weather"></span>
-				</p>
-
-				<h1 class="time" ng-bind="time"></h1>
-
-				<p class="date">
-					<span class="today" ng-bind="today"></span>
-					<span ng-bind="date"></span>
-				</p>
-			</div>
-
-			<div class="cellFace addCell grab color00" 
-				ng-if="item.addcell" 
-				data-cellid="{{item.id}}"
-				ng-class="{ pushPull : pushingPulling === true }"
-				ng-mouseover="pushingPulling = true" 
-				ng-mouseleave="pushingPulling = false" 
-				>
-				<div class="add"
-					ng-click="addCell()">
-					<span class="vert"></span>
-					<span class="horiz"></span>
-				</div>
-				
-
-				<div class="undo"
-					ng-click="reviver()">
-					<span class="whoops"></span>
-				</div>
-			</div>
-
-			<div class="cellFace list" 
-				ng-if="item.list" 
-				data-cellid="{{item.id}}" 
-				ng-click="cellEditBody($event)" 
-				ng-class="{ 
-					color01 : item.category === 1, 
-					color02 : item.category === 2, 
-					color03 : item.category === 3
-				}">
-
-				<div class="startUpPointer"></div>
-
-				<div class="cellHead">
-					<div class="textarea-container">
-					  	<textarea 
-					  	ng-model="item.title" 
-					  	class="title" 
-					  	ng-keydown="cellTitle($event)"
-					  	ng-focus="weAreFocused($event)"
-					  	ng-blur="weAreNotFocused($event)"></textarea>
-					  	<div class="sizer">{{item.title}}</div>
-					</div>
-				</div>
-				<div class="cellEdit" 
-					ui-sortable="textSort" 
-					ng-model="item.body">
-
-					<div 
-						class="textarea-container indent{{bit.tabCount}}" 
-						ng-repeat="bit in item.body track by bit.bitID"
-						ng-class="{ 
-							grabbed : grabbing === true
-						}">
-						<span 
-							class="grabber" 
-							ng-mouseover="grabbing = true" 
-							ng-mouseleave="grabbing = false" 
-							ng-dblClick="bitKiller($event, bit)">
-							<span></span>
-						</span>
-
-						<a 
-							ng-if="bit.link"
-							href="{{ bit.link }}"
-							target="_blank">
-
-						  	<textarea 
-							  	ng-model="bit.content" 
-							  	ng-keydown="areaText($event, bit)" 
-							  	ng-keyup="areaText($event, bit)"
-							  	ng-focus="weAreFocused($event)"
-							  	ng-blur="weAreNotFocused($event)">
-						  	</textarea>
-						  	<div class="sizer"><span class="delicate">{{bit.content}}</span></div>
-						</a>
-
-						<span ng-if="!bit.link">
-						  	<textarea 
-							  	ng-model="bit.content" 
-							  	ng-keydown="areaText($event, bit)" 
-							  	ng-keyup="areaText($event, bit)"
-							  	ng-focus="weAreFocused($event)"
-							  	ng-blur="weAreNotFocused($event)">
-						  	</textarea>
-						  	<div class="sizer">{{bit.content}}</div>
-						</span>
-
-					</div>
-
-				</div>
-				<span class="grab" ng-dblClick="removeCell(item.id)" ng-class="{ catSelecting : catSelectTray === true }">
-					<span class="catOpener" ng-click="catSelectTray = (catSelectTray !== true) ? true : false">
-						<span></span>
-					</span>
-					<div class="catSelect">
-						<span class="cat01" ng-click="catSelector($event, 1); catSelectTray = false;"></span>
-						<span class="cat02" ng-click="catSelector($event, 2); catSelectTray = false;"></span>
-						<span class="cat03" ng-click="catSelector($event, 3); catSelectTray = false;"></span>
-					</div>
-				</span>
-			</div>
-
-			<div class="cover"></div>
+			data-index="{{$index}}"
+			ng-include src="'assets/views/listGuts.html'">
 		</li>
 	</ul>
+
+	<ul
+		ng-if="columnCount === 1"
+		ui-sortable="cellSort">
+
+		<li class="cell"
+			ng-repeat="item in cells | orderBy: cellOrder"  
+			ng-class="{ 
+				parent_addCell : item.addcell === true,
+				parent_wristWatch : item.wristwatch === true,
+				parent_gaze : item.gaze === true,
+				parent_list : item.list === true 
+			}"
+			ng-if="item.displayed === true && item.list === true"
+			ng-include src="'assets/views/listGuts.html'">
+		</li>
+	</ul>
+</div>
+
+<div class="mobile_actions">
+	<div class="lineUp" ng-click="mobileAction('up')"></div>
+	<div class="lineDown" ng-click="mobileAction('down')"></div>
+	<div class="hideKeyboard" ng-click="canWeNotBeFocusedAnymore('hide')"></div>
+	<div class="lineIn" ng-click="mobileAction('in')"></div>
+	<div class="lineOut" ng-click="mobileAction('out')"></div>
 </div>

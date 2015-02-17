@@ -1,81 +1,56 @@
 .cell .wristwatch{
- 		display:table;
+	display:table;
 
- 		.status{
- 			position:absolute;
- 			top:5px;
- 			left:5px;
- 			width:25px;
- 			height:25px;
- 			opacity:0;
+	.wx, .date{
+		position: absolute;
+		font-size:14px;
+		margin:0px;
+	}
 
- 			@include iconInclude;
- 			@include iconSize(25);
+	.wx{
+		top:5px;
+		right:5px;
 
- 			&.online,
- 			&.local{
- 				opacity:1;
- 			}
+		.deg, .icon{
+			position: relative;
+			float:right;
+		}
 
- 			&.online{
- 				@include iconPlace(25, 0, 0);
- 			}
+		.deg{
+			margin: 2px 0px 0px 5px;	
+			&:after{
+				content: "\00b0";
+			}
+		}
+		
+		.icon:before{
+			height:100%;
+			width:100%;
+			display:block;
+			font-family: wxFont;
+		}
 
- 			&.local{
- 				@include iconPlace(25, 1, 0);
- 			}
- 		}
+		@import 'grid_wristwatch_wx';
+	}
 
- 		.wx, .date{
- 			position: absolute;
- 			font-size:14px;
- 			margin:0px;
- 		}
+	.time{
+		height: 58px;
+		width: 100%;
+		position: absolute;
+		top: 50%;
+		margin-top: -28px;
+		text-align: center;
+		font-family: $type_thin;
+		font-size: 75px;
+		font-weight: normal;
+		line-height: 70px;
+	}
 
- 		.wx{
- 			top:5px;
- 			right:5px;
-
- 			.deg, .icon{
- 				position: relative;
- 				float:right;
- 			}
-
- 			.deg{
- 				margin: 2px 0px 0px 5px;	
- 				&:after{
- 					content: "\00b0";
- 				}
- 			}
- 			
- 			.icon:before{
-				height:100%;
-				width:100%;
-				display:block;
-				font-family: wxFont;
- 			}
-
- 			@import 'grid_wristwatch_wx';
- 		}
-
- 		.time{
- 			height: 58px;
- 			width: 100%;
- 			position: absolute;
- 			top: 50%;
- 			margin-top: -28px;
- 			text-align: center;
- 			font-family: $type_thin;
- 			font-size: 75px;
- 			font-weight: normal;
- 			line-height: 70px;
- 		}
-
- 		.date{
- 			left:0px;
- 			width:100%;
- 			bottom:5px;
- 			text-align:center;
- 			.today{font-family: $type_bold;}
- 		}
- 	}
+	.date{
+		left:0px;
+		width:100%;
+		bottom:5px;
+		text-align:center;
+		.today{font-family: $type_bold;}
+	}
+}

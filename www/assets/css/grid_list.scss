@@ -1,3 +1,16 @@
+.dragging_active .parent_list{
+	@include mobile(){
+		height: auto !important;
+		.cellHead{
+			border-bottom:0 !important;
+		}
+		.cellEdit,
+		.catOpener{ 
+			display:none;
+		}
+	}
+}
+
 .cell .list{
 
 	@include transition(background-color .2s ease-in-out);
@@ -39,7 +52,7 @@
 
 	.cellHead{		
 		position: relative;
-		float:left;
+		// float:left;
 		width:100%;
 		top:0px;
 		left:0px;
@@ -48,8 +61,12 @@
 
 		textarea, .sizer {
 			min-height: 33px;
-			padding:8px 10px 6px 25px;
+			padding:10px 10px 4px 50px;
 			font-family: $type_bold;
+
+			@include desktop(){
+				padding:10px 10px 4px 25px;
+			}
 		}
 
 		.title{
@@ -73,17 +90,26 @@
 		width:100%;
 		top:0px;
 		left:0px;
-		padding:10px 10px 10px 15px;
+		padding:10px 10px 10px 40px;
 		border-radius: 0px 0px 5px 0px;
 		color:$active;
 		text-align: left;
 
+		@include desktop(){
+			padding:10px 10px 10px 15px;
+		}
+
 		textarea, .sizer, .linker {
-			min-height: 17px;
+			min-height: 20px;
+			line-height: 20px;
 			font-size: 14px;
-			line-height: 17px;
 			font-family:$type_list;
 			padding: 0px 0px 0px 20px;
+
+			@include desktop(){
+				min-height: 17px;
+				line-height: 17px;
+			}
 		}
 
 		.indent1{
@@ -139,12 +165,20 @@
 			span{
 				background-color: lighten($active, 50%);
 				position: absolute;
-				height:15px;
+				height:20px;
 				width:1px;
-				top:0px;
+				top:-1px;
 				left:10px;
 				border-radius: 0px;
 				@include transition(all .1s ease-in-out);
+
+				@include desktop(){
+					height:15px;
+					width:1px;
+					top:0px;
+					left:10px;
+					border-radius: 0px;
+				}
 			}
 		}
 
@@ -177,13 +211,17 @@
 
 	.grab{
 		position: absolute;
-		width:15px;
+		width:40px;
 		height:100%;
 		left:0px;
 		top:0px;
 		background-color:$active;
 		z-index: 10;
 		overflow: hidden;
+
+		@include desktop(){
+			width:15px;
+		}
 
 		.catOpener, 
 		.catSelect{
@@ -193,8 +231,8 @@
 		}
 
 		.catOpener{
-			height:20px;
-			width:14px;
+			height:40px;
+			width:39px;
 			bottom:0px;
 			left:0px;
 			z-index:101;				
@@ -202,16 +240,25 @@
 			border-top:1px $light solid;
 			@include transition(background-color .2s ease-in-out);
 
+			@include desktop(){
+				height:20px;
+				width:14px;
+			}
+
 			& > span{
 				position: absolute;
 				height:7px;
 				width:7px;
-				top: 6px;
-				left: 4px;
+				top: 16px;
+				left: 16px;
 				border-radius:10px;
 				display:block;
 				overflow:hidden;
-				
+
+				@include desktop(){
+					top: 6px;
+					left: 4px;
+				}				
 
 				span{
 					position: relative;
@@ -226,11 +273,17 @@
 		.catSelect{
 			top:0px;
 			z-index:100;
-			left:-14px;
 			height:100%;
-			width:14px;
-			padding-bottom:20px;
+			left:-39px;
+			width:39px;
+			padding-bottom:39px;
 			@include transition((left .2s ease-in-out));
+
+			@include desktop(){
+				left:-14px;
+				width:14px;
+				padding-bottom:20px;
+			}
 
 			span{
 				height:33.3333%;

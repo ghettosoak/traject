@@ -4,7 +4,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<title>t r a . j e c t</title>
 		<meta name="description" content="" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
 	    <link rel="shortcut icon" href="assets/img/favicon.ico" />
 	    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
@@ -16,12 +16,18 @@
 
 		<link rel="stylesheet" href="assets/css/master.css?=v2" />
 	</head>
-	<body resizable id="ng-app">
+	<body 
+		resizable 
+		id="ng-app">
 		<div
-			class="container startUp_{{startUpIndex}}"
+			class="
+				container 
+				startUp_{{ startUpIndex }} 
+				dragging_{{ draggingToggle }}
+				focused_{{ focusedToggle }}
+			"
 			ng-controller="MainCtrl"
 			ng-include=" 'assets/views/main.html' "
-			ng-class="howCanIHelpYou"
 		>
 		</div>
 
@@ -37,6 +43,8 @@
 		<script src="assets/bower_components/angular/angular.js"></script>
 		<script src="assets/bower_components/angular-cookies/angular-cookies.js"></script>
 		<script src="assets/bower_components/angular-ui-utils/ui-utils.js"></script>
+		<script src="assets/bower_components/angular-touch/angular-touch.js"></script>
+		<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 		<script src="assets/js/sortable.js"></script>
 		<script src="assets/bower_components/underscore/underscore.js"></script>
 		<script src="assets/bower_components/moment/moment.js"></script>

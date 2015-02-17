@@ -5,8 +5,10 @@ var meta;
 var temp;
 var planetary;
 var retryUpdate;
-var columnCount = 1;
+// var columnCount = 1;
 var sterGrid;
+
+var map = [];
 
 var GRIDSIZE = 200;
 var GUTTERSIZE = 10;
@@ -36,9 +38,9 @@ var addFlag;
 function randomizr(){
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random()*16)%16 | 0;
-        d = Math.floor(d/16);
-        return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+        var r = ( d + Math.random() * 16 ) % 16 | 0;
+        d = Math.floor( d / 16 );
+        return (c == 'x' ? r : ( r & 0x7 | 0x8 ) ).toString(16);
     });
     return uuid;
 };
@@ -52,40 +54,40 @@ var lazyUpdater = _.debounce(function(id){
 		if (cellular[i].id === id){
 			hoodie.store.update('cell', cellular[i].id, {dimensions : cellular[i].dimensions})
 				.done(function(object){
-					console.log(object);
-					console.log(id+' DIMENSIONS LAZILY UPDATED')
+					// console.log(object);
+					// console.log(id + ' DIMENSIONS LAZILY UPDATED')
 
 					addFlag = object.id;
 				})
 
 			hoodie.store.update('cell', cellular[i].id, {title : cellular[i].title})
 				.done(function(object){
-					console.log(object);
-					console.log(id+' TITLE LAZILY UPDATED')
+					// console.log(object);
+					// console.log(id+' TITLE LAZILY UPDATED')
 
 					addFlag = object.id;
 				})
 
 			hoodie.store.update('cell', cellular[i].id, {category : cellular[i].category})
 				.done(function(object){
-					console.log(object);
-					console.log(id+' CATEGORY LAZILY UPDATED')
+					// console.log(object);
+					// console.log(id+' CATEGORY LAZILY UPDATED')
 
 					addFlag = object.id;
 				})
 
 			hoodie.store.update('cell', cellular[i].id, {displayed : cellular[i].displayed})
 				.done(function(object){
-					console.log(object);
-					console.log(id+' DISPLAYED LAZILY UPDATED')
+					// console.log(object);
+					// console.log(id+' DISPLAYED LAZILY UPDATED')
 
 					addFlag = object.id;
 				})
 
 			hoodie.store.update('cell', cellular[i].id, {body : cellular[i].body})
 				.done(function(object){
-					console.log(object);
-					console.log(id+' BODY LAZILY UPDATED')
+					// console.log(object);
+					// console.log(id+' BODY LAZILY UPDATED')
 
 					addFlag = object.id;
 				})
@@ -99,8 +101,8 @@ var metaUpdate = function(){
 		celsius: meta.celsius,
 		twentyfour: meta.twentyfour
 	}).done(function(tehmeta){
-		console.log(tehmeta)
-		console.log('META UPDATED')
+		// console.log(tehmeta)
+		// console.log('META UPDATED')
 	})
 }
 
@@ -115,23 +117,22 @@ var analyzr = function(){
 	});
 }
 
-var columnCounter = function(){
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 1) + 60) ) columnCount = 1;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 2) + 60) ) columnCount = 2;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 3) + 60) ) columnCount = 3;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 4) + 60) ) columnCount = 4;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 5) + 60) ) columnCount = 5;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 6) + 60) ) columnCount = 6;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 7) + 60) ) columnCount = 7;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 8) + 60) ) columnCount = 8;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 9) + 60) ) columnCount = 9;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 10) + 60) ) columnCount = 10;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 11) + 60) ) columnCount = 11;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 12) + 60) ) columnCount = 12;
-	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 13) + 60) ) columnCount = 13;
+// var columnCounter = function(){
+// 	if (window.innerWidth < 768 ) columnCount = 1;
+// 	if (window.innerWidth >= 768 ) columnCount = 3;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 4) + 60) ) columnCount = 4;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 5) + 60) ) columnCount = 5;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 6) + 60) ) columnCount = 6;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 7) + 60) ) columnCount = 7;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 8) + 60) ) columnCount = 8;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 9) + 60) ) columnCount = 9;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 10) + 60) ) columnCount = 10;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 11) + 60) ) columnCount = 11;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 12) + 60) ) columnCount = 12;
+// 	if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 13) + 60) ) columnCount = 13;
 
-	console.log('columnCount = '+columnCount);
-}
+// 	console.log('columnCount = '+columnCount);
+// }
 
 var echo = function(thisOne){
 
@@ -147,17 +148,48 @@ var echo = function(thisOne){
 var app = angular.module('app', [
 	'ngCookies',
 	'ui.utils',
-	'ui.sortable'
+	'ui.sortable',
+	'ngTouch'
 ])
 
 .controller('MainCtrl', function($window, $scope, $http, $interval, $cookieStore) {
+
+	$scope.draggingToggle = false;
+
+	$scope.columnCount = 1;
+
+	$scope.sidebarStatus = 'closed';
+
+	$scope.columnCounter = function(){
+		if (window.innerWidth < 768 ) $scope.columnCount = 1;
+		if (window.innerWidth >= 768 ) $scope.columnCount = 3;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 4) + 60) ) $scope.columnCount = 4;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 5) + 60) ) $scope.columnCount = 5;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 6) + 60) ) $scope.columnCount = 6;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 7) + 60) ) $scope.columnCount = 7;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 8) + 60) ) $scope.columnCount = 8;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 9) + 60) ) $scope.columnCount = 9;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 10) + 60) ) $scope.columnCount = 10;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 11) + 60) ) $scope.columnCount = 11;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 12) + 60) ) $scope.columnCount = 12;
+		if (window.innerWidth > (((GRIDSIZE + GUTTERSIZE) * 13) + 60) ) $scope.columnCount = 13;
+
+		// console.log('columnCount = '+$scope.columnCount);
+	}
+
+	$scope.columnCounter();
+
+	meta = $scope.meta = {
+		twentyfour: true,
+		celsius: true
+	};
 
 	$scope.areWeUpdating = false;
 
 	$scope.versionCheck = function(){
 		var updateItYo = _.once($scope.versionUpdater);
 
-		console.log('looking for NOPE')
+		// console.log('looking for NOPE')
 
 		for (var i in cellular){
 			if ((cellular[i].list === true) && (cellular[i].displayed === undefined)){
@@ -196,7 +228,7 @@ var app = angular.module('app', [
 				}
 			)
 
-			console.log('UPDATED ' + cellular[i].id);
+			// console.log('UPDATED ' + cellular[i].id);
 		}
 
 		//the reload call is handled after we get confirmation that things are updated -- hence the areWeUpdating flag
@@ -204,10 +236,10 @@ var app = angular.module('app', [
 
 	$scope.$watch('meta', metaUpdate, true);
 
-	columnCounter();
-
 	$scope.threeOpen = false;
 	$scope.fourOpen = false;
+
+	$scope.mobileActioning = false;
 
 	$scope.startUpIndex = 'off';
 	externalStartUpIndex = 'off';
@@ -218,7 +250,18 @@ var app = angular.module('app', [
 	theContainer.className = 'modalClear';
 
 
-	// SIGN UP
+ 	                                                                   
+ 	//  ad88888ba  88                                                     
+ 	// d8"     "8b ""                                                     
+ 	// Y8,                                                                
+ 	// `Y8aaaaa,   88  ,adPPYb,d8 8b,dPPYba,  88       88 8b,dPPYba,      
+ 	//   `"""""8b, 88 a8"    `Y88 88P'   `"8a 88       88 88P'    "8a     
+ 	//         `8b 88 8b       88 88       88 88       88 88       d8     
+ 	// Y8a     a8P 88 "8a,   ,d88 88       88 "8a,   ,a88 88b,   ,a8"     
+ 	//  "Y88888P"  88  `"YbbdP"Y8 88       88  `"YbbdP'Y8 88`YbbdP"'      
+ 	//                 aa,    ,88                         88              
+ 	//                  "Y8bbdP"                          88              
+	                                       
 
 	$scope.signUp = function(e){
 		if (
@@ -248,82 +291,102 @@ var app = angular.module('app', [
 
 		$scope.cells = [];
 
-		console.log(user)
+		// console.log(user)
 
 		hoodie.store.add('cell', {
 			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
 			gaze: true,
-		}).done(function(object){
-			$scope.cells.push(object);
-			cellular = $scope.cells;
-		});
-
-		hoodie.store.add('cell', {
-			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
-			wristwatch: true,
-		}).done(function(object){
-			$scope.cells.push(object);
-			cellular = $scope.cells;
-		});
-
-		hoodie.store.add('cell', {
-			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
-			addcell: true,
-		}).done(function(object){
-			$scope.cells.push(object);
-			cellular = $scope.cells;
-		});
-
-		hoodie.store.add('cell', {
-			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
-			title: '',
-			body: [
-				{
-					displayed: true,
-					type:'plainText',
-					tabCount:0,
-					content:'This is a bit.'
-				},
-				{
-					displayed: true,
-					type:'plainText',
-					tabCount:0,
-					content:'This is another bit!'
-				},
-				{
-					displayed: true,
-					type:'plainText',
-					tabCount:0,
-					content:'Here\'s another bit...'
-				},
-				{
-					displayed: true,
-					type:'plainText',
-					tabCount:0,
-					content:'And one more for good measure. :)'
-				}
-			],
-			category:1,
-			displayed:true,
-			list: true
+			displayed: true,
 		}).done(function(object){
 			$scope.cells.push(object);
 			cellular = $scope.cells;
 
-			theContainer.className = 'yesLetsGo';
+			hoodie.store.add('cell', {
+				dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 }, { sizeX: 1, sizeY: 1, row: 1, col: 2 } ],
+				wristwatch: true,
+				displayed: true,
+			}).done(function(object){
+				$scope.cells.push(object);
+				cellular = $scope.cells;
 
-			setTimeout(function(){
-				theContainer.className = 'yesLetsGo upUpAndAway';
-			}, 550)
+				hoodie.store.add('cell', {
+					dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 2, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 }, { sizeX: 1, sizeY: 1, row: 1, col: 3 } ],
+					addcell: true,
+					displayed: true,
+				}).done(function(object){
+					$scope.cells.push(object);
+					cellular = $scope.cells;
 
-			setTimeout(function(){
-				theContainer.className = 'yesLetsGo upUpAndAway startingUp';
-			}, 1000)
+					hoodie.store.add('cell', {
+						dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 2, col: 2 }, { sizeX: 1, sizeY: 1, row: 2, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 }, { sizeX: 1, sizeY: 1, row: 1, col: 4 } ],
+						title: 'Your very first cell!',
+						body: [
+							{
+								displayed: true,
+								type:'plainText',
+								tabCount:0,
+								content:'This is a bit.',
+								bitID: randomizr()
+							},
+							{
+								displayed: true,
+								type:'plainText',
+								tabCount:0,
+								content:'This is another bit!',
+								bitID: randomizr()
+							},
+							{
+								displayed: true,
+								type:'plainText',
+								tabCount:0,
+								content:'Here\'s another bit...',
+								bitID: randomizr()
+							},
+							{
+								displayed: true,
+								type:'plainText',
+								tabCount:0,
+								content:'And one more for good measure. :)',
+								bitID: randomizr()
+							}
+						],
+						category:1,
+						displayed: true,
+						list: true
+					}).done(function(object){
+						$scope.cells.push(object);
+						cellular = $scope.cells;
+
+						theContainer.className = 'yesLetsGo';
+
+						setTimeout(function(){
+							theContainer.className = 'yesLetsGo upUpAndAway modalClear';
+						}, 550)
+
+						setTimeout(function(){
+							$scope.startUpIndex = 0;
+							externalStartUpIndex = 0;
+						}, 1000)
+					});
+				});
+			});
 		});
+		
 	});
 
 
-	// LOG IN
+	                                                      
+	// 88                                    88              
+	// 88                                    ""              
+	// 88                                                    
+	// 88          ,adPPYba,   ,adPPYb,d8    88 8b,dPPYba,   
+	// 88         a8"     "8a a8"    `Y88    88 88P'   `"8a  
+	// 88         8b       d8 8b       88    88 88       88  
+	// 88         "8a,   ,a8" "8a,   ,d88    88 88       88  
+	// 88888888888 `"YbbdP"'   `"YbbdP"Y8    88 88       88  
+	//                         aa,    ,88                    
+	//                          "Y8bbdP"                       
+	                                   
 
 	$scope.signIn = function(){
 		if (
@@ -358,7 +421,7 @@ var app = angular.module('app', [
 				.done(function (objects) {
 					objects.splice(0, 1)
 					cellular = $scope.cells = objects;
-					console.log(cellular)
+					// console.log(cellular)
 
 					$scope.versionCheck();
 
@@ -375,9 +438,14 @@ var app = angular.module('app', [
 			hoodie.store.findAll('meta')
 				.done(function(metas){
 					meta = $scope.meta = metas[0];
-					console.log(meta);
+					// console.log(meta);
 				})
 		}
+	});
+
+	hoodie.task.on('error', function (errorMessage, task) {
+		// console.log(errorMessage)
+		// console.log(task)
 	});
 
 	if (localStorage.getItem('user') !== null){
@@ -387,28 +455,23 @@ var app = angular.module('app', [
 
 		hoodie.account.signIn(returnEmail, returnPass);
 
-		console.log(returnEmail + ' /// ' + returnPass)
+		// console.log(returnEmail + ' /// ' + returnPass)
 
-		hoodie.store.findAll()
+		hoodie.store.findAll('cell')
 			.done(function (objects) {
 				// $scope.startUpIndex = 1;
 				cellular = $scope.cells = objects
-				console.log(cellular)
+				// console.log(cellular)
 
 				$scope.versionCheck();
 
 				theContainer.className = 'yesLetsGo upUpAndAway modalClear';
 			});
 
-		// hoodie.store.add('meta',{
-		// 	celsius: true,
-		// 	twentyfour: true
-		// })
-
 		hoodie.store.findAll('meta')
 			.done(function(metas){
 				meta = $scope.meta = metas[0];
-				console.log(meta);
+				// console.log(meta);
 			})
 	}
 
@@ -422,6 +485,19 @@ var app = angular.module('app', [
 		localStorage.removeItem('pass');
 		cellular = $scope.cells = [];
 	});
+
+
+	                                                         
+	                                                      
+	// 88b           d88                                     
+	// 888b         d888                                     
+	// 88`8b       d8'88                                     
+	// 88 `8b     d8' 88  ,adPPYba, 8b,dPPYba,  88       88  
+	// 88  `8b   d8'  88 a8P_____88 88P'   `"8a 88       88  
+	// 88   `8b d8'   88 8PP""""""" 88       88 88       88  
+	// 88    `888'    88 "8b,   ,aa 88       88 "8a,   ,a88  
+	// 88     `8'     88  `"Ybbd8"' 88       88  `"YbbdP'Y8                                          
+	                                                         
 	
 	$scope.demo = function(){
 		externalStartUpIndex = 0;
@@ -491,11 +567,23 @@ var app = angular.module('app', [
 
 
 
-	// STARTUP.JS
+	                                                                                          
+	//  ad88888ba                                                                  88            
+	// d8"     "8b ,d                            ,d                                ""            
+	// Y8,         88                            88                                              
+	// `Y8aaaaa, MM88MMM ,adPPYYba, 8b,dPPYba, MM88MMM 88       88 8b,dPPYba,      88 ,adPPYba,  
+	//   `"""""8b, 88    ""     `Y8 88P'   "Y8   88    88       88 88P'    "8a     88 I8[    ""  
+	//         `8b 88    ,adPPPPP88 88           88    88       88 88       d8     88  `"Y8ba,   
+	// Y8a     a8P 88,   88,    ,88 88           88,   "8a,   ,a88 88b,   ,a8" 888 88 aa    ]8I  
+	//  "Y88888P"  "Y888 `"8bbdP"Y8 88           "Y888  `"YbbdP'Y8 88`YbbdP"'  888 88 `"YbbdP"'  
+	//                                                             88             ,88            
+	//                                                             88           888P"            
 
 	$scope.startUpCloser = function(){
 		externalStartUpIndex = 'off';
 		$scope.startUpIndex = 'off';
+
+		$scope.modalCloser();
 	}
 
 	$scope.SUB_left = function(){
@@ -522,10 +610,18 @@ var app = angular.module('app', [
 		externalStartUpIndex++;
 		$scope.startUpIndex++;
 
-		console.log($scope.startUpIndex)
+		// console.log(externalStartUpIndex)
+		// console.log($scope.startUpIndex)
 
 		if ($scope.startUpIndex === 1){			
-			$('.cellFace.list').eq(0).parent().addClass('showingList')
+			// $('.cellFace.list').eq(0).parent().addClass('showingList')
+			var smallest,
+				selected
+
+			$('.cellFace.list').each(function(){
+
+			})
+			// .eq(0).parent().addClass('showingList')
 			$theFace = $('.showingList .cellFace')
 			$theFaceOrigPos = $theFace.offset()
 			$scope.sidebarStatus = 'closed';
@@ -616,8 +712,9 @@ var app = angular.module('app', [
 			}, 500);
 
 			if (jump === true){ 
-				console.log('OU FUCK')
-				$scope.SUB_right(false); }
+				// console.log('OU FUCK')
+				$scope.SUB_right(false);
+			}
 		}
 
 		if ($scope.startUpIndex === 9){
@@ -635,7 +732,62 @@ var app = angular.module('app', [
 
 
 
-	// ACTION / REACTION
+	//                                                                                
+	//        db                          88                                      d8  
+	//       d88b                   ,d    ""                                    ,8P'  
+	//      d8'`8b                  88                                         d8"    
+	//     d8'  `8b     ,adPPYba, MM88MMM 88  ,adPPYba,  8b,dPPYba,          ,8P'     
+	//    d8YaaaaY8b   a8"     ""   88    88 a8"     "8a 88P'   `"8a        d8"       
+	//   d8""""""""8b  8b           88    88 8b       d8 88       88      ,8P'        
+	//  d8'        `8b "8a,   ,aa   88,   88 "8a,   ,a8" 88       88     d8"          
+	// d8'          `8b `"Ybbd8"'   "Y888 88  `"YbbdP"'  88       88    8P'           
+	//                                                                              
+	// 88888888ba                                          88                          
+	// 88      "8b                                   ,d    ""                          
+	// 88      ,8P                                   88                                
+	// 88aaaaaa8P' ,adPPYba, ,adPPYYba,  ,adPPYba, MM88MMM 88  ,adPPYba,  8b,dPPYba,   
+	// 88""""88'  a8P_____88 ""     `Y8 a8"     ""   88    88 a8"     "8a 88P'   `"8a  
+	// 88    `8b  8PP""""""" ,adPPPPP88 8b           88    88 8b       d8 88       88  
+	// 88     `8b "8b,   ,aa 88,    ,88 "8a,   ,aa   88,   88 "8a,   ,a8" 88       88  
+	// 88      `8b `"Ybbd8"' `"8bbdP"Y8  `"Ybbd8"'   "Y888 88  `"YbbdP"'  88       88  
+	                                                                                
+	                                                                                
+
+	$scope.cellOrder = function(cell){
+		return cell.dimensions[$scope.columnCount].row;
+	}
+
+	$scope.cellSort = {
+	    axis: 'y',
+	    handle: '.grab',
+	    placeholder: 'cellPlaceholder',
+	    start: function(e, ui) {
+	    	$scope.draggingToggle = 'active';
+	    	// e.stopPropagation();
+	    	// console.log('CELLSORTNIG LOL')
+	    },
+	    stop: function(e, ui) {
+			$scope.draggingToggle = 'false';
+	    	// console.log('CELLSORTNIG STOP')
+
+	    	// console.log(e)
+	    	// console.log(ui)
+
+	    	var that = e;
+
+	    	var theCell = ui.item[0].children[0].getAttribute('data-cellid');
+
+			for (var i in cellular){
+				if (cellular[i].id == theCell){
+					cellular[i].dimensions[1].row = ui.item.index();
+
+					// console.log(cellular[i].dimensions[1]);
+
+					lazyUpdater(theCell)
+				}
+			}
+	    }
+	};
 
 	$scope.addCell = function(e){
 		hoodie.store.add('cell', {
@@ -671,10 +823,10 @@ var app = angular.module('app', [
 			list: true,
 			displayed: true
 		}).done(function(object){
-			console.log($scope.cells)
+			// console.log($scope.cells)
 			$scope.cells.push(object)
 			cellular = $scope.cells
-			console.log($scope.cells)
+			// console.log($scope.cells)
 
 			addFlag = object.id;
 
@@ -727,7 +879,7 @@ var app = angular.module('app', [
 
 
 	$scope.removeCell = function(id) {
-		console.log('KILLED ' + id)
+		// console.log('KILLED ' + id)
 
 		localStorage.setItem('lastRemovedCell' , id);
 		victim = 'cell';
@@ -763,13 +915,13 @@ var app = angular.module('app', [
 
 	var lazyServerUpdater = _.debounce(function(tehUpdated){
 
-		console.log('INCOMING UPDATE')
-		console.log(tehUpdated)
+		// console.log('INCOMING UPDATE')
+		// console.log(tehUpdated)
 
-		console.log('tehUpdated.id = ' + tehUpdated.id)
-		console.log('addFlag = ' + addFlag)
+		// console.log('tehUpdated.id = ' + tehUpdated.id)
+		// console.log('addFlag = ' + addFlag)
 
-		console.log($scope.isFocused);
+		// console.log($scope.isFocused);
 		for (var i in cellular){
 			if (
 				(cellular[i].id === tehUpdated.id) &&
@@ -779,23 +931,23 @@ var app = angular.module('app', [
 			){
 				if ( !_.isEqual(cellular[i].dimensions, tehUpdated.dimensions) ){
 					cellular[i].dimensions = tehUpdated.dimensions;
-					console.log(cellular[i].id + ' // DIMENSIONS UPDATED');
+					// console.log(cellular[i].id + ' // DIMENSIONS UPDATED');
 				}
 				if ( !_.isEqual(cellular[i].body, tehUpdated.body) ){
 					cellular[i].body = tehUpdated.body;
-					console.log(cellular[i].id + ' // BODY UPDATED');
+					// console.log(cellular[i].id + ' // BODY UPDATED');
 				}
 				if ( cellular[i].title !== tehUpdated.title ){
 					cellular[i].title = tehUpdated.title;
-					console.log(cellular[i].id + ' // TITLE UPDATED');
+					// console.log(cellular[i].id + ' // TITLE UPDATED');
 				}
 				if ( cellular[i].displayed !== tehUpdated.displayed ){
 					cellular[i].displayed = tehUpdated.displayed;
-					console.log(cellular[i].id + ' // DISPLAYED UPDATED');
+					// console.log(cellular[i].id + ' // DISPLAYED UPDATED');
 				}
 				if ( cellular[i].category !== tehUpdated.category ){
 					cellular[i].category = tehUpdated.category;
-					console.log(cellular[i].id + ' // CATEGORY UPDATED');
+					// console.log(cellular[i].id + ' // CATEGORY UPDATED');
 				}
 			}else if (tehUpdated.id === addFlag){
 				addFlag = undefined;
@@ -808,8 +960,8 @@ var app = angular.module('app', [
 
 	// doc removed
 	hoodie.remote.on('remove', function (removedObject) {
-		console.log('INCOMING REMOVE')
-		console.log(removedObject)
+		// console.log('INCOMING REMOVE')
+		// console.log(removedObject)
 		for (var i in $scope.cells){
 			if ($scope.cells[i].id === removedObject.id){
 				$scope.cells.splice(i, 1);
@@ -819,17 +971,35 @@ var app = angular.module('app', [
 	});
 
 	$scope.weAreFocused = function(e){
+		$scope.theFocusedElement = document.activeElement;
 		$scope.thisIsFocused = e.target.parentNode.parentNode.parentNode.getAttribute('data-cellid')
 		$scope.isFocused = true;
+
+		$scope.focusedToggle = true;
 	}
 
 	$scope.weAreNotFocused = function(e){
-		$scope.isFocused = false;
+		if (!$scope.mobileActioning){
+			$scope.isFocused = false;
+		}
+		else{
+			$scope.mobileActioning = false;
+		}
 	};
 
 
 
-	// GAZE.JS
+	//                                                                 
+	//   ,ad8888ba,                                      88            
+	//  d8"'    `"8b                                     ""            
+	// d8'                                                             
+	// 88            ,adPPYYba, 888888888  ,adPPYba,     88 ,adPPYba,  
+	// 88      88888 ""     `Y8      a8P" a8P_____88     88 I8[    ""  
+	// Y8,        88 ,adPPPPP88   ,d8P'   8PP"""""""     88  `"Y8ba,   
+	//  Y8a.    .a88 88,    ,88 ,d8"      "8b,   ,aa 888 88 aa    ]8I  
+	//   `"Y88888P"  `"8bbdP"Y8 888888888  `"Ybbd8"' 888 88 `"YbbdP"'  
+	//                                                  ,88            
+	//                                                888P"            
 
 	//TODO: TURN BACK ON LOL
 
@@ -842,7 +1012,7 @@ var app = angular.module('app', [
 			getGaze();
 		})
 		.error(function(data) {
-			console.log('Error: ' + data);
+			// console.log('Error: ' + data);
 		});
 
 	var getGaze = function(){
@@ -856,10 +1026,20 @@ var app = angular.module('app', [
 
 
 
-	// WRISTWATCH.JS
+	                                                                                                                                    
+	// I8,        8        ,8I          88                                                                   88              88            
+	// `8b       d8b       d8'          ""             ,d                                    ,d              88              ""            
+	//  "8,     ,8"8,     ,8"                          88                                    88              88                            
+	//   Y8     8P Y8     8P 8b,dPPYba, 88 ,adPPYba, MM88MMM 8b      db      d8 ,adPPYYba, MM88MMM ,adPPYba, 88,dPPYba,      88 ,adPPYba,  
+	//   `8b   d8' `8b   d8' 88P'   "Y8 88 I8[    ""   88    `8b    d88b    d8' ""     `Y8   88   a8"     "" 88P'    "8a     88 I8[    ""  
+	//    `8a a8'   `8a a8'  88         88  `"Y8ba,    88     `8b  d8'`8b  d8'  ,adPPPPP88   88   8b         88       88     88  `"Y8ba,   
+	//     `8a8'     `8a8'   88         88 aa    ]8I   88,     `8bd8'  `8bd8'   88,    ,88   88,  "8a,   ,aa 88       88 888 88 aa    ]8I  
+	//      `8'       `8'    88         88 `"YbbdP"'   "Y888     YP      YP     `"8bbdP"Y8   "Y888 `"Ybbd8"' 88       88 888 88 `"YbbdP"'  
+	//                                                                                                                      ,88            
+	//                                                                                                                    888P"            
 
 	var setWeather = function(){
-		if ($scope.meta.celsius === true){ //CELSIUS
+		if ($scope.meta.celsius){ //CELSIUS
 			$scope.temp = (temp - 273).toFixed(1);
 		}
 		else{ // FAHRENHEIT
@@ -872,11 +1052,11 @@ var app = angular.module('app', [
 	var getWeather = function(){
 		navigator.geolocation.getCurrentPosition(function(coords){
 
-			console.log(coords)
+			// console.log(coords)
 
 			$http.get('http://api.openweathermap.org/data/2.5/weather?lat=' + coords.coords.latitude + '&lon=' + coords.coords.longitude)
 			.success(function(data) {
-				console.log(data)
+				// console.log(data)
 
 				planetary = data.name + ', ' + data.sys.country;
 
@@ -896,7 +1076,7 @@ var app = angular.module('app', [
 				$scope.weather = 'w_' + theLight + '_' + data.weather[0].id;
 			})
 			.error(function(data) {
-				console.log('Error: ' + data);
+				// console.log('Error: ' + data);
 			});
 		})
 	}
@@ -905,7 +1085,7 @@ var app = angular.module('app', [
 	getWeather();
 
 	var setCurrentTime = function(){
-		if ($scope.meta.twentyfour === true){ //24h
+		if ($scope.meta.twentyfour){ //24h
 			$scope.time = moment(new Date()).format('H:mm:ss')	
 		}
 		else{ //12h
@@ -926,12 +1106,80 @@ var app = angular.module('app', [
 
 
 
-	// BITS.JS
+	                                                                                                
+	// 88b           d88             88          88 88               88          88                    
+	// 888b         d888             88          "" 88               88          ""   ,d               
+	// 88`8b       d8'88             88             88               88               88               
+	// 88 `8b     d8' 88  ,adPPYba,  88,dPPYba,  88 88  ,adPPYba,    88,dPPYba,  88 MM88MMM ,adPPYba,  
+	// 88  `8b   d8'  88 a8"     "8a 88P'    "8a 88 88 a8P_____88    88P'    "8a 88   88    I8[    ""  
+	// 88   `8b d8'   88 8b       d8 88       d8 88 88 8PP"""""""    88       d8 88   88     `"Y8ba,   
+	// 88    `888'    88 "8a,   ,a8" 88b,   ,a8" 88 88 "8b,   ,aa    88b,   ,a8" 88   88,   aa    ]8I  
+	// 88     `8'     88  `"YbbdP"'  8Y"Ybbd8"'  88 88  `"Ybbd8"'    8Y"Ybbd8"'  88   "Y888 `"YbbdP"'  
+
+	$scope.mobileAction = function(e){
+
+		$scope.mobileActioning = true;
+		// console.log('mobile button!')
+
+		$scope.theFocusedElement.focus();
+
+		var theBit, theCellIndex, theBitIndex;
+		var theCellID = $($scope.theFocusedElement).parents('.list').data('cellid')
+		var theBitID = $($scope.theFocusedElement).data('bitid')
+
+		for (var i in cellular){
+			if (cellular[i].id === theCellID){
+				theCellIndex = i;
+				for (var j in cellular[i].body){
+					if (cellular[i].body[j].bitID === theBitID){
+						theBitIndex = j;
+					}	
+				}
+			}
+		}
+
+		if (e === ('up')){
+			var movingUp = cellular[theCellIndex].body.splice(theBitIndex, 1)[0];
+			cellular[theCellIndex].body.splice(theBitIndex - 1, 0, movingUp);
+			$($scope.theFocusedElement).focus();
+		}
+		else if (e === ('down')){
+			var movingUp = cellular[theCellIndex].body.splice(theBitIndex, 1)[0];
+			cellular[theCellIndex].body.splice(theBitIndex + 1, 0, movingUp);
+			$(that.target).focus();
+		}
+		else if (e === ('in')){
+			if (cellular[theCellIndex].body[theBitIndex].tabCount > 0)
+				cellular[theCellIndex].body[theBitIndex].tabCount --;
+		}
+		else if (e === ('out')){
+			if (cellular[theCellIndex].body[theBitIndex].tabCount < 2)
+				cellular[theCellIndex].body[theBitIndex].tabCount ++;
+		}
+
+		cellUpdater(theCellID, theCellIndex);
+	}
+
+	$scope.canWeNotBeFocusedAnymore = function(){
+		$scope.focusedToggle = false;
+	}
+
+	                                                   
+	// 88888888ba  88                       88            
+	// 88      "8b ""   ,d                  ""            
+	// 88      ,8P      88                                
+	// 88aaaaaa8P' 88 MM88MMM ,adPPYba,     88 ,adPPYba,  
+	// 88""""""8b, 88   88    I8[    ""     88 I8[    ""  
+	// 88      `8b 88   88     `"Y8ba,      88  `"Y8ba,   
+	// 88      a8P 88   88,   aa    ]8I 888 88 aa    ]8I  
+	// 88888888P"  88   "Y888 `"YbbdP"' 888 88 `"YbbdP"'  
+	//                                     ,88            
+	//                                   888P"            
 
 	var cellUpdater = _.debounce(function(cell, cellIndex){
 		hoodie.store.update('cell', cell, {body : cellular[cellIndex].body} )
 		.done(function(updatedObject){
-			console.log(updatedObject)
+			// console.log(updatedObject)
 
 			addFlag = updatedObject.id;
 		})
@@ -956,8 +1204,8 @@ var app = angular.module('app', [
 	    	e.stopPropagation();
 	    },
 	    update: function(e, ui) {
-	    	console.log(e)
-	    	console.log(ui)
+	    	// console.log(e)
+	    	// console.log(ui)
 	    	var that = e;
 	    	var theCell = that.target.parentNode.getAttribute('data-cellid');
 	    	var theCellIndex;
@@ -1028,12 +1276,25 @@ var app = angular.module('app', [
 		if ($scope.startUpIndex === 2) $scope.SUB_right(false);
 	}
 
-	var map = [];
+	$scope.curiosity = function(e, content){
+		// console.log(e)
+		// console.log(content)
+
+		var win = window.open('https://www.google.com/search?q=' + content, '_blank');
+	    win.focus();
+
+		//clientX / Y!
+	}
 
 	$scope.areaText = function(e, bit){
     	var that = e;
 
+    	// console.log(that)
+    	// console.log(bit)
+
     	map[that.keyCode] = that.type == 'keydown';
+
+    	console.log(map)
 
 		var theActualCell = that.target.parentNode.parentNode.parentNode.parentNode
 		
@@ -1110,7 +1371,8 @@ var app = angular.module('app', [
 			var movingUp = cellular[theCellIndex].body.splice(theBitIndex, 1)[0];
 			cellular[theCellIndex].body.splice(theBitIndex - 1, 0, movingUp);
 			$(that.target).focus();
-		
+			// reset the map array, else it fires up arrow on key up
+			map = [];
 		}		
 
 		else if (map[38]){ // UP ARROW
@@ -1125,7 +1387,6 @@ var app = angular.module('app', [
 				$prevTA.focus()[0]
 				.setSelectionRange(10000, 10000);
 			}
-
 		}
 
 		else if (
@@ -1135,6 +1396,7 @@ var app = angular.module('app', [
 			var movingUp = cellular[theCellIndex].body.splice(theBitIndex, 1)[0];
 			cellular[theCellIndex].body.splice(theBitIndex + 1, 0, movingUp);
 			$(that.target).focus();
+			map = [];
 		}
 
 		else if (map[40]){ // DOWN ARROW
@@ -1145,7 +1407,7 @@ var app = angular.module('app', [
 				
 				var nextTACount = $nextTA.val().length;
 
-				console.log(nextTACount-currentCaret);
+				// console.log(nextTACount-currentCaret);
 
 				$nextTA.focus()[0]
 				.setSelectionRange(nextTACount-currentCaret, nextTACount-currentCaret);
@@ -1193,7 +1455,7 @@ var app = angular.module('app', [
 							setTimeout(function(){
 								$(that.target).parent().parent().next('.textarea-container').find('textarea').focus();
 							}, 50);
-							
+
 						})
 					}
 
@@ -1245,7 +1507,7 @@ var app = angular.module('app', [
 
 				theActualCell.parentNode.classList.add('ui-resizable-resizing');
 
-				theActualCell.parentNode.style.height = (cellular[theCellIndex].dimensions[columnCount].sizeY * GRIDSIZE) 
+				theActualCell.parentNode.style.height = (cellular[theCellIndex].dimensions[$scope.columnCount].sizeY * GRIDSIZE) 
 					// + ((cellular[theCellIndex].dimensions[columnCount].sizeY - 1) * GUTTERSIZE);
 
 				setTimeout(function(){
@@ -1267,11 +1529,21 @@ var app = angular.module('app', [
 
 
 
-	// CATEGORICAL.JS
+	//                                                                                                                             
+	//   ,ad8888ba,                                                                  88                       88     88            
+	//  d8"'    `"8b              ,d                                                 ""                       88     ""            
+	// d8'                        88                                                                          88                   
+	// 88            ,adPPYYba, MM88MMM ,adPPYba,  ,adPPYb,d8  ,adPPYba,  8b,dPPYba, 88  ,adPPYba, ,adPPYYba, 88     88 ,adPPYba,  
+	// 88            ""     `Y8   88   a8P_____88 a8"    `Y88 a8"     "8a 88P'   "Y8 88 a8"     "" ""     `Y8 88     88 I8[    ""  
+	// Y8,           ,adPPPPP88   88   8PP""""""" 8b       88 8b       d8 88         88 8b         ,adPPPPP88 88     88  `"Y8ba,   
+	//  Y8a.    .a8P 88,    ,88   88,  "8b,   ,aa "8a,   ,d88 "8a,   ,a8" 88         88 "8a,   ,aa 88,    ,88 88 888 88 aa    ]8I  
+	//   `"Y8888Y"'  `"8bbdP"Y8   "Y888 `"Ybbd8"'  `"YbbdP"Y8  `"YbbdP"'  88         88  `"Ybbd8"' `"8bbdP"Y8 88 888 88 `"YbbdP"'  
+	//                                             aa,    ,88                                                       ,88            
+	//                                              "Y8bbdP"                                                      888P"            
 
 	$scope.catSelector = function(e, newCat){
 
-		console.log('WHAT')
+		// console.log('WHAT')
     	var that = e;
 
 		that.preventDefault();
@@ -1293,12 +1565,22 @@ var app = angular.module('app', [
 	}
 })
 
+                                                                                   
+// 88888888ba                      88                      88          88             
+// 88      "8b                     ""                      88          88             
+// 88      ,8P                                             88          88             
+// 88aaaaaa8P' ,adPPYba, ,adPPYba, 88 888888888 ,adPPYYba, 88,dPPYba,  88  ,adPPYba,  
+// 88""""88'  a8P_____88 I8[    "" 88      a8P" ""     `Y8 88P'    "8a 88 a8P_____88  
+// 88    `8b  8PP"""""""  `"Y8ba,  88   ,d8P'   ,adPPPPP88 88       d8 88 8PP"""""""  
+// 88     `8b "8b,   ,aa aa    ]8I 88 ,d8"      88,    ,88 88b,   ,a8" 88 "8b,   ,aa  
+// 88      `8b `"Ybbd8"' `"YbbdP"' 88 888888888 `"8bbdP"Y8 8Y"Ybbd8"'  88  `"Ybbd8"'  
+                                                                                   
 .directive('resizable', function($window) {
 	return function($scope) {
 		$scope.initializeWindowSize = _.debounce(function() {
 			$scope.windowHeight = $window.innerHeight;
 			$scope.windowWidth  = $window.innerWidth;
-			columnCounter();
+			$scope.$$childHead.columnCounter();
 
 			// setTimeout(function(){
 
@@ -1332,6 +1614,18 @@ var app = angular.module('app', [
 	}
 })
 
+                                                                                                       
+//        db                                                                                              
+//       d88b                    ,d                                                                       
+//      d8'`8b                   88                                                                       
+//     d8'  `8b    88       88 MM88MMM ,adPPYba,  8b,dPPYba,   ,adPPYba,  88,dPYba,,adPYba,  8b       d8  
+//    d8YaaaaY8b   88       88   88   a8"     "8a 88P'   `"8a a8"     "8a 88P'   "88"    "8a `8b     d8'  
+//   d8""""""""8b  88       88   88   8b       d8 88       88 8b       d8 88      88      88  `8b   d8'   
+//  d8'        `8b "8a,   ,a88   88,  "8a,   ,a8" 88       88 "8a,   ,a8" 88      88      88   `8b,d8'    
+// d8'          `8b `"YbbdP'Y8   "Y888 `"YbbdP"'  88       88  `"YbbdP"'  88      88      88     Y88'     
+//                                                                                               d8'      
+//                                                                                              d8'       
+
 .directive('autonomy', ['$rootScope', function($rootScope) {
     return {
         restrict: 'A',
@@ -1341,7 +1635,9 @@ var app = angular.module('app', [
         link: function(scope, element, attrs) {
 
         	var theIndex = parseInt(attrs.index);
-        	var theElement = element[0]
+        	var theElement = element[0];
+
+        	var columnCount = scope.$parent.$parent.$parent.$parent.columnCount;
 
             if($rootScope.packery === undefined || $rootScope.packery === null){
                 $rootScope.packery = new Packery(theElement.parentElement, {
@@ -1363,8 +1659,8 @@ var app = angular.module('app', [
             theElement.style.height = cellular[theIndex].dimensions[columnCount].sizeY * GRIDSIZE;
             theElement.style.width = cellular[theIndex].dimensions[columnCount].sizeX * GRIDSIZE;
 
-            console.log('CELL HEIGHT IS ' + cellular[theIndex].dimensions[columnCount].sizeY)
-            console.log('FOR CELL ' + cellular[theIndex].id)
+            // console.log('CELL HEIGHT IS ' + cellular[theIndex].dimensions[columnCount].sizeY)
+            // console.log('FOR CELL ' + cellular[theIndex].id)
 
             $rootScope.packery.fit(
 		    	element[0], 
@@ -1376,13 +1672,17 @@ var app = angular.module('app', [
 
             var $draggable = $(theElement).draggable({
             	handle:'.grab',
+            	start: function(event, ui) {
+            		// scope.$parent.$parent.$parent.$parent.draggingToggle = true;
+            	},
             	stop: function(event, ui) {
+            		// scope.$parent.$parent.$parent.$parent.draggingToggle = false;
             		setTimeout(function(){
             			var $theElement = $(theElement)
 	            		cellular[theIndex].dimensions[columnCount].col = parseInt($theElement.css('left')) / (GRIDSIZE + GUTTERSIZE)
 	            		cellular[theIndex].dimensions[columnCount].row = parseInt($theElement.css('top')) / (GRIDSIZE + GUTTERSIZE)
 
-	            		console.log('MOVED // ' + cellular[theIndex].id)
+	            		// console.log('MOVED // ' + cellular[theIndex].id)
 
 	            		lazyUpdater(cellular[theIndex].id)
 
@@ -1402,12 +1702,14 @@ var app = angular.module('app', [
 		            		cellular[theIndex].dimensions[i].sizeX = parseInt($theElement.css('width')) / GRIDSIZE;
             			}
 
-	            		console.log('RESIZED // ' + cellular[theIndex].id)
-	            		console.log(scope)
+	            		// console.log('RESIZED // ' + cellular[theIndex].id)
+	            		// console.log(scope)
 
 	            		lazyUpdater(cellular[theIndex].id)
 
-						if (externalStartUpIndex === 4) $('.SUB_right').click();
+						if (externalStartUpIndex === 4) setTimeout(function(){
+							scope.$parent.$parent.$parent.$parent.SUB_right();
+						}, 500);
             		}, 500);
 				}
             });
@@ -1425,8 +1727,7 @@ var app = angular.module('app', [
 			});
         }
     };
-}]);
-
+}])
 
 
 

@@ -17,7 +17,7 @@
 // @posX = the X position of the desired icon on the icon grid
 // @posY = the Y position of the desired icon on the icon grid
 @mixin iconPlace($width, $posX, $posY) {
-    background-position: -$posX*$width -$posY*$width;
+    background-position: (-$posX*$width) (-$posY*$width);
 }
 
 // this is an experimental mixin for placing logos and img included on the spritesheet.
@@ -48,4 +48,12 @@
 	-ms-transform:     $what;
 	-o-transform:      $what;
 	transform:         $what;
+}
+
+@mixin desktop(){
+	@media (min-width: 768px) { @content; }
+}
+
+@mixin mobile(){
+	@media (max-width: 767px) { @content; }
 }

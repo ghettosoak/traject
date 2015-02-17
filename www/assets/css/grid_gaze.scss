@@ -1,0 +1,20 @@
+.cell .gaze{
+	background-size:cover;
+	background-position: center center;
+	border:4px $light solid;
+
+	.logo{
+		position: absolute;
+		height: 120px;
+		width: 120px;
+		top: 50%;
+		left: 50%;
+		margin: -60px 0px 0px -60px;
+		background-image: url(../img/logo.png);
+		background-size: 100px 100px;
+		background-position: center center;
+		background-color: rgba(0,0,0,.5);
+		border-radius: 110px;
+		background-repeat: no-repeat;
+	}
+}

@@ -13,8 +13,12 @@
 	@include transition(left .2s ease-in-out);
 
 	.yesLetsGo &{
-		left:-200px;
+		left:-250px;
 		opacity: 1;
+
+		@include desktop(){
+			left:-200px;
+		}
 	}
 
 	&.sidebar-is-open{
@@ -214,6 +218,11 @@
 			left:15px;
 			position: absolute;
 			background-color:$bg;
+			display:none;
+
+			@include desktop(){
+				display:block;
+			}
 		}
 
 		span:nth-of-type(1){

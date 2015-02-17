@@ -22,43 +22,64 @@
 
 	.andWelcome{
 		position:relative;
-		height:100%;
 		width:100%;
 		max-width:1024px;
 		margin:auto;
-		padding:20px;
+		padding:10px;
+
+		@include desktop(){
+			height:100%;
+			padding:20px;
+		}
+
 		div{
-			height:250px;
 			position:relative;
 			float:left;
-			top:50%;
+
+			@include desktop(){
+				top:50%;
+			}
 		}
 
 		.one{
-			width:100%;
+			width:50%;
 			background-image: url(../img/logo.png);
  			background-size: 100px 100px;
- 			background-position: center center;
  			background-repeat:no-repeat;
- 			margin-top:-375px;
+			background-position: center center;	
+ 			height:100px;
+
+ 			@include desktop(){
+				height:250px;
+				width:100%;
+ 				margin-top:-375px;
+ 			}
 		}
 
 		.two,
 		.three,
 		.four{
-			width:33.33333%;
-			border-top:5px $light solid;
-			border-bottom:5px $light solid;
-			margin-top:-125px;
+			@include desktop(){
+				border-top:5px $light solid;
+				border-bottom:5px $light solid;
+				margin-top:-125px !important;
+				width:33.33333%;
+				height:250px;
+			}
 		}
 
 		.two{
+			width:50%;
 			display:table;
+			margin:10px 0;
+			
+			@include desktop(){
+				width:33.33333%;	
+			}
+
 			p{
 				display:table-cell;
 				vertical-align: middle;
-				// font-size: 27px;
-				// line-height: 25px;
 				span{
 					font-family:$type_bold;
 					letter-spacing: 2px;
@@ -71,15 +92,24 @@
 			position: absolute;
 			text-align: center;
 			width:100%;
+			margin-top:5px;
 			left:0px;
-			margin-top:25px;
 			color:$light;
 			font-size:14px;
+			@include desktop(){
+				margin-top:25px;
+			}
 		}
 
-		.error{
-			top:-10px;
-		}
+		// .error{
+		// 	top: -30px;
+		// 	padding-left: 22px;
+
+		// 	@include desktop(){
+		// 		padding-left: 0;
+		// 		top:-10px;
+		// 	}
+		// }
 
 		.disclaimer{
 			top:100%;
@@ -87,9 +117,16 @@
 
 		.three,
 		.four{
+			width:50%;
+			height:250px;
+
+			@include desktop(){
+				width:33.33333%;	
+			}
+
 			.input{
 				height:100%;
-				width:100%;
+				width:200%;
 				position:absolute;
 				top:-100%;
 				left:0px;
@@ -99,6 +136,11 @@
 				opacity:0;
 				border-top:10px $bg solid;
 				border-bottom:10px $bg solid;
+
+				@include desktop(){
+					width:100%;
+				}
+
 				input{
 					position:relative;
 					float:left;
@@ -118,24 +160,79 @@
 				}
 			}
 
+			button{
+				top:20px;
+				margin-top:0px;
+
+				@include desktop(){
+					top:50%;
+					margin-top:-40px;
+				}
+			}
+
+			&.inactive {
+				button{
+					display:none;
+
+					@include desktop(){
+						display:block;
+					}
+				}	
+			}
+
 			&.active{
 				button{
 					margin:20px 0px 0px -40px;
+					top:50%;
 				}
 				.input{
 					top:0px;
 					opacity:1;
 				} 
-			}
-			
+			}			
 		}
+
+		.three.active button{
+			left: 100%;
+
+			@include desktop(){
+				left:50%;
+			}
+		}
+
+		.four{
+			.input{
+				left:-100%;
+
+				@include desktop(){
+					left:0;
+				}
+			}
+
+			
+			&.active {
+				button{
+					left:0%;
+
+					@include desktop(){
+						left:50%;
+					}
+				}
+			}
+		} 
 	}
 
 	.homepageCopyright{
-		position: absolute;
+		position: relative;
+		float: left;
 		bottom:0px;
 		width:100%;
 		text-align: center;
+		margin-top:25px;
 		font-size:14px;
+		@include desktop(){
+			margin-top:0;
+			position: absolute;
+		}
 	}
 }

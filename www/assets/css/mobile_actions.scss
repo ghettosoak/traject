@@ -1,0 +1,43 @@
+.mobile_actions{
+	position: fixed;
+	height:50px;
+	width:100%;
+	bottom:-50px;
+	left:0px;
+	background-color:$light; 
+	@include transition(all .25s ease-in-out);
+	@include transform(translateY(0px));
+
+	@include desktop(){
+		display:none;
+	}
+
+	.focused_true &{
+		@include transform(translateY(-50px));
+	}
+
+	div{
+		width:20%;
+		height:50px;
+		position: relative;
+		float: left;
+
+		&:before{
+			content:'';
+			position: absolute;
+			height:50px;
+			width:50px;
+			top:50%;
+			left:50%;
+			margin:-25px 0 0 -25px;
+			@include iconInclude;
+			@include iconSize(50);
+		}
+	}
+
+	.lineUp:before{@include iconPlace(50px, 0, 0);}
+	.lineDown:before{@include iconPlace(50px, 1, 0);}
+	.hideKeyboard:before{@include iconPlace(50px, 2, 1);}
+	.lineIn:before{@include iconPlace(50px, 0, 1);}
+	.lineOut:before{@include iconPlace(50px, 1, 1);}
+}
