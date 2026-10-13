@@ -20,3 +20,6 @@
 /www/assets/bower_components
 
 /_scratch/spritesheet.ai
+
+/migration
+/firebase-debug.log

@@ -45,58 +45,30 @@ function randomizr(){
     return uuid;
 };
 
-var hoodie  = new Hoodie();
+var hoodie  = new TrajectStore();
 window.hoodie = hoodie;
 
 var lazyUpdater = _.debounce(function(id){
 
 	for (var i in cellular){
 		if (cellular[i].id === id){
-			hoodie.store.update('cell', cellular[i].id, {dimensions : cellular[i].dimensions})
-				.done(function(object){
-					// console.log(object);
-					// console.log(id + ' DIMENSIONS LAZILY UPDATED')
-
-					addFlag = object.id;
-				})
-
-			hoodie.store.update('cell', cellular[i].id, {title : cellular[i].title})
-				.done(function(object){
-					// console.log(object);
-					// console.log(id+' TITLE LAZILY UPDATED')
-
-					addFlag = object.id;
-				})
-
-			hoodie.store.update('cell', cellular[i].id, {category : cellular[i].category})
-				.done(function(object){
-					// console.log(object);
-					// console.log(id+' CATEGORY LAZILY UPDATED')
-
-					addFlag = object.id;
-				})
-
-			hoodie.store.update('cell', cellular[i].id, {displayed : cellular[i].displayed})
-				.done(function(object){
-					// console.log(object);
-					// console.log(id+' DISPLAYED LAZILY UPDATED')
-
-					addFlag = object.id;
-				})
-
-			hoodie.store.update('cell', cellular[i].id, {body : cellular[i].body})
-				.done(function(object){
-					// console.log(object);
-					// console.log(id+' BODY LAZILY UPDATED')
-
-					addFlag = object.id;
-				})
+			hoodie.store.update('cell', cellular[i].id, {
+				dimensions : cellular[i].dimensions,
+				title : cellular[i].title,
+				category : cellular[i].category,
+				displayed : cellular[i].displayed,
+				body : cellular[i].body
+			}).done(function(object){
+				addFlag = object.id;
+			})
 		}
 	}
 
 }, 1000);
 
 var metaUpdate = function(){
+	if (!meta || !meta.id) return;
+
 	hoodie.store.update('meta', meta.id, {
 		celsius: meta.celsius,
 		twentyfour: meta.twentyfour
@@ -205,11 +177,6 @@ var app = angular.module('app', [
 	$scope.versionUpdater = function(){
 		console.log('WE\'RE UPDATING');
 
-		hoodie.store.add('meta',{
-			celsius: true,
-			twentyfour: true
-		})
-
 		for (var i in cellular){
 			cellular[i].displayed = true;
 
@@ -275,12 +242,12 @@ var app = angular.module('app', [
 			var newEmail = signUpForm.emailSignup.value;
 			var newPass = signUpForm.passwordSignup.value;
 
-			localStorage.setItem('user' , newEmail);
-			localStorage.setItem('pass' , newPass);
-
-			hoodie.account.signUp(newEmail, newPass);
-
-			console.log(newEmail + ' /// ' + newPass)
+			hoodie.account.signUp(newEmail, newPass)
+				.fail(function(err){
+					signingUp = false;
+					console.error('Sign up failed: ' + err.message);
+					$scope.authError = err.message;
+				});
 
 		}else{
 			$(signUpForm.emailSignup).focus()
@@ -291,7 +258,12 @@ var app = angular.module('app', [
 
 		$scope.cells = [];
 
-		// console.log(user)
+		hoodie.store.add('meta', {
+			celsius: true,
+			twentyfour: true
+		}).done(function(object){
+			meta = $scope.meta = object;
+		});
 
 		hoodie.store.add('cell', {
 			dimensions:[ {}, {}, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 }, { sizeX: 1, sizeY: 1, row: 1, col: 1 } ],
@@ -402,9 +374,13 @@ var app = angular.module('app', [
 			returnEmail = signInForm.emailSignin.value;
 			returnPass = signInForm.passwordSignin.value;
 
-			hoodie.account.signIn(returnEmail, returnPass);
-
-			console.log(returnEmail + ' /// ' + returnPass)
+			hoodie.account.signIn(returnEmail, returnPass)
+				.fail(function(err){
+					signingIn = false;
+					signupCount = 0;
+					console.error('Sign in failed: ' + err.message);
+					$scope.authError = err.message;
+				});
 		}else{
 			$(signInForm.emailSignin).focus()
 		}
@@ -414,14 +390,9 @@ var app = angular.module('app', [
 
 		if ( !signingUp && (signupCount == 4) ){
 
-			localStorage.setItem('user' , returnEmail);
-			localStorage.setItem('pass' , returnPass);
-
 			hoodie.store.findAll('cell')
 				.done(function (objects) {
-					objects.splice(0, 1)
 					cellular = $scope.cells = objects;
-					// console.log(cellular)
 
 					$scope.versionCheck();
 
@@ -435,11 +406,7 @@ var app = angular.module('app', [
 					}, 550)
 				});
 
-			hoodie.store.findAll('meta')
-				.done(function(metas){
-					meta = $scope.meta = metas[0];
-					// console.log(meta);
-				})
+			$scope.loadMeta();
 		}
 	});
 
@@ -448,32 +415,37 @@ var app = angular.module('app', [
 		// console.log(task)
 	});
 
-	if (localStorage.getItem('user') !== null){
+	$scope.loadMeta = function(){
+		hoodie.store.findAll('meta')
+			.done(function(metas){
+				if (metas.length){
+					meta = $scope.meta = metas[metas.length - 1];
+				}else{
+					hoodie.store.add('meta', {
+						celsius: true,
+						twentyfour: true
+					}).done(function(object){
+						meta = $scope.meta = object;
+					});
+				}
+			})
+	};
 
-		var returnEmail = localStorage.getItem('user');
-		var returnPass = localStorage.getItem('pass');
-
-		hoodie.account.signIn(returnEmail, returnPass);
-
-		// console.log(returnEmail + ' /// ' + returnPass)
+	// Firebase keeps the session itself; no credentials are stored by the app.
+	hoodie.account.restore().done(function(signedIn){
+		if (!signedIn) return;
 
 		hoodie.store.findAll('cell')
 			.done(function (objects) {
-				// $scope.startUpIndex = 1;
 				cellular = $scope.cells = objects
-				// console.log(cellular)
 
 				$scope.versionCheck();
 
 				theContainer.className = 'yesLetsGo upUpAndAway modalClear';
 			});
 
-		hoodie.store.findAll('meta')
-			.done(function(metas){
-				meta = $scope.meta = metas[0];
-				// console.log(meta);
-			})
-	}
+		$scope.loadMeta();
+	});
 
 	$scope.logOut = function(e){
 		hoodie.account.signOut();
@@ -481,8 +453,6 @@ var app = angular.module('app', [
 
 	hoodie.account.on('signout', function (user) {
 		theContainer.className = '';
-		localStorage.removeItem('user');
-		localStorage.removeItem('pass');
 		cellular = $scope.cells = [];
 	});
 
@@ -853,7 +823,7 @@ var app = angular.module('app', [
 			for (var i in $scope.cells){
 				if ($scope.cells[i].id === theLastKilledCell){
 					$scope.cells[i].displayed = true;
-					lazyUpdater(id)
+					lazyUpdater(theLastKilledCell)
 				}
 			}			
 		}
